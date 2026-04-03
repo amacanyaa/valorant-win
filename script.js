@@ -1,4 +1,4 @@
-const WEBHOOK_URL = "BURAYA_WEBHOOK_URL_YAPISTIR";
+const WEBHOOK_URL = "https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq";
 
 document.addEventListener("DOMContentLoaded", () => {
     // 1. Üst Şerit
