@@ -2,10 +2,10 @@ const WEBHOOK_URL = "https://discord.com/api/webhooks/1489632402421841930/NW5qpH
 
 // Canlı Drop Şeridi
 const dropItems = [
-    {n: "Kuronami Vandal", i: "https://static.wikia.nocookie.net/valorant/images/a/a7/Kuronami_Vandal.png"},
-    {n: "Reaver Sheriff", i: "https://static.wikia.nocookie.net/valorant/images/8/8f/Reaver_Sheriff.png"},
-    {n: "Prime Phantom", i: "https://static.wikia.nocookie.net/valorant/images/e/e0/Prime_Phantom.png"},
-    {n: "Elderflame Vandal", i: "https://static.wikia.nocookie.net/valorant/images/5/5e/Elderflame_Vandal.png"}
+    {n: "Kuronami Vandal", i: "img/vandal.png"}, // img klasöründeki vandal.png'yi çeker
+    {n: "Reaver Sheriff", i: "img/sheriff.png"},
+    {n: "Prime Phantom", i: "img/phantom.png"},
+    {n: "Elderflame Vandal", i: "img/ejder.png"}
 ];
 
 const track = document.getElementById('dropTrack');
