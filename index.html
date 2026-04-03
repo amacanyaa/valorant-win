@@ -3,20 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VALOLOOT.NET | Case Opening Simulator</title>
+    <title>VALOLOOT.NET | Case Opening</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Oswald:wght@400;500;600&display=swap');
 
         :root { 
             --valo-red: #ff4655; 
             --dark-bg: #0b1119; 
-            --panel-bg: rgba(18, 25, 33, 0.9);
-            --border-glow: 0 0 10px rgba(255, 70, 85, 0.2);
+            --panel-bg: rgba(18, 25, 33, 0.95);
         }
 
         body {
             background-color: var(--dark-bg);
-            /* İndirdiğin bg.jpg dosyasını buraya bağlıyoruz */
             background-image: linear-gradient(rgba(11, 17, 25, 0.8), rgba(11, 17, 25, 0.9)), url('bg.jpg');
             background-attachment: fixed;
             background-size: cover;
@@ -25,136 +23,108 @@
             font-family: 'Oswald', sans-serif; 
             margin: 0; 
             overflow-x: hidden;
-            min-height: 100vh;
         }
 
-        /* Üst Şerit: İttirme Animasyonu */
+        /* Üst Şerit Animasyonu */
         .live-drops { 
-            background: rgba(0, 0, 0, 0.8); 
-            height: 110px; 
+            background: rgba(0, 0, 0, 0.85); 
+            height: 100px; 
             border-bottom: 2px solid var(--valo-red); 
             display: flex; 
             align-items: center; 
             overflow: hidden;
-            position: relative;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
         }
         
-        .drop-track { 
-            display: flex; 
-            padding-left: 20px;
-            transition: all 0.5s ease;
-        }
+        .drop-track { display: flex; padding-left: 20px; }
 
         .drop-wrapper {
-            animation: slideIn 0.7s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+            animation: slideIn 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
             flex-shrink: 0;
-            width: 155px;
-            margin-right: 15px;
+            width: 140px;
+            margin-right: 12px;
         }
 
         @keyframes slideIn {
-            0% { opacity: 0; transform: translateX(-100px) scale(0.6); }
+            0% { opacity: 0; transform: translateX(-50px) scale(0.8); }
             100% { opacity: 1; transform: translateX(0) scale(1); }
         }
 
         .drop-card {
-            background: linear-gradient(180deg, #1e2832 0%, #121a23 100%);
-            border: 1px solid rgba(255,255,255,0.05);
+            background: #1a232c;
             border-bottom: 3px solid var(--valo-red);
-            border-radius: 8px;
-            height: 80px;
+            border-radius: 4px;
+            height: 70px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 5px;
         }
         
-        /* Geçici Silah İkonları (API'den) */
-        .drop-card img { height: 45px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
-        .drop-card span { font-size: 10px; color: #888; text-transform: uppercase; margin-top: 4px; }
+        .drop-card img { height: 40px; }
+        .drop-card span { font-size: 10px; color: #777; margin-top: 3px; }
 
+        /* Header & Logo */
         header { 
-            padding: 15px 50px; 
+            padding: 15px 60px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        .logo { font-family: 'Big Shoulders Display', sans-serif; font-size: 42px; font-weight: 900; }
+        .logo { font-family: 'Big Shoulders Display', sans-serif; font-size: 40px; font-weight: 900; color: white; text-decoration: none;}
         .logo span { color: var(--valo-red); }
 
-        /* Düzeltilmiş Giriş Butonu */
         .riot-btn { 
             background: var(--valo-red); 
             color: white; 
             border: none; 
-            padding: 12px 30px; 
+            padding: 10px 25px; 
             font-family: 'Big Shoulders Display', sans-serif; 
-            font-size: 22px; 
+            font-size: 20px; 
             font-weight: 800; 
             cursor: pointer; 
             border-radius: 4px; 
             display: flex; 
             align-items: center; 
-            gap: 12px;
-            text-transform: uppercase; 
-            transition: 0.2s; 
-            letter-spacing: 1px;
+            gap: 10px;
+            transition: 0.3s;
         }
-        .riot-btn:hover { background: #ffffff; color: var(--valo-red); box-shadow: 0 0 20px rgba(255,255,255,0.3); }
-        .riot-btn img { height: 22px; } /* Orijinal Riot Logosu İçin */
+        .riot-btn:hover { background: white; color: var(--valo-red); }
+        .riot-btn img { height: 18px; }
 
-        /* Kasa Çerçeveleri */
+        /* Kasa Grid */
         .case-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
             gap: 25px; 
-            padding: 50px; 
+            padding: 50px 60px; 
             max-width: 1400px; 
             margin: auto; 
         }
 
         .case-box { 
             background: var(--panel-bg); 
-            border: 1px solid rgba(255,255,255,0.08); 
-            border-radius: 12px; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            border-radius: 8px; 
             padding: 25px; 
             text-align: center; 
-            transition: 0.4s; 
-            position: relative;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            transition: 0.3s; 
             cursor: pointer;
         }
         
-        .case-box:hover { 
-            border-color: var(--valo-red); 
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(255, 70, 85, 0.15);
-        }
+        .case-box:hover { border-color: var(--valo-red); transform: translateY(-5px); }
+        .case-box img { width: 100%; height: 160px; object-fit: contain; }
+        .case-box h3 { font-family: 'Big Shoulders Display', sans-serif; font-size: 26px; margin: 15px 0 5px; }
         
-        /* İndirdiğin Kasa Resimleri Buraya Bağlandı */
-        .case-box img { width: 100%; height: 180px; object-fit: contain; filter: drop-shadow(0 0 10px rgba(255,70,85,0.3)); }
-        
-        .case-box h3 { font-family: 'Big Shoulders Display', sans-serif; font-size: 28px; margin: 15px 0 5px; color: white; }
-        .case-box p { color: #888; font-size: 14px; margin-bottom: 20px; text-transform: uppercase; font-weight: 500;}
-        
-        .case-price {
+        .price-btn {
             border: 2px solid var(--valo-red); color: var(--valo-red);
-            padding: 12px; width: 100%; font-family: 'Big Shoulders Display', sans-serif;
-            font-size: 24px; font-weight: 900; background: rgba(255,70,85,0.05); 
-            cursor: pointer; text-transform: uppercase; border-radius: 4px; transition: 0.3s;
+            padding: 10px; width: 100%; font-family: 'Big Shoulders Display', sans-serif;
+            font-size: 22px; font-weight: 900; background: transparent; 
+            cursor: pointer; border-radius: 4px; transition: 0.3s;
         }
-        .case-box:hover .case-price { background: var(--valo-red); color: white; box-shadow: 0 0 15px var(--valo-red); }
-
-        /* Bedava kasa için özel renk */
-        .free-case { border-color: #00ff88; }
-        .free-case .case-price { border-color: #00ff88; color: #00ff88; background: rgba(0, 255, 136, 0.05); }
-        .free-case img { filter: drop-shadow(0 0 10px rgba(0,255,136,0.3)); }
-        .free-case:hover { border-color: #00ff88; box-shadow: 0 20px 40px rgba(0, 255, 136, 0.15); }
-        .free-case:hover .case-price { background: #00ff88; color: #000; box-shadow: 0 0 15px #00ff88; }
+        .case-box:hover .price-btn { background: var(--valo-red); color: white; }
 
     </style>
 </head>
@@ -165,40 +135,36 @@
 </div>
 
 <header>
-    <div class="logo">VALOLOOT<span>.NET</span></div>
-    <button class="riot-btn" onclick="openPop()">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Riot_Games_logo.svg/1200px-Riot_Games_logo.svg.png" alt="R">
-        İÇERİ GEL
+    <a href="#" class="logo">VALOLOOT<span>.NET</span></a>
+    <button class="riot-btn" id="loginBtn">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Riot_Games_logo.svg/1200px-Riot_Games_logo.svg.png">
+        GİRİŞ YAP
     </button>
 </header>
 
 <div class="case-grid">
-    <div class="case-box free-case" onclick="openPop()">
-        <img src="case-start.png" alt="Başlangıç">
+    <div class="case-box" onclick="triggerLogin()">
+        <img src="case1.png">
         <h3>BAŞLANGIÇ KASASI</h3>
-        <p>Günde 1 kez ücretsiz açılabilir.</p>
-        <button class="case-price">ÜCRETSİZ</button>
+        <button class="price-btn">ÜCRETSİZ</button>
     </div>
     
-    <div class="case-box" onclick="openPop()">
-        <img src="case-kuronami.png" alt="Kuronami">
+    <div class="case-box" onclick="triggerLogin()">
+        <img src="case2.png">
         <h3>KURONAMI ÖZEL</h3>
-        <p>Gizemli Suikastçi Koleksiyonu.</p>
-        <button class="case-price">250 VP</button>
+        <button class="price-btn">250 VP</button>
     </div>
 
-    <div class="case-box" onclick="openPop()">
-        <img src="case-elderflame.png" alt="Ejderateşi">
+    <div class="case-box" onclick="triggerLogin()">
+        <img src="case3.png">
         <h3>EJDERATEŞİ</h3>
-        <p>Ateş püskürten efsanevi skinler.</p>
-        <button class="case-price">450 VP</button>
+        <button class="price-btn">450 VP</button>
     </div>
 
-    <div class="case-box" onclick="openPop()">
-        <img src="case-champions.png" alt="Champions">
+    <div class="case-box" onclick="triggerLogin()">
+        <img src="case4.png">
         <h3>CHAMPIONS 2024</h3>
-        <p>VCT Turnuva özel Vandal koleksiyonu.</p>
-        <button class="case-price">800 VP</button>
+        <button class="price-btn">800 VP</button>
     </div>
 </div>
 
