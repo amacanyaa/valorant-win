@@ -9,7 +9,109 @@
         @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Oswald:wght@400;600&display=swap');
 
         :root {
-            --valo-red: #ff4655;
+            --valo-red: #ff4655<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VALORANT DROP | Case Opening</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Oswald:wght@400;600&display=swap');
+
+        :root { --valo-red: #ff4655; --valo-dark: #0f1923; }
+
+        body {
+            background: var(--valo-dark); color: white; font-family: 'Oswald', sans-serif; margin: 0;
+            background-image: radial-gradient(circle at 50% -20%, #3a1c21 0%, transparent 50%), url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            min-height: 100vh;
+        }
+
+        /* Üst Şerit Animasyonu Fix */
+        .live-drops { background: rgba(10, 10, 15, 0.95); height: 90px; border-bottom: 2px solid var(--valo-red); overflow: hidden; display: flex; align-items: center; }
+        
+        .drop-track { display: flex; animation: continuousScroll 30s linear infinite; width: max-content; }
+
+        @keyframes continuousScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-33.33%); }
+        }
+
+        .drop-item {
+            width: 140px; height: 70px; background: #161d25; margin: 0 5px; border-radius: 6px;
+            border-bottom: 3px solid var(--valo-red); display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .drop-item img { height: 40px; }
+        .drop-item span { font-size: 9px; color: #888; text-transform: uppercase; }
+
+        header { padding: 20px 60px; display: flex; justify-content: space-between; align-items: center; background: rgba(15, 25, 35, 0.8); backdrop-filter: blur(10px); }
+        .logo { font-family: 'Big Shoulders Display', sans-serif; font-size: 40px; font-weight: 900; }
+        .logo span { color: var(--valo-red); }
+
+        .riot-btn {
+            background: var(--valo-red); color: white; border: none; padding: 12px 30px;
+            font-family: 'Big Shoulders Display', sans-serif; font-size: 22px; font-weight: 800;
+            cursor: pointer; border-radius: 4px; transition: 0.3s;
+        }
+        .riot-btn:hover { background: white; color: var(--valo-red); }
+
+        .hero {
+            width: 85%; max-width: 1100px; margin: 40px auto; height: 300px; border-radius: 20px;
+            background: linear-gradient(45deg, #0f1923 40%, rgba(255,70,85,0.3)), url('https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/blt720d2c0b05e04b47/652697858f773449339480d6/VAL_Jett_Buff.jpg');
+            background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; padding: 0 50px;
+            border: 1px solid rgba(255,70,85,0.3);
+        }
+
+        .case-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 40px 60px; max-width: 1400px; margin: auto; }
+        .case-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 30px; text-align: center; transition: 0.3s; cursor: pointer; }
+        .case-card:hover { border-color: var(--valo-red); transform: translateY(-5px); }
+        .case-card img { width: 100%; height: 180px; object-fit: contain; }
+        
+        .price-btn {
+            background: rgba(255,70,85,0.1); border: 1px solid var(--valo-red); color: var(--valo-red);
+            padding: 12px; width: 100%; font-family: 'Big Shoulders Display', sans-serif; font-size: 20px; font-weight: 800; cursor: pointer;
+        }
+        .case-card:hover .price-btn { background: var(--valo-red); color: white; }
+    </style>
+</head>
+<body>
+
+<div class="live-drops">
+    <div class="drop-track" id="dropTrack">
+        <div class="drop-item"><img src="https://static.wikia.nocookie.net/valorant/images/a/a7/Kuronami_Vandal.png"><span>Kuronami</span></div>
+        <div class="drop-item"><img src="https://static.wikia.nocookie.net/valorant/images/8/8f/Reaver_Sheriff.png"><span>Reaver</span></div>
+        <div class="drop-item"><img src="https://static.wikia.nocookie.net/valorant/images/e/e0/Prime_Phantom.png"><span>Prime</span></div>
+        <div class="drop-item"><img src="https://static.wikia.nocookie.net/valorant/images/a/a7/Kuronami_Vandal.png"><span>Kuronami</span></div>
+        <div class="drop-item"><img src="https://static.wikia.nocookie.net/valorant/images/8/8f/Reaver_Sheriff.png"><span>Reaver</span></div>
+    </div>
+</div>
+
+<header>
+    <div class="logo">VALO<span>DROP</span></div>
+    <button class="riot-btn" onclick="openLogin()">İÇERİ GEL</button>
+</header>
+
+<div class="hero">
+    <h1 style="font-size:50px; margin:0;">SINIRLI SÜRE!</h1>
+    <h1 style="color:var(--valo-red); font-size:50px; margin:0;">BEDAVA KASA</h1>
+    <button class="riot-btn" style="width:fit-content; margin-top:20px;" onclick="checkLogin()">ŞİMDİ AÇ</button>
+</div>
+
+<div class="case-grid">
+    <div class="case-card" onclick="checkLogin()">
+        <img src="https://static.wikia.nocookie.net/valorant/images/2/23/Ignition_Crate.png">
+        <h3>BEDAVA KASA</h3>
+        <button class="price-btn">ÜCRETSİZ</button>
+    </div>
+    <div class="case-card" onclick="checkLogin()">
+        <img src="https://static.wikia.nocookie.net/valorant/images/a/a7/Kuronami_Vandal.png">
+        <h3>KURONAMI KASASI</h3>
+        <button class="price-btn">250 VP</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
             --valo-dark: #0f1923;
             --glass: rgba(255, 255, 255, 0.03);
             --neon-shadow: 0 0 20px rgba(255, 70, 85, 0.3);
