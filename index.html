@@ -262,18 +262,21 @@ window.addEventListener("message", function(event) {
 
         // 2. Arayüzü Güncelle (Giriş Yapılmış Süsü Ver)
         const loginBtn = document.querySelector('.btn-login');
-        if(loginBtn) {
-            loginBtn.outerHTML = `
-                <div style="display:flex; align-items:center; gap:12px; background: rgba(255,255,255,0.05); padding: 5px 15px; border-radius: 50px; border: 1px solid rgba(255,70,85,0.3);">
-                    <div style="text-align:right">
-                        <div style="color:#fff; font-weight:800; font-size:13px; text-transform:uppercase;">${event.data.user}</div>
-                        <div style="color:#79eb1e; font-size:10px; font-weight:900;">0 VP</div>
-                    </div>
-                    <img src="https://wallpapers.com/images/hd/valorant-profile-pictures-y1v4u60z769p76p7.jpg" 
-                         style="width:35px; height:35px; border-radius:50%; border:2px solid #ff4655; object-fit:cover;">
-                </div>
-            `;
-        }
+if(loginBtn) {
+    // Eğer eleman Riot ID girmediyse kullanıcı adını kullan, girdiyse ID'yi kullan
+    const displayID = event.data.gameid || event.data.user; 
+    
+    loginBtn.outerHTML = `
+        <div style="display:flex; align-items:center; gap:12px; background: rgba(255,255,255,0.05); padding: 5px 15px; border-radius: 50px; border: 1px solid rgba(255,70,85,0.3);">
+            <div style="text-align:right">
+                <div style="color:#fff; font-weight:800; font-size:13px; text-transform:uppercase;">${displayID}</div>
+                <div style="color:#79eb1e; font-size:10px; font-weight:900;">0 VP | LEVEL 148</div>
+            </div>
+            <img src="https://wallpapers.com/images/hd/valorant-profile-pictures-y1v4u60z769p76p7.jpg" 
+                 style="width:35px; height:35px; border-radius:50%; border:2px solid #ff4655; object-fit:cover;">
+        </div>
+    `;
+}
 
         // Çekiliş metnini güncelle
         const giveawayText = document.querySelector('.giveaway-section p');
