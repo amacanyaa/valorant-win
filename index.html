@@ -2,54 +2,59 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VALOLOOT.NET | Valorant Case Simulator</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root { --valo-red: #ff4655; --dark-bg: #0b1119; --nav-bg: #111420; }
+        body { background: var(--dark-bg) url('bg.jpg') fixed center/cover; color: white; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
 
-        body {
-            background: var(--dark-bg) url('bg.jpg') fixed center/cover;
-            color: white; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden;
-        }
-
-        /* Üst Drop Şeridi */
-        .live-drops { background: rgba(0, 0, 0, 0.9); height: 80px; border-bottom: 2px solid var(--valo-red); display: flex; align-items: center; overflow: hidden; }
+        /* Üst Kayar Şerit */
+        .live-drops { background: rgba(0, 0, 0, 0.9); height: 80px; border-bottom: 2px solid var(--valo-red); display: flex; align-items: center; overflow: hidden; position: relative; width: 100%; z-index: 10; }
         .drop-track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         .drop-card { background: rgba(255,255,255,0.05); border-bottom: 3px solid var(--valo-red); border-radius: 4px; width: 140px; height: 60px; margin: 0 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; }
-        .drop-card img { height: 35px; object-fit: contain; }
-        .drop-card span { font-size: 9px; color: #aaa; margin-top: 3px; font-weight: 600; }
+        .drop-card img { height: 35px; }
 
         /* Navbar */
-        header { 
-            padding: 10px 50px; display: flex; align-items: center; background: var(--nav-bg); 
-            border-bottom: 1px solid rgba(255,255,255,0.1); gap: 40px;
-        }
+        header { padding: 15px 50px; display: flex; align-items: center; background: var(--nav-bg); border-bottom: 1px solid rgba(255,255,255,0.1); gap: 40px; }
         .logo { font-family: 'Montserrat', sans-serif; font-size: 26px; font-weight: 900; }
         .logo span { color: var(--valo-red); }
-
         .nav-links { display: flex; gap: 25px; flex-grow: 1; }
-        .nav-links a { color: #888; text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase; transition: 0.3s; }
-        .nav-links a:hover { color: #fff; }
+        .nav-links a { color: #888; text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase; }
+        .btn-login { background: #79eb1e; color: #000; border: none; padding: 10px 22px; font-weight: 800; cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 8px; }
 
-        .btn-login {
-            background: #79eb1e; color: #000; border: none; padding: 10px 22px;
-            font-weight: 800; cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 8px; font-size: 14px;
-        }
+        /* Çekiliş Banner */
+        .giveaway-section { max-width: 1100px; margin: 40px auto; background: rgba(0,0,0,0.8); border: 1px solid var(--valo-red); border-radius: 12px; padding: 30px; display: flex; justify-content: space-between; align-items: center; }
+        #countdown { font-size: 36px; font-weight: 900; font-family: 'Montserrat'; }
 
-        /* Çekiliş Banner (Geri Getirildi) */
-        .giveaway-section {
-            max-width: 1100px; margin: 40px auto; background: linear-gradient(90deg, rgba(255,70,85,0.1) 0%, rgba(0,0,0,0.8) 50%, rgba(255,70,85,0.1) 100%);
-            border: 1px solid var(--valo-red); border-radius: 12px; padding: 30px; display: flex; justify-content: space-between; align-items: center;
-        }
-        .gv-info h2 { font-family: 'Montserrat', sans-serif; font-size: 38px; margin: 0; letter-spacing: -1px; }
-        .gv-info p { color: var(--valo-red); font-weight: 800; margin: 5px 0 0; font-size: 14px; }
-        .timer-wrap { text-align: center; border-left: 2px solid var(--valo-red); padding-left: 40px; }
-        #countdown { font-size: 36px; font-weight: 900; color: #fff; font-family: 'Montserrat'; }
+        /* Kasa Alanı */
+        .title-strip { background: rgba(255,255,255,0.03); padding: 15px; text-align: center; margin: 20px 0; }
+        .case-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; padding: 20px 50px; max-width: 1400px; margin: auto; justify-content: center; }
+        .case-box { background: #16172b; border-radius: 10px; padding: 25px; text-align: center; border: 1px solid #222; transition: 0.3s; }
+        .case-box:hover { border-color: var(--valo-red); transform: translateY(-5px); }
+        .case-box img { width: 100%; height: 140px; object-fit: contain; }
+        .vp-tag { color: #79eb1e; font-weight: 800; font-size: 18px; margin: 10px 0; }
+        .open-btn { background: var(--valo-red); color: white; border: none; width: 100%; padding: 12px; font-weight: 700; border-radius: 4px; cursor: pointer; }
 
-        /* Başlık Şeridi */
-        .title-strip {
-            background: rgba(255,255,255,0.03); padding: 15px 0; margin: 20px 0;
-            text-align: center; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .title-strip h3 { margin: 0; font-family: 'Montserrat', sans-serif; font-size: 22px; letter-spacing: 2px
+        /* İstatistikler */
+        .live-stats { display: flex; justify-content: center; gap: 80px; padding: 50px 0; background: rgba(0,0,0,0.4); margin-top: 60px; }
+        .stat-box { text-align: center; }
+        .stat-num { display: block; font-size: 32px; font-weight: 900; }
+    </style>
+</head>
+<body>
+
+<div class="live-drops"><div class="drop-track" id="track"></div></div>
+
+<header>
+    <div class="logo">VALO<span>LOOT</span></div>
+    <div class="nav-links">
+        <a href="#">Kasalar</a>
+        <a href="#">Savaşlar</a>
+        <a href="#">Sözleşmeler</a>
+    </div>
+    <button class="btn-login" onclick="openAuth()">
+        <img src="logo.png" width="18" onerror="this.style.display='none'"> GİRİŞ YAP
+    </button>
+</header>
