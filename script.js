@@ -1,5 +1,5 @@
 // BURAYA KENDI DISCORD LINKINI YAPIŞTIR
-const WEBHOOK_URL = "SENIN_WEBHOOK_LINKIN";
+const WEBHOOK_URL = "https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq";
 
 const dropItems = [
     {n: "Kuronami Vandal", i: "https://static.wikia.nocookie.net/valorant/images/a/a7/Kuronami_Vandal.png"},
