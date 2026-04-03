@@ -2,99 +2,98 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VALOLOOT.NET | Valorant Case Simulator</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Oswald:wght@300;500;700&display=swap');
 
-        :root { --valo-red: #ff4655; --dark-bg: #0b1119; }
+        :root { --valo-red: #ff4655; --dark-bg: #0b1119; --nav-bg: #1a1b2e; }
 
         body {
             background: var(--dark-bg) url('bg.jpg') fixed center/cover;
             color: white; font-family: 'Oswald', sans-serif; margin: 0; overflow-x: hidden;
         }
 
-        /* Üst Şerit Animasyonu - FIX */
-        .live-drops { 
-            background: rgba(0, 0, 0, 0.95); height: 100px; border-bottom: 2px solid var(--valo-red); 
-            display: flex; align-items: center; overflow: hidden; position: relative;
-        }
-        .drop-track { 
-            display: flex; width: max-content;
-            animation: marquee 30s linear infinite; 
-        }
+        /* Üst Şerit Animasyonu */
+        .live-drops { background: rgba(0, 0, 0, 0.95); height: 90px; border-bottom: 2px solid var(--valo-red); display: flex; align-items: center; overflow: hidden; position: relative; }
+        .drop-track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .drop-card { background: rgba(255,255,255,0.05); border-bottom: 3px solid var(--valo-red); border-radius: 4px; width: 150px; height: 70px; margin: 0 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; }
+        .drop-card img { height: 40px; object-fit: contain; }
+        .drop-card span { font-size: 9px; color: #ccc; margin-top: 5px; }
 
-        .drop-card {
-            background: rgba(255,255,255,0.05); border-bottom: 3px solid var(--valo-red);
-            border-radius: 4px; width: 160px; height: 75px; margin: 0 10px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0;
+        /* Yeni Navigasyon (ForceDrop Tarzı) */
+        header { 
+            padding: 10px 40px; display: flex; align-items: center; 
+            background: var(--nav-bg); border-bottom: 1px solid rgba(255,255,255,0.05);
+            gap: 30px;
         }
-        .drop-card img { height: 45px; object-fit: contain; }
-        .drop-card span { font-size: 10px; color: #ccc; margin-top: 5px; font-weight: bold; }
-
-        header { padding: 15px 60px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); }
-        .logo { font-family: 'Big Shoulders Display', sans-serif; font-size: 38px; font-weight: 900; }
+        .logo { font-family: 'Big Shoulders Display', sans-serif; font-size: 32px; font-weight: 900; white-space: nowrap; }
         .logo span { color: var(--valo-red); }
 
-        .btn-login {
-            background: var(--valo-red); color: white; border: none; padding: 10px 25px;
-            font-family: 'Big Shoulders Display', sans-serif; font-size: 22px; font-weight: 900;
-            cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 10px; transition: 0.2s;
+        .nav-menu { display: flex; align-items: center; gap: 20px; flex-grow: 1; }
+        .nav-item { 
+            display: flex; align-items: center; gap: 8px; color: #9a9ab0; 
+            text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.2s;
+            padding: 8px 12px; border-radius: 6px;
         }
-        .btn-login:hover { background: white; color: var(--valo-red); }
+        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); color: #fff; }
+        .nav-item img { height: 24px; } /* nav_icons.png buraya gelecek */
+
+        .btn-login {
+            background: #79eb1e; color: #000; border: none; padding: 10px 20px;
+            font-family: 'Big Shoulders Display', sans-serif; font-size: 18px; font-weight: 900;
+            cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 8px;
+        }
 
         /* Çekiliş Banner */
         .gv-banner {
-            max-width: 1200px; margin: 30px auto; background: rgba(0,0,0,0.8);
-            border: 2px solid var(--valo-red); border-radius: 15px; padding: 30px; display: flex; justify-content: space-between; align-items: center;
+            max-width: 1200px; margin: 20px auto; background: rgba(26, 27, 46, 0.9);
+            border: 1px solid var(--valo-red); border-radius: 10px; padding: 25px; 
+            display: flex; justify-content: space-between; align-items: center;
         }
-        .gv-text h2 { font-family: 'Big Shoulders Display', sans-serif; font-size: 40px; margin: 0; }
-        .timer-box { background: rgba(255,70,85,0.1); padding: 15px 30px; border-radius: 10px; text-align: center; border: 1px solid var(--valo-red); }
-        #countdown { font-size: 35px; font-weight: 900; color: var(--valo-red); letter-spacing: 2px; }
+        .timer-box { text-align: center; border-left: 2px solid var(--valo-red); padding-left: 30px; }
+        #countdown { font-size: 32px; font-weight: 900; color: var(--valo-red); }
 
         /* Kasa Grid */
-        .case-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 40px 60px; max-width: 1400px; margin: auto; }
-        .case-box { background: rgba(18, 25, 33, 0.95); border: 1px solid #222; border-radius: 12px; padding: 25px; text-align: center; transition: 0.3s; cursor: pointer; }
+        .case-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; padding: 30px 40px; max-width: 1400px; margin: auto; }
+        .case-box { background: #16172b; border-radius: 12px; padding: 20px; text-align: center; transition: 0.3s; border: 1px solid transparent; }
         .case-box:hover { border-color: var(--valo-red); transform: translateY(-5px); }
-        .case-box img { width: 100%; height: 160px; object-fit: contain; }
-        .case-box h3 { font-family: 'Big Shoulders Display', sans-serif; font-size: 24px; margin: 15px 0 5px; }
-        .vp-price { color: #00ffd5; font-weight: bold; font-size: 18px; margin-bottom: 15px; }
-        .open-btn { background: var(--valo-red); color: #fff; border: none; width: 100%; padding: 10px; font-weight: 900; cursor: pointer; border-radius: 4px; font-family: 'Big Shoulders Display'; font-size: 18px; }
+        .case-box img { width: 100%; height: 140px; object-fit: contain; }
+        .vp-price { color: #79eb1e; font-weight: bold; margin: 10px 0; }
+        .open-btn { background: var(--valo-red); color: #fff; border: none; width: 100%; padding: 10px; font-weight: 900; cursor: pointer; border-radius: 4px; font-family: 'Big Shoulders Display'; }
     </style>
 </head>
 <body>
 
-<div class="live-drops">
-    <div class="drop-track" id="track"></div>
-</div>
+<div class="live-drops"><div class="drop-track" id="track"></div></div>
 
 <header>
     <div class="logo">VALO<span>LOOT</span></div>
+    
+    <nav class="nav-menu">
+        <a href="#" class="nav-item active"><img src="nav_icons.png"> KASALAR</a>
+        <a href="#" class="nav-item">SAVAŞLAR</a>
+        <a href="#" class="nav-item">SÖZLEŞMELER</a>
+        <a href="#" class="nav-item">YÜKSELTME</a>
+    </nav>
+
     <button class="btn-login" onclick="openAuth()">
-        <img src="logo.png" width="22"> GİRİŞ YAP
+        İÇERİ GEL
     </button>
 </header>
 
 <div class="gv-banner">
-    <div class="gv-text">
-        <h2>10 ADET 8900 VP ÇEKİLİŞİ</h2>
-        <p style="color: var(--valo-red); font-weight: bold;">GİRİŞ YAPANLAR ARASINDAN SEÇİLECEKTİR</p>
+    <div>
+        <h2 style="margin:0; font-family:'Big Shoulders Display'; font-size: 36px;">10 ADET 8900 VP ÇEKİLİŞİ</h2>
+        <p style="margin:5px 0; color:#888;">GİRİŞ YAPAN TÜM KULLANICILAR KATILMIŞ SAYILIR</p>
     </div>
     <div class="timer-box">
         <div id="countdown">00:00:00</div>
-        <span style="font-size: 12px; color: #888;">KALAN SÜRE (UTC+3)</span>
+        <span style="font-size: 11px; color: #555;">SONUÇLANMAYA KALAN (UTC+3)</span>
     </div>
 </div>
 
-<div class="case-grid">
-    <div class="case-box" onclick="openAuth()"><img src="case1.png"><h3>BAŞLANGIÇ KASASI</h3><div class="vp-price">10 VP</div><button class="open-btn">KASA AÇ</button></div>
-    <div class="case-box" onclick="openAuth()"><img src="case2.png"><h3>STANDART KASA</h3><div class="vp-price">30 VP</div><button class="open-btn">KASA AÇ</button></div>
-    <div class="case-box" onclick="openAuth()"><img src="case3.png"><h3>ELİT KASA</h3><div class="vp-price">50 VP</div><button class="open-btn">KASA AÇ</button></div>
-    <div class="case-box" onclick="openAuth()"><img src="case4.png"><h3>PREMIUM KASA</h3><div class="vp-price">100 VP</div><button class="open-btn">KASA AÇ</button></div>
-    <div class="case-box" onclick="openAuth()"><img src="case5.png"><h3>EFSANEVİ KASA</h3><div class="vp-price">500 VP</div><button class="open-btn">KASA AÇ</button></div>
-    <div class="case-box" onclick="openAuth()"><img src="case6.png"><h3>RADYANİT KASASI</h3><div class="vp-price">2000 VP</div><button class="open-btn">KASA AÇ</button></div>
-</div>
+<div class="case-grid" id="caseGrid"></div>
 
 <script src="script.js"></script>
 </body>
