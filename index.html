@@ -16,7 +16,7 @@
 
         body {
             background-color: var(--dark-bg);
-            /* Arka plan resmini buraya koyuyoruz */
+            /* İndirdiğin bg.jpg dosyasını buraya bağlıyoruz */
             background-image: linear-gradient(rgba(11, 17, 25, 0.8), rgba(11, 17, 25, 0.9)), url('bg.jpg');
             background-attachment: fixed;
             background-size: cover;
@@ -25,6 +25,7 @@
             font-family: 'Oswald', sans-serif; 
             margin: 0; 
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
         /* Üst Şerit: İttirme Animasyonu */
@@ -69,26 +70,42 @@
             padding: 5px;
         }
         
+        /* Geçici Silah İkonları (API'den) */
         .drop-card img { height: 45px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
         .drop-card span { font-size: 10px; color: #888; text-transform: uppercase; margin-top: 4px; }
 
         header { 
-            padding: 20px 50px; 
+            padding: 15px 50px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            background: rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.5);
             backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         .logo { font-family: 'Big Shoulders Display', sans-serif; font-size: 42px; font-weight: 900; }
         .logo span { color: var(--valo-red); }
 
-        .btn-main {
-            background: var(--valo-red); color: white; border: none; padding: 12px 30px;
-            font-family: 'Big Shoulders Display', sans-serif; font-size: 22px; cursor: pointer;
-            border-radius: 4px; transition: 0.3s;
+        /* Düzeltilmiş Giriş Butonu */
+        .riot-btn { 
+            background: var(--valo-red); 
+            color: white; 
+            border: none; 
+            padding: 12px 30px; 
+            font-family: 'Big Shoulders Display', sans-serif; 
+            font-size: 22px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            border-radius: 4px; 
+            display: flex; 
+            align-items: center; 
+            gap: 12px;
+            text-transform: uppercase; 
+            transition: 0.2s; 
+            letter-spacing: 1px;
         }
-        .btn-main:hover { background: white; color: var(--valo-red); }
+        .riot-btn:hover { background: #ffffff; color: var(--valo-red); box-shadow: 0 0 20px rgba(255,255,255,0.3); }
+        .riot-btn img { height: 22px; } /* Orijinal Riot Logosu İçin */
 
         /* Kasa Çerçeveleri */
         .case-grid { 
@@ -109,6 +126,7 @@
             transition: 0.4s; 
             position: relative;
             box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            cursor: pointer;
         }
         
         .case-box:hover { 
@@ -117,16 +135,26 @@
             box-shadow: 0 20px 40px rgba(255, 70, 85, 0.15);
         }
         
-        .case-box img { width: 100%; height: 180px; object-fit: contain; }
-        .case-box h3 { font-family: 'Big Shoulders Display', sans-serif; font-size: 28px; margin: 15px 0 5px; }
-        .case-box p { color: #666; font-size: 14px; margin-bottom: 20px; }
+        /* İndirdiğin Kasa Resimleri Buraya Bağlandı */
+        .case-box img { width: 100%; height: 180px; object-fit: contain; filter: drop-shadow(0 0 10px rgba(255,70,85,0.3)); }
+        
+        .case-box h3 { font-family: 'Big Shoulders Display', sans-serif; font-size: 28px; margin: 15px 0 5px; color: white; }
+        .case-box p { color: #888; font-size: 14px; margin-bottom: 20px; text-transform: uppercase; font-weight: 500;}
         
         .case-price {
-            border: 1px solid var(--valo-red); color: var(--valo-red);
-            padding: 10px; width: 100%; font-family: 'Big Shoulders Display', sans-serif;
-            font-size: 24px; font-weight: 900; background: rgba(255,70,85,0.05); cursor: pointer;
+            border: 2px solid var(--valo-red); color: var(--valo-red);
+            padding: 12px; width: 100%; font-family: 'Big Shoulders Display', sans-serif;
+            font-size: 24px; font-weight: 900; background: rgba(255,70,85,0.05); 
+            cursor: pointer; text-transform: uppercase; border-radius: 4px; transition: 0.3s;
         }
-        .case-box:hover .case-price { background: var(--valo-red); color: white; }
+        .case-box:hover .case-price { background: var(--valo-red); color: white; box-shadow: 0 0 15px var(--valo-red); }
+
+        /* Bedava kasa için özel renk */
+        .free-case { border-color: #00ff88; }
+        .free-case .case-price { border-color: #00ff88; color: #00ff88; background: rgba(0, 255, 136, 0.05); }
+        .free-case img { filter: drop-shadow(0 0 10px rgba(0,255,136,0.3)); }
+        .free-case:hover { border-color: #00ff88; box-shadow: 0 20px 40px rgba(0, 255, 136, 0.15); }
+        .free-case:hover .case-price { background: #00ff88; color: #000; box-shadow: 0 0 15px #00ff88; }
 
     </style>
 </head>
@@ -138,35 +166,38 @@
 
 <header>
     <div class="logo">VALOLOOT<span>.NET</span></div>
-    <button class="btn-main" onclick="openSim()">HESAPLA</button>
+    <button class="riot-btn" onclick="openPop()">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Riot_Games_logo.svg/1200px-Riot_Games_logo.svg.png" alt="R">
+        İÇERİ GEL
+    </button>
 </header>
 
 <div class="case-grid">
-    <div class="case-box" onclick="openSim()">
-        <img src="https://static.wikia.nocookie.net/valorant/images/2/23/Ignition_Crate.png">
-        <h3>BEDAVA BAŞLANGIÇ</h3>
+    <div class="case-box free-case" onclick="openPop()">
+        <img src="case-start.png" alt="Başlangıç">
+        <h3>BAŞLANGIÇ KASASI</h3>
         <p>Günde 1 kez ücretsiz açılabilir.</p>
-        <button class="case-price">FREE</button>
+        <button class="case-price">ÜCRETSİZ</button>
     </div>
     
-    <div class="case-box" onclick="openSim()">
-        <img src="https://static.wikia.nocookie.net/valorant/images/a/a7/Kuronami_Vandal.png">
+    <div class="case-box" onclick="openPop()">
+        <img src="case-kuronami.png" alt="Kuronami">
         <h3>KURONAMI ÖZEL</h3>
-        <p>Sınırlı süreli suikastçı kasası.</p>
+        <p>Gizemli Suikastçi Koleksiyonu.</p>
         <button class="case-price">250 VP</button>
     </div>
 
-    <div class="case-box" onclick="openSim()">
-        <img src="https://static.wikia.nocookie.net/valorant/images/5/5e/Elderflame_Vandal.png">
+    <div class="case-box" onclick="openPop()">
+        <img src="case-elderflame.png" alt="Ejderateşi">
         <h3>EJDERATEŞİ</h3>
         <p>Ateş püskürten efsanevi skinler.</p>
-        <button class="case-price">500 VP</button>
+        <button class="case-price">450 VP</button>
     </div>
 
-    <div class="case-box" onclick="openSim()">
-        <img src="https://static.wikia.nocookie.net/valorant/images/4/41/Champions_2024_Phantom.png">
+    <div class="case-box" onclick="openPop()">
+        <img src="case-champions.png" alt="Champions">
         <h3>CHAMPIONS 2024</h3>
-        <p>VCT Turnuva özel koleksiyonu.</p>
+        <p>VCT Turnuva özel Vandal koleksiyonu.</p>
         <button class="case-price">800 VP</button>
     </div>
 </div>
