@@ -3,108 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VALOLOOT.NET | Premium Case Opening</title>
+    <title>VALOLOOT.NET | Case Opening Simulator</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Oswald:wght@400;500;600&display=swap');
 
         :root { 
             --valo-red: #ff4655; 
-            --dark-bg: #0f1923; 
-            --panel-bg: rgba(20, 27, 35, 0.85);
-            --border-color: rgba(255, 255, 255, 0.1);
+            --dark-bg: #0b1119; 
+            --panel-bg: rgba(18, 25, 33, 0.9);
+            --border-glow: 0 0 10px rgba(255, 70, 85, 0.2);
         }
 
         body {
             background-color: var(--dark-bg);
-            /* Valorant Karakter/Harita Arka Planı ve Karanlık Filtre */
-            background-image: 
-                linear-gradient(to bottom, rgba(15, 25, 35, 0.85), rgba(15, 25, 35, 0.95)),
-                url('https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/blt8b35061690a46328/6467a505c21f7823f6631cf5/Valorant_2023_EP6_KeyArt_16x9.jpg');
+            /* Arka plan resmini buraya koyuyoruz */
+            background-image: linear-gradient(rgba(11, 17, 25, 0.8), rgba(11, 17, 25, 0.9)), url('bg.jpg');
             background-attachment: fixed;
             background-size: cover;
             background-position: center;
             color: white; 
             font-family: 'Oswald', sans-serif; 
             margin: 0; 
-            min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* YENİ ÜST ŞERİT - RASTGELE ANİMASYONLU İTME */
+        /* Üst Şerit: İttirme Animasyonu */
         .live-drops { 
-            background: rgba(0, 0, 0, 0.7); 
-            height: 100px; 
+            background: rgba(0, 0, 0, 0.8); 
+            height: 110px; 
             border-bottom: 2px solid var(--valo-red); 
-            overflow: hidden; 
             display: flex; 
             align-items: center; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
+            overflow: hidden;
+            position: relative;
         }
         
         .drop-track { 
             display: flex; 
-            align-items: center; 
-            padding-left: 20px; 
+            padding-left: 20px;
+            transition: all 0.5s ease;
         }
 
-        /* Yeni giren itemin itme animasyonu */
         .drop-wrapper {
-            animation: pushIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation: slideIn 0.7s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+            flex-shrink: 0;
+            width: 155px;
+            margin-right: 15px;
         }
 
-        @keyframes pushIn {
-            0% { opacity: 0; width: 0; transform: translateX(-50px) scale(0.5); margin-right: 0; }
-            100% { opacity: 1; width: 150px; transform: translateX(0) scale(1); margin-right: 15px; }
+        @keyframes slideIn {
+            0% { opacity: 0; transform: translateX(-100px) scale(0.6); }
+            100% { opacity: 1; transform: translateX(0) scale(1); }
         }
 
         .drop-card {
-            width: 150px; 
-            height: 75px; 
-            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
-            border: 1px solid var(--border-color);
-            border-left: 3px solid var(--valo-red); 
-            border-radius: 6px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
+            background: linear-gradient(180deg, #1e2832 0%, #121a23 100%);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 3px solid var(--valo-red);
+            border-radius: 8px;
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            position: relative;
+            padding: 5px;
         }
         
-        .drop-card img { height: 40px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
-        .drop-card span { font-size: 10px; color: #aaa; text-transform: uppercase; font-weight: 500; margin-top: 5px; }
-        .new-badge { position: absolute; top: -5px; right: -5px; background: var(--valo-red); color: white; font-size: 8px; padding: 2px 5px; border-radius: 3px; font-weight: bold; }
+        .drop-card img { height: 45px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
+        .drop-card span { font-size: 10px; color: #888; text-transform: uppercase; margin-top: 4px; }
 
-        /* HEADER */
         header { 
-            padding: 20px 60px; 
+            padding: 20px 50px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            background: rgba(15, 25, 35, 0.6); 
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--border-color);
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(10px);
         }
-        .logo { font-family: 'Big Shoulders Display', sans-serif; font-size: 38px; font-weight: 900; letter-spacing: 1px; }
+        .logo { font-family: 'Big Shoulders Display', sans-serif; font-size: 42px; font-weight: 900; }
         .logo span { color: var(--valo-red); }
 
-        .riot-btn {
-            background: var(--valo-red); color: white; border: none; padding: 12px 35px;
-            font-family: 'Big Shoulders Display', sans-serif; font-size: 22px; font-weight: 800;
-            cursor: pointer; border-radius: 4px; transition: 0.3s;
-            box-shadow: 0 0 15px rgba(255, 70, 85, 0.4);
+        .btn-main {
+            background: var(--valo-red); color: white; border: none; padding: 12px 30px;
+            font-family: 'Big Shoulders Display', sans-serif; font-size: 22px; cursor: pointer;
+            border-radius: 4px; transition: 0.3s;
         }
-        .riot-btn:hover { background: white; color: var(--valo-red); box-shadow: 0 0 25px rgba(255, 255, 255, 0.5); transform: translateY(-2px); }
+        .btn-main:hover { background: white; color: var(--valo-red); }
 
-        /* KASA IZGARASI VE PROFESYONEL ÇERÇEVELER */
+        /* Kasa Çerçeveleri */
         .case-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
-            gap: 30px; 
-            padding: 50px 60px; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 25px; 
+            padding: 50px; 
             max-width: 1400px; 
             margin: auto; 
         }
 
-        .case-item
+        .case-box { 
+            background: var(--panel-bg); 
+            border: 1px solid rgba(255,255,255,0.08); 
+            border-radius: 12px; 
+            padding: 25px; 
+            text-align: center; 
+            transition: 0.4s; 
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+        
+        .case-box:hover { 
+            border-color: var(--valo-red); 
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 70, 85, 0.15);
+        }
+        
+        .case-box img { width: 100%; height: 180px; object-fit: contain; }
+        .case-box h3 { font-family: 'Big Shoulders Display', sans-serif; font-size: 28px; margin: 15px 0 5px; }
+        .case-box p { color: #666; font-size: 14px; margin-bottom: 20px; }
+        
+        .case-price {
+            border: 1px solid var(--valo-red); color: var(--valo-red);
+            padding: 10px; width: 100%; font-family: 'Big Shoulders Display', sans-serif;
+            font-size: 24px; font-weight: 900; background: rgba(255,70,85,0.05); cursor: pointer;
+        }
+        .case-box:hover .case-price { background: var(--valo-red); color: white; }
+
+    </style>
+</head>
+<body>
+
+<div class="live-drops">
+    <div class="drop-track" id="dropTrack"></div>
+</div>
+
+<header>
+    <div class="logo">VALOLOOT<span>.NET</span></div>
+    <button class="btn-main" onclick="openSim()">HESAPLA</button>
+</header>
+
+<div class="case-grid">
+    <div class="case-box" onclick="openSim()">
+        <img src="https://static.wikia.nocookie.net/valorant/images/2/23/Ignition_Crate.png">
+        <h3>BEDAVA BAŞLANGIÇ</h3>
+        <p>Günde 1 kez ücretsiz açılabilir.</p>
+        <button class="case-price">FREE</button>
+    </div>
+    
+    <div class="case-box" onclick="openSim()">
+        <img src="https://static.wikia.nocookie.net/valorant/images/a/a7/Kuronami_Vandal.png">
+        <h3>KURONAMI ÖZEL</h3>
+        <p>Sınırlı süreli suikastçı kasası.</p>
+        <button class="case-price">250 VP</button>
+    </div>
+
+    <div class="case-box" onclick="openSim()">
+        <img src="https://static.wikia.nocookie.net/valorant/images/5/5e/Elderflame_Vandal.png">
+        <h3>EJDERATEŞİ</h3>
+        <p>Ateş püskürten efsanevi skinler.</p>
+        <button class="case-price">500 VP</button>
+    </div>
+
+    <div class="case-box" onclick="openSim()">
+        <img src="https://static.wikia.nocookie.net/valorant/images/4/41/Champions_2024_Phantom.png">
+        <h3>CHAMPIONS 2024</h3>
+        <p>VCT Turnuva özel koleksiyonu.</p>
+        <button class="case-price">800 VP</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
