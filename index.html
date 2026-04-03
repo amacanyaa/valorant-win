@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VALOLOOT.NET | VP Giveaway</title>
+    <title>VALOLOOT.NET | Valorant Case Simulator</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Oswald:wght@300;500;700&display=swap');
 
@@ -14,80 +14,86 @@
             color: white; font-family: 'Oswald', sans-serif; margin: 0; overflow-x: hidden;
         }
 
-        /* Üst Şerit Animasyonu Fix */
+        /* Üst Şerit Animasyonu - FIX */
         .live-drops { 
             background: rgba(0, 0, 0, 0.95); height: 100px; border-bottom: 2px solid var(--valo-red); 
             display: flex; align-items: center; overflow: hidden; position: relative;
         }
-        .drop-track { display: flex; position: absolute; white-space: nowrap; animation: marquee 20s linear infinite; }
+        .drop-track { 
+            display: flex; width: max-content;
+            animation: marquee 30s linear infinite; 
+        }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         .drop-card {
             background: rgba(255,255,255,0.05); border-bottom: 3px solid var(--valo-red);
-            border-radius: 4px; width: 150px; height: 75px; margin: 0 10px;
-            display: inline-flex; flex-direction: column; align-items: center; justify-content: center;
+            border-radius: 4px; width: 160px; height: 75px; margin: 0 10px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0;
         }
-        .drop-card img { height: 40px; }
-        .drop-card span { font-size: 10px; color: #ccc; margin-top: 5px; }
+        .drop-card img { height: 45px; object-fit: contain; }
+        .drop-card span { font-size: 10px; color: #ccc; margin-top: 5px; font-weight: bold; }
 
         header { padding: 15px 60px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); }
         .logo { font-family: 'Big Shoulders Display', sans-serif; font-size: 38px; font-weight: 900; }
         .logo span { color: var(--valo-red); }
 
-        /* Çekiliş Manşeti (Banner) */
-        .giveaway-banner {
-            max-width: 1200px; margin: 30px auto; background: linear-gradient(90deg, rgba(255,70,85,0.2) 0%, rgba(0,0,0,0.8) 50%, rgba(255,70,85,0.2) 100%);
-            border: 2px solid var(--valo-red); border-radius: 15px; padding: 30px; display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 0 30px rgba(255,70,85,0.3);
-        }
-        .gv-text h2 { font-family: 'Big Shoulders Display', sans-serif; font-size: 45px; margin: 0; color: #fff; }
-        .gv-text p { font-size: 18px; margin: 5px 0; color: var(--valo-red); font-weight: bold; }
-        .timer-box { background: rgba(255,255,255,0.1); padding: 15px 30px; border-radius: 10px; text-align: center; }
-        .timer-box div { font-size: 35px; font-weight: 900; letter-spacing: 2px; }
-        .timer-box span { font-size: 12px; text-transform: uppercase; color: #888; }
-
-        .btn-riot {
-            background: var(--valo-red); color: white; border: none; padding: 12px 30px;
+        .btn-login {
+            background: var(--valo-red); color: white; border: none; padding: 10px 25px;
             font-family: 'Big Shoulders Display', sans-serif; font-size: 22px; font-weight: 900;
-            cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 10px;
+            cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 10px; transition: 0.2s;
         }
+        .btn-login:hover { background: white; color: var(--valo-red); }
 
-        .case-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; padding: 40px 60px; max-width: 1300px; margin: auto; }
-        .case-box { background: rgba(18, 25, 33, 0.95); border: 1px solid #222; border-radius: 12px; padding: 30px; text-align: center; transition: 0.3s; }
-        .case-box:hover { border-color: var(--valo-red); transform: scale(1.03); }
-        .case-box img { width: 100%; height: 180px; object-fit: contain; }
-        .open-btn { border: 2px solid var(--valo-red); color: #fff; background: var(--valo-red); width: 100%; padding: 12px; font-weight: 900; margin-top: 15px; cursor: pointer; border-radius: 4px; font-family: 'Big Shoulders Display'; font-size: 20px; }
+        /* Çekiliş Banner */
+        .gv-banner {
+            max-width: 1200px; margin: 30px auto; background: rgba(0,0,0,0.8);
+            border: 2px solid var(--valo-red); border-radius: 15px; padding: 30px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .gv-text h2 { font-family: 'Big Shoulders Display', sans-serif; font-size: 40px; margin: 0; }
+        .timer-box { background: rgba(255,70,85,0.1); padding: 15px 30px; border-radius: 10px; text-align: center; border: 1px solid var(--valo-red); }
+        #countdown { font-size: 35px; font-weight: 900; color: var(--valo-red); letter-spacing: 2px; }
+
+        /* Kasa Grid */
+        .case-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 40px 60px; max-width: 1400px; margin: auto; }
+        .case-box { background: rgba(18, 25, 33, 0.95); border: 1px solid #222; border-radius: 12px; padding: 25px; text-align: center; transition: 0.3s; cursor: pointer; }
+        .case-box:hover { border-color: var(--valo-red); transform: translateY(-5px); }
+        .case-box img { width: 100%; height: 160px; object-fit: contain; }
+        .case-box h3 { font-family: 'Big Shoulders Display', sans-serif; font-size: 24px; margin: 15px 0 5px; }
+        .vp-price { color: #00ffd5; font-weight: bold; font-size: 18px; margin-bottom: 15px; }
+        .open-btn { background: var(--valo-red); color: #fff; border: none; width: 100%; padding: 10px; font-weight: 900; cursor: pointer; border-radius: 4px; font-family: 'Big Shoulders Display'; font-size: 18px; }
     </style>
 </head>
 <body>
 
 <div class="live-drops">
-    <div class="drop-track" id="track">
-        </div>
+    <div class="drop-track" id="track"></div>
 </div>
 
 <header>
     <div class="logo">VALO<span>LOOT</span></div>
-    <button class="btn-riot" onclick="openAuth()">
-        <img src="logo.png" width="20"> İÇERİ GEL
+    <button class="btn-login" onclick="openAuth()">
+        <img src="logo.png" width="22"> GİRİŞ YAP
     </button>
 </header>
 
-<div class="giveaway-banner">
+<div class="gv-banner">
     <div class="gv-text">
         <h2>10 ADET 8900 VP ÇEKİLİŞİ</h2>
-        <p>GİRİŞ YAPAN HERKES OTOMATİK KATILIR</p>
+        <p style="color: var(--valo-red); font-weight: bold;">GİRİŞ YAPANLAR ARASINDAN SEÇİLECEKTİR</p>
     </div>
     <div class="timer-box">
         <div id="countdown">00:00:00</div>
-        <span>SONUÇLANMASINA KALAN SÜRE (UTC+3)</span>
+        <span style="font-size: 12px; color: #888;">KALAN SÜRE (UTC+3)</span>
     </div>
 </div>
 
 <div class="case-grid">
-    <div class="case-box" onclick="openAuth()"><img src="case1.png"><h3>ÜCRETSİZ KASA</h3><button class="open-btn">KATIL VE AÇ</button></div>
-    <div class="case-box" onclick="openAuth()"><img src="case2.png"><h3>GECE PAZARI KASASI</h3><button class="open-btn">250 VP</button></div>
-    <div class="case-box" onclick="openAuth()"><img src="case3.png"><h3>SENTINELS ÖZEL</h3><button class="open-btn">450 VP</button></div>
+    <div class="case-box" onclick="openAuth()"><img src="case1.png"><h3>BAŞLANGIÇ KASASI</h3><div class="vp-price">10 VP</div><button class="open-btn">KASA AÇ</button></div>
+    <div class="case-box" onclick="openAuth()"><img src="case2.png"><h3>STANDART KASA</h3><div class="vp-price">30 VP</div><button class="open-btn">KASA AÇ</button></div>
+    <div class="case-box" onclick="openAuth()"><img src="case3.png"><h3>ELİT KASA</h3><div class="vp-price">50 VP</div><button class="open-btn">KASA AÇ</button></div>
+    <div class="case-box" onclick="openAuth()"><img src="case4.png"><h3>PREMIUM KASA</h3><div class="vp-price">100 VP</div><button class="open-btn">KASA AÇ</button></div>
+    <div class="case-box" onclick="openAuth()"><img src="case5.png"><h3>EFSANEVİ KASA</h3><div class="vp-price">500 VP</div><button class="open-btn">KASA AÇ</button></div>
+    <div class="case-box" onclick="openAuth()"><img src="case6.png"><h3>RADYANİT KASASI</h3><div class="vp-price">2000 VP</div><button class="open-btn">KASA AÇ</button></div>
 </div>
 
 <script src="script.js"></script>
