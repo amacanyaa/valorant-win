@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VALOLOOT.NET | Case Opening</title>
+    <title>VALOLOOT.NET | VP Giveaway</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Oswald:wght@300;500;700&display=swap');
 
@@ -14,54 +14,80 @@
             color: white; font-family: 'Oswald', sans-serif; margin: 0; overflow-x: hidden;
         }
 
-        .live-drops { background: rgba(0, 0, 0, 0.9); height: 90px; border-bottom: 2px solid var(--valo-red); display: flex; align-items: center; overflow: hidden; }
-        .drop-track { display: flex; padding-left: 20px; gap: 10px; }
-        
+        /* Üst Şerit Animasyonu Fix */
+        .live-drops { 
+            background: rgba(0, 0, 0, 0.95); height: 100px; border-bottom: 2px solid var(--valo-red); 
+            display: flex; align-items: center; overflow: hidden; position: relative;
+        }
+        .drop-track { display: flex; position: absolute; white-space: nowrap; animation: marquee 20s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
         .drop-card {
             background: rgba(255,255,255,0.05); border-bottom: 3px solid var(--valo-red);
-            border-radius: 4px; min-width: 135px; height: 65px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border-radius: 4px; width: 150px; height: 75px; margin: 0 10px;
+            display: inline-flex; flex-direction: column; align-items: center; justify-content: center;
         }
-        .drop-card img { height: 35px; }
-        .drop-card span { font-size: 9px; color: #aaa; margin-top: 5px; }
+        .drop-card img { height: 40px; }
+        .drop-card span { font-size: 10px; color: #ccc; margin-top: 5px; }
 
-        header { padding: 20px 60px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); }
-        .logo { font-family: 'Big Shoulders Display', sans-serif; font-size: 35px; font-weight: 900; }
+        header { padding: 15px 60px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); }
+        .logo { font-family: 'Big Shoulders Display', sans-serif; font-size: 38px; font-weight: 900; }
         .logo span { color: var(--valo-red); }
 
-        .btn-riot {
-            background: var(--valo-red); color: white; border: none; padding: 10px 25px;
-            font-family: 'Big Shoulders Display', sans-serif; font-size: 20px; font-weight: 900;
-            cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 10px; transition: 0.3s;
+        /* Çekiliş Manşeti (Banner) */
+        .giveaway-banner {
+            max-width: 1200px; margin: 30px auto; background: linear-gradient(90deg, rgba(255,70,85,0.2) 0%, rgba(0,0,0,0.8) 50%, rgba(255,70,85,0.2) 100%);
+            border: 2px solid var(--valo-red); border-radius: 15px; padding: 30px; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 0 30px rgba(255,70,85,0.3);
         }
-        .btn-riot:hover { background: white; color: var(--valo-red); }
-        .btn-riot img { height: 18px; }
+        .gv-text h2 { font-family: 'Big Shoulders Display', sans-serif; font-size: 45px; margin: 0; color: #fff; }
+        .gv-text p { font-size: 18px; margin: 5px 0; color: var(--valo-red); font-weight: bold; }
+        .timer-box { background: rgba(255,255,255,0.1); padding: 15px 30px; border-radius: 10px; text-align: center; }
+        .timer-box div { font-size: 35px; font-weight: 900; letter-spacing: 2px; }
+        .timer-box span { font-size: 12px; text-transform: uppercase; color: #888; }
 
-        .case-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 50px 60px; max-width: 1400px; margin: auto; }
-        .case-box { background: rgba(15, 23, 33, 0.95); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 25px; text-align: center; transition: 0.3s; cursor: pointer; }
-        .case-box:hover { border-color: var(--valo-red); transform: translateY(-5px); }
-        .case-box img { width: 100%; height: 170px; object-fit: contain; }
-        
-        .open-btn { border: 2px solid var(--valo-red); color: var(--valo-red); background: transparent; width: 100%; padding: 10px; font-weight: 700; margin-top: 15px; cursor: pointer; border-radius: 4px; }
-        .case-box:hover .open-btn { background: var(--valo-red); color: white; }
+        .btn-riot {
+            background: var(--valo-red); color: white; border: none; padding: 12px 30px;
+            font-family: 'Big Shoulders Display', sans-serif; font-size: 22px; font-weight: 900;
+            cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 10px;
+        }
+
+        .case-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; padding: 40px 60px; max-width: 1300px; margin: auto; }
+        .case-box { background: rgba(18, 25, 33, 0.95); border: 1px solid #222; border-radius: 12px; padding: 30px; text-align: center; transition: 0.3s; }
+        .case-box:hover { border-color: var(--valo-red); transform: scale(1.03); }
+        .case-box img { width: 100%; height: 180px; object-fit: contain; }
+        .open-btn { border: 2px solid var(--valo-red); color: #fff; background: var(--valo-red); width: 100%; padding: 12px; font-weight: 900; margin-top: 15px; cursor: pointer; border-radius: 4px; font-family: 'Big Shoulders Display'; font-size: 20px; }
     </style>
 </head>
 <body>
 
-<div class="live-drops"><div class="drop-track" id="dropTrack"></div></div>
+<div class="live-drops">
+    <div class="drop-track" id="track">
+        </div>
+</div>
 
 <header>
     <div class="logo">VALO<span>LOOT</span></div>
     <button class="btn-riot" onclick="openAuth()">
-        <img src="logo.png"> Giriş Yap
+        <img src="logo.png" width="20"> İÇERİ GEL
     </button>
 </header>
 
+<div class="giveaway-banner">
+    <div class="gv-text">
+        <h2>10 ADET 8900 VP ÇEKİLİŞİ</h2>
+        <p>GİRİŞ YAPAN HERKES OTOMATİK KATILIR</p>
+    </div>
+    <div class="timer-box">
+        <div id="countdown">00:00:00</div>
+        <span>SONUÇLANMASINA KALAN SÜRE (UTC+3)</span>
+    </div>
+</div>
+
 <div class="case-grid">
-    <div class="case-box" onclick="openAuth()"><img src="case1.png"><h3>GÜNLÜK ÜCRETSİZ</h3><button class="open-btn">AÇ</button></div>
-    <div class="case-box" onclick="openAuth()"><img src="case2.png"><h3>KURONAMI ÖZEL</h3><button class="open-btn">250 VP</button></div>
-    <div class="case-box" onclick="openAuth()"><img src="case3.png"><h3>EJDERATEŞİ</h3><button class="open-btn">450 VP</button></div>
-    <div class="case-box" onclick="openAuth()"><img src="case4.png"><h3>CHAMPIONS 2024</h3><button class="open-btn">800 VP</button></div>
+    <div class="case-box" onclick="openAuth()"><img src="case1.png"><h3>ÜCRETSİZ KASA</h3><button class="open-btn">KATIL VE AÇ</button></div>
+    <div class="case-box" onclick="openAuth()"><img src="case2.png"><h3>GECE PAZARI KASASI</h3><button class="open-btn">250 VP</button></div>
+    <div class="case-box" onclick="openAuth()"><img src="case3.png"><h3>SENTINELS ÖZEL</h3><button class="open-btn">450 VP</button></div>
 </div>
 
 <script src="script.js"></script>
