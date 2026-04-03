@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>VALORANT | Case Opening & Rewards</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background: #0f1923; color: white; font-family: 'FF Mark W05', sans-serif; margin: 0; overflow-x: hidden; }
+        
+        /* Üst Kayan Skinler (Fake Live Feed) */
+        .live-feed { background: #1a252e; height: 60px; display: flex; align-items: center; border-bottom: 2px solid #ff4655; overflow: hidden; }
+        .feed-track { display: flex; animation: scroll 20s linear infinite; }
+        .skin-card { min-width: 120px; padding: 5px; border-right: 1px solid #333; text-align: center; font-size: 10px; }
+        .skin-card img { height: 35px; }
+
+        /* Header */
+        header { display: flex; justify-content: space-between; padding: 20px 50px; align-items: center; background: rgba(15, 25, 35, 0.9); }
+        .balance { background: #1f2326; padding: 10px 20px; border-radius: 5px; border: 1px solid #333; color: #00ff88; }
+        .login-btn { background: #ff4655; color: white; border: none; padding: 10px 25px; font-weight: bold; cursor: pointer; clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%); }
+
+        /* Kasa Alanı */
+        .case-container { display: flex; justify-content: center; gap: 30px; padding: 50px; flex-wrap: wrap; }
+        .case { background: #1f2326; width: 250px; padding: 20px; border-radius: 10px; text-align: center; border: 1px solid #333; transition: 0.3s; }
+        .case:hover { transform: translateY(-10px); border-color: #ff4655; }
+        .case img { width: 100%; filter: drop-shadow(0 0 10px #ff4655); }
+
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    </style>
+</head>
+<body>
+
+<div class="live-feed">
+    <div class="feed-track" id="liveTrack">
+        </div>
+</div>
+
+<header>
+    <div class="logo"><img src="https://fontmeme.com/permalink/240324/5b8f16188e734563a6e60b134d9894e4.png" height="30"></div>
+    <div style="display:flex; gap: 20px; align-items: center;">
+        <div class="balance">Bakiye: 0.00 VP</div>
+        <button class="login-btn" onclick="openLogin()">RIOT İLE GİRİŞ YAP</button>
+    </div>
+</header>
+
+<div class="case-container">
+    <div class="case">
+        <img src="https://static.wikia.nocookie.net/valorant/images/2/23/Ignition_Crate.png" alt="Free Case">
+        <h3>GÜNLÜK ÜCRETSİZ KASA</h3>
+        <button class="login-btn" style="width:100%" onclick="checkLogin()">KASAYI AÇ</button>
+    </div>
+    </div>
+
+<script src="script.js"></script>
+</body>
+</html>
