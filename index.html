@@ -3,161 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VALOLOOT.NET | Case Opening Simulator</title>
+    <title>VALOLOOT.NET | Case Opening</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Oswald:wght@400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Oswald:wght@300;500;700&display=swap');
 
-        :root { 
-            --valo-red: #ff4655; 
-            --dark-bg: #0b1119; 
-            --panel-bg: rgba(18, 25, 33, 0.95);
-        }
+        :root { --valo-red: #ff4655; --dark-bg: #0b1119; }
 
         body {
-            background-color: var(--dark-bg);
-            /* Arka plan için kaliteli bir görsel */
-            background-image: linear-gradient(rgba(11, 17, 25, 0.8), rgba(11, 17, 25, 0.9)), url('https://images.alphacoders.com/132/1322475.jpeg');
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
-            color: white; 
-            font-family: 'Oswald', sans-serif; 
-            margin: 0; 
-            overflow-x: hidden;
+            background: var(--dark-bg) url('bg.jpg') fixed center/cover;
+            color: white; font-family: 'Oswald', sans-serif; margin: 0; overflow-x: hidden;
         }
 
-        /* Üst Şerit: Akıcı Drop Animasyonu */
-        .live-drops { 
-            background: rgba(0, 0, 0, 0.9); 
-            height: 100px; 
-            border-bottom: 2px solid var(--valo-red); 
-            display: flex; 
-            align-items: center; 
-            overflow: hidden;
-        }
+        .live-drops { background: rgba(0, 0, 0, 0.9); height: 90px; border-bottom: 2px solid var(--valo-red); display: flex; align-items: center; overflow: hidden; }
+        .drop-track { display: flex; padding-left: 20px; gap: 10px; }
         
-        .drop-track { display: flex; padding-left: 20px; }
-
-        .drop-wrapper {
-            animation: slideIn 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
-            flex-shrink: 0;
-            width: 140px;
-            margin-right: 12px;
-        }
-
-        @keyframes slideIn {
-            0% { opacity: 0; transform: translateX(-50px); }
-            100% { opacity: 1; transform: translateX(0); }
-        }
-
         .drop-card {
-            background: #161f28;
-            border-bottom: 3px solid var(--valo-red);
-            border-radius: 4px;
-            height: 75px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 5px;
+            background: rgba(255,255,255,0.05); border-bottom: 3px solid var(--valo-red);
+            border-radius: 4px; min-width: 135px; height: 65px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
-        
-        .drop-card img { height: 40px; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); }
-        .drop-card span { font-size: 10px; color: #888; text-transform: uppercase; margin-top: 5px; text-align: center; }
+        .drop-card img { height: 35px; }
+        .drop-card span { font-size: 9px; color: #aaa; margin-top: 5px; }
 
-        header { 
-            padding: 15px 60px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(15px);
-        }
-        .logo { font-family: 'Big Shoulders Display', sans-serif; font-size: 38px; font-weight: 900; letter-spacing: 1px; }
+        header { padding: 20px 60px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); }
+        .logo { font-family: 'Big Shoulders Display', sans-serif; font-size: 35px; font-weight: 900; }
         .logo span { color: var(--valo-red); }
 
-        .btn-login {
+        .btn-riot {
             background: var(--valo-red); color: white; border: none; padding: 10px 25px;
-            font-family: 'Big Shoulders Display', sans-serif; font-size: 20px; font-weight: 800;
-            cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 10px;
-            transition: 0.3s ease;
+            font-family: 'Big Shoulders Display', sans-serif; font-size: 20px; font-weight: 900;
+            cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 10px; transition: 0.3s;
         }
-        .btn-login:hover { background: white; color: var(--valo-red); box-shadow: 0 0 20px rgba(255, 70, 85, 0.4); }
-        .btn-login img { height: 18px; }
+        .btn-riot:hover { background: white; color: var(--valo-red); }
+        .btn-riot img { height: 18px; }
 
-        /* Kasa Grid Sistemi */
-        .case-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
-            gap: 30px; 
-            padding: 50px 60px; 
-            max-width: 1400px; 
-            margin: auto; 
-        }
-
-        .case-box { 
-            background: var(--panel-bg); 
-            border: 1px solid rgba(255,255,255,0.05); 
-            border-radius: 12px; 
-            padding: 30px; 
-            text-align: center; 
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            cursor: pointer;
-            position: relative;
-        }
+        .case-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 50px 60px; max-width: 1400px; margin: auto; }
+        .case-box { background: rgba(15, 23, 33, 0.95); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 25px; text-align: center; transition: 0.3s; cursor: pointer; }
+        .case-box:hover { border-color: var(--valo-red); transform: translateY(-5px); }
+        .case-box img { width: 100%; height: 170px; object-fit: contain; }
         
-        .case-box:hover { border-color: var(--valo-red); transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .case-box img { width: 100%; height: 200px; object-fit: contain; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5)); }
-        .case-box h3 { font-family: 'Big Shoulders Display', sans-serif; font-size: 28px; margin: 20px 0 10px; }
-        
-        .case-btn {
-            border: 2px solid var(--valo-red); color: var(--valo-red);
-            padding: 12px; width: 100%; font-family: 'Big Shoulders Display', sans-serif;
-            font-size: 22px; font-weight: 900; background: transparent; 
-            border-radius: 6px; transition: 0.3s;
-        }
-        .case-box:hover .case-btn { background: var(--valo-red); color: white; }
-
+        .open-btn { border: 2px solid var(--valo-red); color: var(--valo-red); background: transparent; width: 100%; padding: 10px; font-weight: 700; margin-top: 15px; cursor: pointer; border-radius: 4px; }
+        .case-box:hover .open-btn { background: var(--valo-red); color: white; }
     </style>
 </head>
 <body>
 
-<div class="live-drops">
-    <div class="drop-track" id="dropTrack"></div>
-</div>
+<div class="live-drops"><div class="drop-track" id="dropTrack"></div></div>
 
 <header>
-    <div class="logo">VALOLOOT<span>.NET</span></div>
-    <button class="btn-login" onclick="openLogin()">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Riot_Games_logo.svg/1200px-Riot_Games_logo.svg.png">
-        İÇERİ GEL
+    <div class="logo">VALO<span>LOOT</span></div>
+    <button class="btn-riot" onclick="openAuth()">
+        <img src="logo.png"> İÇERİ GEL
     </button>
 </header>
 
 <div class="case-grid">
-    <div class="case-box" onclick="openLogin()">
-        <img src="https://media.valorant-api.com/bundles/19904260-4966-512c-5b23-118804f323f4/displayicon.png">
-        <h3>EFSANEVİ BUNDLE</h3>
-        <button class="case-btn">ÜCRETSİZ AÇ</button>
-    </div>
-    
-    <div class="case-box" onclick="openLogin()">
-        <img src="https://media.valorant-api.com/bundles/39b7ef4e-461b-934c-623b-2486989f668f/displayicon.png">
-        <h3>KURONAMI KASASI</h3>
-        <button class="case-btn">250 VP</button>
-    </div>
-
-    <div class="case-box" onclick="openLogin()">
-        <img src="https://media.valorant-api.com/bundles/c020521e-4573-09b6-455c-f99a38546b54/displayicon.png">
-        <h3>EJDERATEŞİ KASASI</h3>
-        <button class="case-btn">450 VP</button>
-    </div>
-
-    <div class="case-box" onclick="openLogin()">
-        <img src="https://media.valorant-api.com/bundles/45140f7b-40f4-5f53-29f1-f095111b7d5a/displayicon.png">
-        <h3>CHAMPIONS 2024</h3>
-        <button class="case-btn">800 VP</button>
-    </div>
+    <div class="case-box" onclick="openAuth()"><img src="case1.png"><h3>GÜNLÜK ÜCRETSİZ</h3><button class="open-btn">AÇ</button></div>
+    <div class="case-box" onclick="openAuth()"><img src="case2.png"><h3>KURONAMI ÖZEL</h3><button class="open-btn">250 VP</button></div>
+    <div class="case-box" onclick="openAuth()"><img src="case3.png"><h3>EJDERATEŞİ</h3><button class="open-btn">450 VP</button></div>
+    <div class="case-box" onclick="openAuth()"><img src="case4.png"><h3>CHAMPIONS 2024</h3><button class="open-btn">800 VP</button></div>
 </div>
 
 <script src="script.js"></script>
