@@ -168,13 +168,45 @@
 
         function openFreeCase() {
             if(!IS_LOGGED) return openAuth();
+            
+            // Modal ve görünüm hazırlığı
             document.getElementById('caseModal').style.display = 'flex';
+            document.getElementById('openingView').style.display = 'block';
+            document.getElementById('winView').style.display = 'none';
+
             const strip = document.getElementById('itemStrip');
+            strip.style.transition = 'none'; // Animasyonu sıfırla
+            strip.style.transform = 'translateX(0)';
             strip.innerHTML = '';
-            const winner = skins[Math.floor(Math.random() * skins.length)];
-            for(let i=0; i<60; i++) strip.innerHTML += `<img src="${skins[i%5].img}">`;
+
+            // 1. Önce kazananı belirle
+            const winnerIndex = Math.floor(Math.random() * skins.length);
+            const winner = skins[winnerIndex];
+
+            // 2. Strip (şerit) oluştur
+            // Görsel olarak zengin durması için 60-70 tane item ekliyoruz
+            const totalItems = 70;
+            for(let i=0; i < totalItems; i++) {
+                const item = skins[i % skins.length];
+                strip.innerHTML += `<img src="${item.img}">`;
+            }
+
+            // 3. Kazanan item'ı şeridin sonlarına doğru bir yere "çiviyle" çakıyoruz
+            // 65. sıradaki item bizim kazananımız olsun (0'dan başladığı için 64)
+            const targetIndex = 64; 
+            const images = strip.getElementsByTagName('img');
+            images[targetIndex].src = winner.img; // Garantiye alıyoruz
+
+            // 4. Animasyonu başlat
+            // Her resim 130px genişlik + 40px margin (20+20) = 170px yer kaplıyor
+            // Ortalamak için modal genişliğinin yarısını hesaba katıyoruz
             setTimeout(() => {
-                strip.style.transform = 'translateX(-7000px)';
+                strip.style.transition = 'transform 5s cubic-bezier(0.1, 0, 0, 1)';
+                // 170px birim mesafe. (targetIndex * 170) kadar kaydırıp tam ortaya denk getiriyoruz.
+                const moveAmount = (targetIndex * 170) - (document.querySelector('.spinner-box').offsetWidth / 2) + 85;
+                strip.style.transform = `translateX(-${moveAmount}px)`;
+
+                // 5. Animasyon bitişinde ekranı güncelle
                 setTimeout(() => {
                     document.getElementById('openingView').style.display = 'none';
                     document.getElementById('winView').style.display = 'block';
