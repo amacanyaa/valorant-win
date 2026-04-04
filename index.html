@@ -70,7 +70,7 @@
             <p id="giveawayStatus" style="color:var(--valo-red); font-weight:800; margin:5px 0;">SADECE OTURUM AÇANLAR KATILABİLİR</p>
         </div>
         <div style="text-align:right; border-left: 2px solid var(--valo-red); padding-left: 30px;">
-            <div id="countdown">00:00:00</div>
+            <div id="countdown">00:23:00</div>
             <span style="font-size:10px; color:#555;">GÜNLÜK YENİLENİR</span>
         </div>
     </div>
@@ -226,13 +226,29 @@
             }
         });
 
+        // HEDEF ZAMANI SAYFA YÜKLENDİĞİNDE BELİRLE (ŞU AN + 23 DAKİKA)
+        const targetTime = new Date().getTime() + (23 * 60 * 1000);
+
         function tick() {
-            const now = new Date(); let target = new Date(); target.setHours(24, 0, 0, 0);
-            let diff = target - now; if(diff < 0) diff += 86400000;
-            let h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
-            document.getElementById('countdown').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            const now = new Date().getTime();
+            let diff = targetTime - now;
+
+            if (diff <= 0) {
+                document.getElementById('countdown').innerText = "00:00:00";
+                return;
+            }
+
+            let h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            let s = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown').innerText = 
+                `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
         }
-        setInterval(tick, 1000); tick();
+        
+        setInterval(tick, 1000); 
+        tick();
+        
         window.onload = () => { spawnDrop(); loadCases(); };
     </script>
 </body>
