@@ -332,6 +332,31 @@
         setInterval(tick, 1000); 
         tick();
         window.onload = () => { spawnDrop(); loadCases(); };
+        
+        function copyRefLink() {
+    // Görseldeki kodu al
+    const code = document.getElementById('refCode').innerText;
+    // Tam linki oluştur
+    const fullLink = "https://valoloot.net/join?ref=" + code;
+
+    // Modern kopyalama yöntemi
+    navigator.clipboard.writeText(fullLink).then(() => {
+        // Kullanıcıya geri bildirim ver
+        const refBox = document.querySelector('.ref-box');
+        const originalText = refBox.innerHTML;
+        
+        refBox.style.borderColor = "#ffffff";
+        refBox.innerText = "LİNK KOPYALANDI!";
+        
+        setTimeout(() => {
+            refBox.style.borderColor = "#79eb1e";
+            refBox.innerHTML = originalText;
+        }, 2000);
+    }).catch(err => {
+        // Eğer bir hata olursa eski usul dene
+        console.error('Kopyalama başarısız: ', err);
+    });
+}
     </script>
 </body>
 </html>
