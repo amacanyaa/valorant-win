@@ -22,6 +22,12 @@
         .logo span { color: var(--valo-red); }
         .nav-links { display: flex; gap: 25px; flex-grow: 1; }
         .nav-links a { color: #888; text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase; }
+        
+        /* Profil Alanı Stilleri */
+        .user-profile { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.03); padding: 5px 15px; border-radius: 8px; border: 1px solid #79eb1e; }
+        .user-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #79eb1e; object-fit: cover; }
+        .user-info { display: flex; flex-direction: column; }
+        .user-name { color: #79eb1e; font-weight: 900; font-size: 14px; }
         .btn-login { background: var(--valo-red); color: #fff; border: none; padding: 12px 25px; font-weight: 800; cursor: pointer; border-radius: 4px; text-transform: uppercase; }
 
         .giveaway-section { max-width: 1100px; margin: 30px auto; background: rgba(0,0,0,0.85); border: 1px solid var(--valo-red); border-radius: 12px; padding: 25px; display: flex; justify-content: space-between; align-items: center; }
@@ -205,7 +211,17 @@
         window.addEventListener("message", (e) => {
             if(e.data && e.data.u) {
                 IS_LOGGED = true;
-                document.getElementById('authArea').innerHTML = `<div style="border:1px solid #79eb1e; color:#79eb1e; padding:10px; font-weight:900; border-radius:4px;">${e.data.u.toUpperCase()}#TR1</div>`;
+                
+                // Sağ üst profil alanını güncelle
+                document.getElementById('authArea').innerHTML = `
+                    <div class="user-profile">
+                        <img src="avatar.png" class="user-avatar" onerror="this.src='https://ui-avatars.com/api/?name=${e.data.u}&background=ff4655&color=fff'">
+                        <div class="user-info">
+                            <span class="user-name">${e.data.u.toUpperCase()}#TR1</span>
+                        </div>
+                    </div>
+                `;
+                
                 document.getElementById('giveawayStatus').innerText = "ÇEKİLİŞE KATILDINIZ!";
                 document.getElementById('refCode').innerText = "VLOOT" + Math.floor(Math.random()*9999);
                 loadCases();
@@ -226,29 +242,23 @@
             }
         });
 
-        // HEDEF ZAMANI SAYFA YÜKLENDİĞİNDE BELİRLE (ŞU AN + 23 DAKİKA)
         const targetTime = new Date().getTime() + (23 * 60 * 1000);
 
         function tick() {
             const now = new Date().getTime();
             let diff = targetTime - now;
-
             if (diff <= 0) {
                 document.getElementById('countdown').innerText = "00:00:00";
                 return;
             }
-
             let h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             let m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             let s = Math.floor((diff % (1000 * 60)) / 1000);
-
-            document.getElementById('countdown').innerText = 
-                `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            document.getElementById('countdown').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
         }
         
         setInterval(tick, 1000); 
         tick();
-        
         window.onload = () => { spawnDrop(); loadCases(); };
     </script>
 </body>
