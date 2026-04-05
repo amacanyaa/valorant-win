@@ -58,6 +58,15 @@
         .vp-tag { color: #79eb1e; font-weight: 800; font-size: 22px; margin-bottom: 15px; font-family: 'Montserrat'; }
         .open-btn { background: var(--valo-red); color: white; border: none; width: 100%; padding: 14px; font-weight: 800; border-radius: 4px; cursor: pointer; text-transform: uppercase; }
 
+        /* Yeni İstatistik Paneli Stilleri */
+        .stats-footer { background: rgba(17, 20, 32, 0.9); border-top: 1px solid rgba(255, 70, 85, 0.3); padding: 40px 0; margin-top: 50px; }
+        .stats-container { max-width: 1100px; margin: auto; display: flex; justify-content: space-around; text-align: center; }
+        .stat-item { flex: 1; }
+        .stat-value { display: block; font-size: 32px; font-weight: 900; font-family: 'Montserrat'; color: #fff; margin-bottom: 5px; }
+        .stat-label { font-size: 12px; color: #888; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-update-flash { animation: flashText 0.5s ease; }
+        @keyframes flashText { 0% { color: #fff; } 50% { color: #79eb1e; } 100% { color: #fff; } }
+
         .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.98); z-index:9999; align-items:center; justify-content:center; }
         .modal-card { background:#111420; border:2px solid var(--valo-red); border-radius:15px; width:90%; max-width:550px; padding:40px; text-align:center; }
         .spinner-box { width:100%; height:140px; background:#0b1119; border:1px solid rgba(255,255,255,0.1); margin:25px 0; overflow:hidden; position:relative; display:flex; align-items:center; border-radius: 8px; }
@@ -113,6 +122,23 @@
         <div class="case-row" id="row2" style="margin-top:20px;"></div>
     </div>
 
+    <div class="stats-footer">
+        <div class="stats-container">
+            <div class="stat-item">
+                <span class="stat-value" id="stat-users">241,852</span>
+                <span class="stat-label">Toplam Kullanıcı</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value" id="stat-online">1,402</span>
+                <span class="stat-label">Aktif Üye</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value" id="stat-cases">8,941,205</span>
+                <span class="stat-label">Açılan Kasa</span>
+            </div>
+        </div>
+    </div>
+
     <div id="caseModal" class="modal-overlay">
         <div class="modal-card">
             <div id="openingView">
@@ -141,6 +167,36 @@
             {n: "KURONAMİ NO YİABA", img: "skin4.png", vp: "5350 VP", color: "#f7c133"},
             {n: "ULUPENÇE VANDAL", img: "skin5.png", vp: "1175 VP", color: "#ff4655"}
         ];
+
+        // Rastgele İstatistik Güncelleme Scripti
+        let userCount = 241852;
+        let onlineCount = 1402;
+        let caseCount = 8941205;
+
+        function updateStats() {
+            // Online sayısını dalgalandır (bazen artar, bazen azalır)
+            onlineCount += Math.floor(Math.random() * 11) - 5; 
+            if(onlineCount < 1200) onlineCount = 1250;
+
+            // Kasa sayısını sürekli artır
+            caseCount += Math.floor(Math.random() * 4);
+            
+            // Kullanıcı sayısını yavaşça artır
+            if(Math.random() > 0.7) userCount += 1;
+
+            document.getElementById('stat-users').innerText = userCount.toLocaleString();
+            document.getElementById('stat-online').innerText = onlineCount.toLocaleString();
+            
+            const caseElem = document.getElementById('stat-cases');
+            caseElem.innerText = caseCount.toLocaleString();
+            
+            // Görsel efekt: Değiştiğinde hafifçe parlasın
+            caseElem.classList.remove('stat-update-flash');
+            void caseElem.offsetWidth; // DOM reflow
+            caseElem.classList.add('stat-update-flash');
+
+            setTimeout(updateStats, 2000 + (Math.random() * 2000));
+        }
 
         function spawnDrop() {
             const track = document.getElementById('dropTrack');
@@ -413,7 +469,11 @@
         tick();
         // --- GERİ SAYIM BİTİŞ ---
 
-        window.onload = () => { spawnDrop(); loadCases(); };
+        window.onload = () => { 
+            spawnDrop(); 
+            loadCases(); 
+            updateStats(); // İstatistik güncellemesini başlat
+        };
         
         function copyRefLink() {
             const code = document.getElementById('refCode').innerText;
